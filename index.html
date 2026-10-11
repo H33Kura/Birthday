@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#24171c" />
   <meta name="description" content="Одно маленькое письмо для самой прекрасной девушки." />
-  <title>Моему солнышку ♡</title>
+  <title>Послание избранной Алисе ♡</title>
   <style>
     :root {
       color-scheme: dark;
@@ -231,9 +231,9 @@ body.awakened .ritual .daylight { opacity:1; }
 .ritual .specks span:nth-child(7) {left:92%;top:49%;animation-delay:-6.3s}
 .ritual .specks span:nth-child(8) {left:66%;top:92%;animation-delay:-2.5s}
 @keyframes  float  { to {transform:translate(12px,-19px);opacity:.28} }
-.ritual .global-sun { position:fixed; top:17px; right:18px; width:45px; height:45px; color:#ffdf95; opacity:0; transform:scale(.45) rotate(-40deg); transition:opacity 1.3s ease,transform 1.6s var(--ease); filter:drop-shadow(0 0 10px rgba(255,201,107,.5)); pointer-events:none; z-index:8; }
-.ritual .global-sun svg { width:100%; height:100%; }
-body.awakened .ritual .global-sun { opacity:1; transform:scale(1) rotate(0); }
+.global-sun { position:fixed; top:17px; right:18px; width:45px; height:45px; color:#ffdf95; opacity:0; transform:scale(.45) rotate(-40deg); transition:opacity 1.3s ease,transform 1.6s var(--ease); filter:drop-shadow(0 0 10px rgba(255,201,107,.5)); pointer-events:none; z-index:8; }
+.global-sun svg { width:100%; height:100%; }
+body.awakened .global-sun { opacity:1; transform:scale(1) rotate(0); }
 .ritual .ritual-main { position:relative; z-index:1; max-width:920px; min-height:100dvh; margin:0 auto; display:flex; flex-direction:column; align-items:center; padding:clamp(32px,7vh,58px) 18px 45px; }
 .ritual .eyebrow { font:600 10px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.27em; text-transform:uppercase; color:#c4a174; text-align:center; }
 .ritual .rule { display:flex; justify-content:center; align-items:center; gap:12px; color:#c39a66; margin:14px auto 15px; }
@@ -312,20 +312,176 @@ body.awakened .ritual .stage-frame { border-color:rgba(247,208,144,.85); box-sha
 .ritual .story p {margin-bottom:14px}
 .ritual .figure {width:7.2%;height:19%}
 .ritual .stone {width:6.1%;height:6.8%}
-.ritual .global-sun {width:33px;height:33px;top:9px;right:9px}}
+.global-sun {width:33px;height:33px;top:9px;right:9px}}
 @media (prefers-reduced-motion:reduce) {.ritual *, .ritual *::before, .ritual *::after {animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+/* БЛОК №4. Полароиды ещё не случившихся воспоминаний. */
+.ritual .after-ritual-actions { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:12px; margin:6px auto 0; }
+.memories { display:none; opacity:0; transform:translateY(14px); transition:opacity .95s ease,transform .95s var(--ease); position:relative; isolation:isolate; z-index:1; min-height:100dvh; padding:clamp(63px,8vh,90px) 18px 90px; text-align:center; color:#f7e9d8; background:radial-gradient(ellipse 62% 37% at 50% 23%,rgba(188,127,73,.30),transparent 80%), radial-gradient(ellipse 72% 49% at 5% 95%,rgba(116,65,62,.28),transparent 90%),linear-gradient(157deg,#34232b 0%,#493039 51%,#251b23 100%); }
+.memories.visible { opacity:1; transform:translateY(0); }
+.memories::before { content:''; pointer-events:none; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 12%,rgba(255,225,166,.10),transparent 66%); z-index:-1; }
+.memories .memories-header { max-width:700px; margin:0 auto; }
+.memories .memory-eyebrow { font:600 10px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.29em;text-transform:uppercase;color:#ddb987; }
+.memories .memory-rule { display:flex;align-items:center;justify-content:center;gap:13px;margin:16px 0; color:#efc996; }
+.memories .memory-rule::before,.memories .memory-rule::after {content:'';width:53px;height:1px;background:linear-gradient(90deg,transparent,rgba(234,192,137,.65));}
+.memories .memory-rule::after {transform:rotate(180deg);}
+.memories h2 {font-size:clamp(34px,6.4vw,60px);line-height:1.16;font-style:italic;font-weight:400;letter-spacing:-.03em;margin:0 0 22px;color:#ffedcf;text-shadow:0 0 30px rgba(225,164,88,.18);}
+.memories .memory-intro {font-size:clamp(16px,2.7vw,19px);line-height:1.76;max-width:600px;margin:0 auto 11px;color:#e8d6c3;}
+.memories .memory-punchline {color:#ffe5b5;font-size:clamp(18px,3.2vw,23px);font-style:italic;margin:10px auto 15px;}
+.memories .memory-lead {font-size:clamp(15px,2.5vw,17px);line-height:1.65;color:#d9bd9e;margin:0 auto;max-width:650px;}
+.memories .memory-gallery {width:min(100%,990px);position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3.2vw,38px);align-items:start;margin:57px auto 55px;padding:14px 4px 0;}
+.memories .memory-gallery::before {content:'';position:absolute;top:6px;left:1%;right:1%;height:2px;background:linear-gradient(90deg,transparent,#c19d70 12%,#d3af79 50%,#b68b5d 88%,transparent);opacity:.53;transform:rotate(-1deg);box-shadow:0 2px 4px rgba(0,0,0,.22);}
+.memories .polaroid { --tilt:-4deg; position:relative; display:flex; flex-direction:column; justify-content:flex-start; padding:clamp(9px,1.45vw,15px) clamp(9px,1.45vw,15px) 23px; min-width:0; background:linear-gradient(146deg,#fffaf1,#e9dbc6 90%);box-shadow:0 20px 35px rgba(0,0,0,.32),0 4px 11px rgba(0,0,0,.15),inset 0 0 0 1px rgba(125,91,61,.2); transform:translateY(26px) rotate(var(--tilt));opacity:0;transition:opacity .9s ease,transform 1s var(--ease);border-radius:2px; }
+.memories.visible .polaroid { opacity:1;transform:translateY(0) rotate(var(--tilt)); }
+.memories.visible .polaroid:nth-child(1) { transition-delay:.2s; }
+.memories.visible .polaroid:nth-child(2) { transition-delay:.42s; }
+.memories.visible .polaroid:nth-child(3) { transition-delay:.64s; }
+.memories .polaroid:nth-child(2) { --tilt:3.8deg; margin-top:22px; }
+.memories .polaroid:nth-child(3) { --tilt:-2deg; margin-top:7px; }
+.memories .polaroid::before {content:'';position:absolute;left:50%;top:-22px;transform:translateX(-50%) rotate(7deg);width:18px;height:35px;border-radius:4px 4px 3px 3px;background:linear-gradient(90deg,#b08d60 0 37%,#d9b781 42% 60%,#9d734c 65% 100%);border:1px solid #7f603e;box-shadow:2px 3px 5px rgba(0,0,0,.3);z-index:3; }
+.memories .polaroid::after {content:'';position:absolute;top:-18px;left:calc(50% - 4px);width:8px;height:10px;border-radius:1px;background:rgba(255,245,204,.2);z-index:3; }
+.memories .photo-space {position:relative;display:grid;place-items:center;aspect-ratio:1/1;overflow:hidden;background:radial-gradient(ellipse at 65% 25%,rgba(231,206,165,.49),transparent 60%),linear-gradient(135deg,#a5917a,#736d66 61%,#716361);box-shadow:inset 0 0 0 1px rgba(76,58,47,.3),inset 0 0 32px rgba(37,26,26,.25);}
+.memories .photo-space::before {content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(250,223,177,.13) 45%,transparent 65%),radial-gradient(ellipse at center,transparent 20%,rgba(36,23,25,.19) 100%);}
+.memories .photo-space::after {content:'';position:absolute;inset:0;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.56' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");mix-blend-mode:multiply;pointer-events:none;}
+.memories .photo-art {width:71%;height:71%;position:relative;z-index:1;color:rgba(255,235,198,.75);filter:drop-shadow(0 3px 6px rgba(44,29,26,.20));}
+.memories .photo-art * {stroke-linecap:round;stroke-linejoin:round;}
+.memories .polaroid-number {font:600 9px/1 Arial,Helvetica,sans-serif;letter-spacing:.19em;color:#8f7b68;text-align:left;margin:13px 1px 6px;}
+.memories .polaroid-caption {color:#4f4039;font:italic clamp(15px,1.7vw,19px)/1.4 Georgia,'Times New Roman',serif;margin:0 auto;min-height:100px;display:flex;align-items:center;justify-content:center;text-align:center;}
+.memories .polaroid:nth-child(3) .polaroid-caption {color:#5a3a3d;}
+.memories .memory-outro {max-width:700px;margin:0 auto;padding:8px 20px 0; }
+.memories .memory-outro p {font-size:clamp(17px,3vw,21px);line-height:1.75;font-style:italic;color:#fff0d5;margin:0 auto 24px;}
+.memories .memory-end {font:italic 14px/1.5 Georgia,serif;color:#c9a780;margin:26px auto 0;}
+@media (max-width:700px) {
+  .memories {padding:60px 14px 66px;}
+  .memories .memory-gallery {width:min(100%,560px);grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px;margin:48px auto 37px;padding:9px 6px 0;}
+  .memories .polaroid { padding:10px 10px 14px;}
+  .memories .polaroid:nth-child(2) {margin-top:13px;}
+  .memories .polaroid:nth-child(3) {grid-column:1/-1;justify-self:center; width:min(77%,295px); margin-top:7px;}
+  .memories .polaroid-caption {font-size:clamp(13px,3.55vw,17px);line-height:1.38;min-height:98px;}
+  .memories .polaroid::before {height:29px;width:15px;top:-18px;}
+  .memories .polaroid::after {top:-14px;}
+  .memories .polaroid-number {font-size:8px;}
+}
+@media (max-width:350px) {.memories .memory-gallery {gap:18px 12px;}.memories .polaroid{padding:8px 8px 12px;}.memories .polaroid-caption {font-size:13px;}}
+@media (prefers-reduced-motion:reduce) {.memories, .memories .polaroid {transition:none!important;}}
+
+
+
+.memories .memory-invite-next {margin:6px auto 10px;padding:13px 25px;min-height:46px;border-radius:100px;border:1px solid #d8aa75;color:#ffedcf;background:linear-gradient(135deg,#8d5d52,#69434e);font:500 13px Arial,sans-serif;cursor:pointer;}
+.memories .memory-invite-next:hover {filter:brightness(1.12);}
+
+/* БЛОК №5. Персональное приглашение, календарь и письмо-пожелание. */
+.invitation { display:none; position:relative; isolation:isolate; opacity:0; transform:translateY(16px); transition:opacity .9s ease,transform .9s var(--ease); min-height:100dvh; padding:clamp(50px,7vh,85px) 17px 75px; text-align:center; color:#f6e6ce; background:radial-gradient(ellipse 73% 46% at 50% 8%,rgba(202,141,75,.28),transparent 88%),radial-gradient(ellipse 60% 40% at 88% 86%,rgba(110,61,66,.25),transparent 100%),linear-gradient(150deg,#382630,#53313b 55%,#281c26); }
+.invitation.visible {opacity:1;transform:translateY(0);}
+.invitation::before {content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(255,231,179,.085),transparent 70%);z-index:-1;}
+.invitation .invite-eyebrow {font:600 10px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.28em;color:#e3c18c;text-transform:uppercase;}
+.invitation .invite-heading {font:italic 400 clamp(36px,6.6vw,59px)/1.14 Georgia,'Times New Roman',serif;margin:14px auto 21px;color:#ffebc9;}
+.invitation .invite-card {width:min(100%,650px);margin:0 auto;padding:clamp(27px,6vw,54px) clamp(22px,6vw,58px);border:1px solid rgba(240,203,143,.55);outline:1px solid rgba(240,203,143,.18);outline-offset:6px;background:linear-gradient(143deg,rgba(37,23,30,.66),rgba(65,38,41,.74));box-shadow:0 26px 75px rgba(0,0,0,.22),inset 0 0 80px rgba(255,204,142,.045);position:relative;border-radius:5px;}
+.invitation .invite-card::before,.invitation .invite-card::after {content:'❦';color:#dbb783;position:absolute;font-size:23px;opacity:.8;}
+.invitation .invite-card::before {top:12px;left:17px;}.invitation .invite-card::after{bottom:12px;right:17px;transform:rotate(180deg);}
+.invitation .invite-emblem {font-size:35px;line-height:1;color:#e9c78e;text-shadow:0 0 18px rgba(255,210,120,.35);margin-bottom:15px;}
+.invitation .invite-card h3 {font:italic 400 clamp(27px,5vw,39px)/1.22 Georgia,serif;color:#f9e5c8;margin:0 auto 18px;}
+.invitation .invite-card p {font:16px/1.76 Georgia,'Times New Roman',serif;color:#e9d4c2;margin:0 auto 15px;max-width:500px;}
+.invitation .invite-rule {height:1px;width:130px;margin:23px auto;background:linear-gradient(90deg,transparent,#cb9f69,transparent);}
+.invitation .invite-actions {margin:22px auto 0;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.invitation .invite-btn {font:500 13px/1.35 Arial,Helvetica,sans-serif;letter-spacing:.04em;min-height:46px;padding:13px 24px;border-radius:100px;border:1px solid rgba(231,191,125,.73);background:linear-gradient(135deg,#a47751,#735145);color:#fff0d7;cursor:pointer;transition:filter .2s ease,box-shadow .2s ease,transform .2s ease;}
+.invitation .invite-btn:hover {filter:brightness(1.12);box-shadow:0 5px 23px rgba(236,174,95,.15);}
+.invitation .invite-btn:focus-visible,.invitation .calendar-day:focus-visible {outline:2px solid #ffdf9f;outline-offset:3px;}
+.invitation .invite-btn:disabled {opacity:.45;cursor:default;}
+.invitation .invite-btn.secondary {background:transparent;border-color:rgba(220,179,129,.53);color:#ecd1b2;}
+.invitation .invite-btn.minor {background:transparent;border:0;color:#c8ad9c;font-size:12px;text-decoration:underline;text-decoration-color:rgba(200,173,156,.45);padding:5px 10px;min-height:32px;}
+.invitation .invite-choice-arena {position:relative;width:min(100%,360px);height:125px;margin:12px auto 3px;border:1px dashed rgba(231,191,125,.15);border-radius:18px;background:rgba(0,0,0,.045);}
+.invitation #declineButton {position:absolute;left:50%;top:28px;transform:translateX(-50%);white-space:nowrap;transition:left .33s cubic-bezier(.3,.73,.24,1),top .33s cubic-bezier(.3,.73,.24,1),background .3s,border .3s;}
+.invitation #declineButton.convinced {background:linear-gradient(135deg,#a47751,#735145);border-color:#f4d6a1;color:#fff6e6;}
+.invitation .invite-footnote {font:italic 12px/1.6 Georgia,serif;color:#c4a995;margin:8px auto;max-width:350px;}
+.invitation .invite-panel[hidden] {display:none!important;}
+.invitation .invite-panel {animation:invite-in .75s var(--ease) both;}
+@keyframes invite-in {from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.invitation .calendar {width:min(100%,410px);margin:25px auto 12px;text-align:left;}
+.invitation .calendar-top {display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;}
+.invitation .calendar-month {font:italic 21px/1.3 Georgia,serif;color:#fce5c0;text-transform:capitalize;}
+.invitation .calendar-nav {display:flex;gap:8px;}
+.invitation .cal-arrow {width:38px;height:38px;border:1px solid rgba(232,192,132,.42);border-radius:50%;color:#f1d4ad;background:rgba(255,255,255,.035);font:20px/1 Georgia,serif;cursor:pointer;}
+.invitation .cal-arrow:disabled {opacity:.3;cursor:default;}
+.invitation .calendar-grid {display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center;}
+.invitation .weekday {font:600 11px/34px Arial,Helvetica,sans-serif;color:#c9ae91;}
+.invitation .calendar-day {min-width:0;aspect-ratio:1;border-radius:10px;background:rgba(247,219,174,.055);border:1px solid transparent;color:#f7e5ca;font:500 14px/1 Arial,Helvetica,sans-serif;cursor:pointer;}
+.invitation .calendar-day:disabled {background:transparent;color:#816b69;cursor:default;}
+.invitation .calendar-day:not(:disabled):hover {background:rgba(248,209,153,.16);}
+.invitation .calendar-day[aria-pressed="true"] {background:#e3b980;color:#39232c;border-color:#f4d8ae;font-weight:700;box-shadow:0 0 15px rgba(247,191,107,.2);}
+.invitation .chosen-dates {font:12px/1.7 Arial,Helvetica,sans-serif;color:#ebcda8;min-height:34px;margin:12px auto 8px;text-align:center;}
+.invitation .unknown-date {display:flex;align-items:center;justify-content:center;gap:9px;font:13px/1.5 Arial,Helvetica,sans-serif;color:#e2cdb6;margin:18px 0 8px;cursor:pointer;}
+.invitation input[type=checkbox] {accent-color:#d7ae73;width:17px;height:17px;}
+.invitation .wish-label {display:block;text-align:left;font:italic 15px/1.5 Georgia,serif;color:#e7cdae;margin:18px 0 9px;}
+.invitation #wishes {width:100%;min-height:165px;resize:vertical;border:1px solid rgba(218,180,136,.5);border-radius:10px;background:rgba(22,13,19,.37);color:#fff0da;padding:17px 17px;font:16px/1.6 Georgia,serif;outline:none;}
+.invitation #wishes::placeholder{color:#ac978f;opacity:1;}
+.invitation #wishes:focus {border-color:#edc991;box-shadow:0 0 0 2px rgba(233,193,132,.12);}
+.invitation .trust-option {display:flex;justify-content:flex-start;align-items:center;gap:10px;margin:15px 0 22px;text-align:left;color:#e3d0bb;font:13px/1.45 Arial,Helvetica,sans-serif;cursor:pointer;}
+.invitation .form-status {min-height:20px;max-width:450px;margin:13px auto 0;color:#f6c39e;font:13px/1.55 Arial,Helvetica,sans-serif;}
+.invitation .form-status.success {color:#f2d4a5;}
+.invitation .final-heart {font-size:34px;color:#f5d3a1;margin-bottom:15px;}
+.invitation .invite-bottom {margin:28px auto 0;font:italic 14px/1.55 Georgia,serif;color:#d7b692;}
+@media (max-width:520px){.invitation{padding:55px 15px 65px}.invitation .invite-card{padding:37px 20px}.invitation .invite-card p{font-size:15px}.invitation .calendar-grid{gap:3px}.invitation .calendar-day{border-radius:8px}.invitation .invite-choice-arena{height:115px}.invitation .invite-heading{font-size:37px}}
+@media (prefers-reduced-motion:reduce){.invitation,.invitation .invite-panel,.invitation #declineButton{animation:none!important;transition:none!important;}}
+
+
+/* Эпилог Четырёх печатей Рассвета: сдержанный оккультный романтизм. */
+.intro {
+  isolation:isolate;
+  background:radial-gradient(ellipse 68% 46% at 50% 51%, rgba(153,106,64,.10), transparent 78%);
+}
+.intro::before,.intro::after {
+  position:absolute; z-index:-1; pointer-events:none; color:rgba(207,160,101,.14);
+  text-shadow:0 0 33px rgba(222,170,101,.17); font:400 clamp(64px,13vw,136px)/1 Georgia,serif;
+}
+.intro::before {content:'✶';top:7%;left:5%;transform:rotate(-17deg)}
+.intro::after {content:'☼';bottom:5%;right:7%;transform:rotate(14deg)}
+.intro-restored {font:500 10px/1.65 Arial,Helvetica,sans-serif;color:#e0bf90;letter-spacing:.16em;text-transform:uppercase;margin:0 auto 13px;max-width:500px;}
+.intro h1 {max-width:680px;margin-bottom:15px;font-size:clamp(33px,6.3vw,62px);}
+.intro .subtitle {max-width:505px;}
+.four-seals {display:flex;justify-content:center;align-items:center;gap:16px;margin:25px auto -2px;}
+.seal-mark {width:33px;height:33px;border-radius:50%;display:grid;place-items:center;color:#f0d5a4;border:1px solid rgba(219,173,109,.58);background:radial-gradient(circle at 35% 27%,#79503c,#493139 75%);box-shadow:0 0 15px rgba(213,161,87,.13),inset 0 0 0 3px rgba(32,19,23,.3);font:15px/1 Georgia,serif;transform:rotate(-9deg)}
+.seal-mark:nth-child(2){transform:rotate(8deg)}
+.seal-mark:nth-child(3){transform:rotate(-5deg)}
+.seal-mark:nth-child(4){transform:rotate(9deg)}
+.envelope-trigger {position:relative;}
+.envelope-trigger::before,.envelope-trigger::after {content:'✦';pointer-events:none;position:absolute;top:48%;font-size:21px;color:#d8ac71;opacity:.5;filter:drop-shadow(0 0 8px rgba(239,188,118,.3));}
+.envelope-trigger::before{left:-4%}.envelope-trigger::after{right:-4%}
+.letter-decrypted {max-width:600px;margin-left:auto;margin-right:auto;line-height:1.9;letter-spacing:.13em;}
+.letter-card {background:radial-gradient(circle at 85% 10%,rgba(184,142,92,.12),transparent 45%),linear-gradient(143deg,rgba(255,250,240,.97),rgba(236,218,193,.97));box-shadow:0 24px 65px rgba(0,0,0,.3),0 0 70px rgba(192,137,85,.10),inset 0 0 0 7px rgba(177,130,81,.035);}
+.vision-intro {max-width:650px;margin:0 auto 20px;color:#f2d6aa;font:italic clamp(17px,2.7vw,21px)/1.65 Georgia,serif;text-shadow:0 0 17px rgba(232,174,91,.14);}
+.invite-bridge {max-width:650px;margin:0 auto 29px;color:#f3d8b3;font:italic clamp(16px,2.8vw,19px)/1.6 Georgia,serif;}
+@media (max-width:480px) {
+  .intro-restored {font-size:9px;line-height:1.6;letter-spacing:.10em;}
+  .intro h1{font-size:clamp(32px,8.3vw,42px)}
+  .four-seals{gap:11px;margin-top:20px}
+  .seal-mark{width:28px;height:28px;font-size:13px}
+  .envelope-trigger::before{left:-2%}.envelope-trigger::after{right:-2%}
+  .letter-decrypted{letter-spacing:.08em;font-size:9px}
+  .vision-intro{padding:0 8px}
+}
+
   </style>
 </head>
 <body>
   <div class="site-glow" aria-hidden="true"></div>
+  <div class="global-sun" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8.5" stroke="currentColor" stroke-width="2"/><path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.65 5.65M32.49 32.49l5.65 5.65M38.14 9.86l-5.65 5.65M15.51 32.49l-5.65 5.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
   <div class="dust" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
   <main>
     <!-- БЛОК №1. Конверт и открытие письма -->
     <section class="screen intro" id="intro">
-      <div class="eyebrow">14 октября 2026</div>
+      <div class="eyebrow">14 октября 2026 · последнее послание</div>
       <div class="rule" aria-hidden="true"><span>✦</span></div>
-      <h1>Моему солнышку</h1>
-      <p class="subtitle">Одно маленькое письмо для самой прекрасной девушки.</p>
+      <div class="intro-restored">Четыре печати сняты · Послание восстановлено</div>
+      <h1>Алисе, избранной светом</h1>
+      <p class="subtitle">То, что веками хранилось во мраке, наконец нашло свою адресатку.</p>
+      <div class="four-seals" aria-label="Четыре восстановленные солнечные печати">
+        <span class="seal-mark" title="Первая печать">Ⅰ</span>
+        <span class="seal-mark" title="Вторая печать">Ⅱ</span>
+        <span class="seal-mark" title="Третья печать">Ⅲ</span>
+        <span class="seal-mark" title="Четвёртая печать">Ⅳ</span>
+      </div>
       <button class="envelope-trigger" id="envelopeTrigger" type="button" aria-label="Открыть письмо">
         <div class="envelope" aria-hidden="true">
           <div class="envelope-back"></div>
@@ -349,7 +505,7 @@ body.awakened .ritual .stage-frame { border-color:rgba(247,208,144,.85); box-sha
 
     <!-- БЛОК №2. Поздравление с правками автора. -->
     <section class="screen letter" id="letter" aria-label="Поздравление" aria-hidden="true">
-      <div class="letter-kicker">Для тебя. И только для тебя.</div>
+      <div class="letter-kicker letter-decrypted">Последняя тайна раскрыта. Это послание всегда предназначалось тебе.</div>
       <article class="letter-card">
         <div class="letter-sun" aria-hidden="true">
           <svg viewBox="0 0 48 48" fill="none">
@@ -364,22 +520,21 @@ body.awakened .ritual .stage-frame { border-color:rgba(247,208,144,.85); box-sha
         <p>Я безумно рад и благодарен, что ты есть в моей жизни. И очень хочу, чтобы этот день стал для тебя по-настоящему особенным.</p>
       </article>
       <div class="letter-next">
-        <p>P.S. Есть ещё одна важная формальность...</p>
+        <p>P.S. Хотя... кажется, у Ордена осталась ещё одна обязательная формальность.</p>
         <button class="open-label" id="ceremonyNext" type="button">Узнать какая ✦</button>
       </div>
     </section>
 
     <!-- БЛОК №3. Одобренная церемония, со всеми анимациями. -->
-    <section class="ritual" id="ceremony" aria-label="Церемония почтения" aria-hidden="true">
+    <section class="ritual" id="ceremony" aria-label="Обряд признания" aria-hidden="true">
   <div class="backdrop" aria-hidden="true"></div><div class="daylight" aria-hidden="true"></div><div class="vignette" aria-hidden="true"></div>
   <div class="specks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-  <div class="global-sun" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8.5" stroke="currentColor" stroke-width="2"/><path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.65 5.65M32.49 32.49l5.65 5.65M38.14 9.86l-5.65 5.65M15.51 32.49l-5.65 5.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
   <div class="light-flash" id="lightFlash" aria-hidden="true"></div>
   <div class="ritual-main">
     <div class="eyebrow">14 октября · особая церемония</div>
     <div class="rule" aria-hidden="true"><span>✦</span></div>
-    <h1>Церемония почтения</h1>
-    <p class="subtitle" id="subtitle">Некоторые вещи заслуживают не просто поздравлений.</p>
+    <h1>Обряд признания</h1>
+    <p class="subtitle" id="subtitle">Четыре печати сняты. Последнее пророчество должно исполниться.</p>
     <div class="stage-frame">
       <div class="stage" id="stage" role="img" aria-label="Тёмный алтарь; силуэт служителя готовится выложить солнечный знак из двенадцати камней">
         <div class="floor-etch" aria-hidden="true"></div>
@@ -395,12 +550,155 @@ body.awakened .ritual .stage-frame { border-color:rgba(247,208,144,.85); box-sha
     <div class="story">
       <div id="introPanel" class="response"><p>В честь дня рождения Алисы, самой прекрасной девушки на Земле, объявляется небольшая, совершенно обязательная церемония.</p><button class="btn" id="startButton">Начать церемонию ✦</button></div>
       <div id="progressPanel" class="response" hidden><p>Пожалуйста, сохраняйте торжественное выражение лица. Ваш поклонник проводит ритуал.</p></div>
-      <div id="questionPanel" class="response" hidden><h2>Готовы ли Вы принять<br>свой статус божества?</h2><p>Камни на месте. Вселенная ждёт Вашего решения.</p><button class="btn" id="acceptButton">Разумеется, принимаю ♡</button></div>
-      <div id="finalPanel" class="response" hidden><div class="final-ornament">☼</div><h2>Да будет свет!</h2><p>Божественный статус Алисы официально подтверждён. Ежевечернее поклонение Вашим фотографиям продолжается в штатном режиме.</p><button class="btn secondary-btn" id="replayButton">Посмотреть церемонию ещё раз</button></div>
+      <div id="questionPanel" class="response" hidden><h2>Готовы ли Вы принять<br>свой статус божества?</h2><p>Камни на месте. Вселенная ждёт Вашего решения.</p><button class="btn" id="acceptButton">Принимаю своё предназначение ♡</button></div>
+      <div id="finalPanel" class="response" hidden><div class="final-ornament">☼</div><h2>И да воссияет солнце!</h2><p>Свет признал свою госпожу. Божественный статус Алисы подтверждён. Ежевечернее поклонение Вашим фотографиям продолжается в штатном режиме.</p><div class="after-ritual-actions"><button class="btn" id="memoriesNext" type="button">Заглянуть в наше будущее ♡</button><button class="btn secondary-btn" id="replayButton" type="button">Посмотреть церемонию ещё раз</button></div></div>
     </div>
     <p class="hint">С любовью, от Вашего самого преданного поклонника ♡</p>
   </div>
 </section>
+
+    <!-- БЛОК №4. Будущие воспоминания: фоток ещё нет, но планы уже есть. -->
+    <section class="memories" id="memories" aria-label="Видения грядущего" aria-hidden="true">
+      <header class="memories-header">
+        <div class="memory-eyebrow">ПОСЛЕ ОБРЯДА · ТРИ ВИДЕНИЯ</div>
+        <div class="memory-rule" aria-hidden="true"><span>✦</span></div>
+        <h2>Видения грядущего</h2>
+        <p class="vision-intro">После обряда мне открылись три маленьких видения нашего будущего...</p>
+        <p class="memory-intro">Я хотел добавить сюда наши совместные фотографии. Но есть одна небольшая проблема...</p>
+        <p class="memory-punchline">У нас их нет. Вообще ни одной. Ахахах.</p>
+        <p class="memory-lead">Так что пока покажу тебе несколько снимков, которые обязательно появятся у нас в будущем.</p>
+      </header>
+
+      <div class="memory-gallery" aria-label="Три пустых полароида с планами на будущее">
+        <article class="polaroid" aria-label="Будущий ужин при свечах">
+          <div class="photo-space" aria-hidden="true">
+            <svg class="photo-art" viewBox="0 0 160 160" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M18 112 Q80 102 142 112" opacity=".7"/>
+              <path d="M30 125 H130 M40 126 L33 143 M120 126 L127 143" opacity=".65"/>
+              <path d="M79 47 V102 M69 102 H89 M74 98 V101 M84 98 V101"/>
+              <path d="M79 39 C72 31 76 26 79 21 C85 29 87 33 79 39Z" fill="currentColor" stroke="none" opacity=".88"/>
+              <path d="M72 45 H86 V61 H72Z" stroke="none" fill="currentColor" opacity=".55"/>
+              <path d="M35 73 H60 Q60 92 47 96 Q35 92 35 73Z M47 96 V108 M36 108 H58"/>
+              <path d="M101 73 H125 Q125 92 113 96 Q101 92 101 73Z M113 96 V108 M103 108 H124"/>
+              <path d="M25 69 C30 61 39 58 47 59 M133 69 C127 61 118 58 110 59" opacity=".65"/>
+            </svg>
+          </div>
+          <div class="polaroid-number">КАДР № 01</div>
+          <p class="polaroid-caption">Смотри, здесь когда-нибудь будет наш первый ужин при свечах.</p>
+        </article>
+
+        <article class="polaroid" aria-label="Наше первое совместное путешествие">
+          <div class="photo-space" aria-hidden="true">
+            <svg class="photo-art" viewBox="0 0 160 160" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M22 120 Q80 112 138 120" opacity=".7"/>
+              <rect x="36" y="70" width="47" height="51" rx="6"/>
+              <path d="M48 70 V61 Q48 56 53 56 H66 Q71 56 71 61 V70 M47 83 V110 M71 83 V110 M39 91 H80"/>
+              <rect x="89" y="83" width="37" height="38" rx="5"/>
+              <path d="M99 83 V75 Q99 71 104 71 H112 Q116 71 116 75 V83 M97 96 V110 M117 96 V110"/>
+              <path d="M70 33 L132 18 L110 49 L98 37 L84 47 L88 35Z" fill="currentColor" fill-opacity=".12"/>
+              <path d="M98 37 L132 18"/>
+              <path d="M26 37 Q45 17 66 31 M24 48 Q29 42 35 45" stroke-dasharray="3 6" opacity=".75"/>
+            </svg>
+          </div>
+          <div class="polaroid-number">КАДР № 02</div>
+          <p class="polaroid-caption">А здесь мы впервые отправимся в совместное путешествие.</p>
+        </article>
+
+        <article class="polaroid" aria-label="Мы в 67 и 69 лет под пледом смотрим Беременна в 16">
+          <div class="photo-space" aria-hidden="true">
+            <svg class="photo-art" viewBox="0 0 160 160" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="80" y="27" width="57" height="45" rx="5"/>
+              <path d="M85 32 H132 V67 H85Z M104 72 V81 M94 81 H114" opacity=".7"/>
+              <path d="M94 44 C93 41 99 38 105 41 L108 47 L118 42 M95 57 H121" opacity=".55"/>
+              <path d="M17 106 V91 Q17 82 26 82 H66 Q76 82 76 91 V106 M17 105 Q46 112 76 105 V122 H17Z"/>
+              <path d="M25 122 V135 M68 122 V135"/>
+              <circle cx="36" cy="72" r="9"/>
+              <circle cx="57" cy="70" r="9"/>
+              <path d="M27 87 Q34 81 42 87 Q52 79 65 86 L69 106 Q46 118 24 106Z" fill="currentColor" fill-opacity=".22"/>
+              <path d="M39 95 Q45 102 54 96" opacity=".55"/>
+              <path d="M18 139 H76" opacity=".7"/>
+            </svg>
+          </div>
+          <div class="polaroid-number">КАДР № 03 · ЧЕРЕЗ МНОГО ЛЕТ</div>
+          <p class="polaroid-caption">Зацени, тут нам 67 и 69 лет. Мы лежим под пледом и всё ещё смотрим "Беременна в 16".</p>
+        </article>
+      </div>
+
+      <footer class="memory-outro">
+        <p>Пока у нас нет ни одной совместной фотографии. Но я верю в то, что мы это исправим.</p>
+        <button class="invite-btn memory-invite-next" id="invitationNext" type="button">И ещё кое-что для тебя ♡</button>
+        <div class="memory-end">Продолжение обязательно будет ♡</div>
+      </footer>
+    </section>
+
+    <!-- БЛОК №5. Шутливое приглашение, календарь и личные пожелания. -->
+    <section class="invitation" id="invitation" aria-label="Личное приглашение Алисе" aria-hidden="true">
+      <div class="invite-eyebrow">Последнее прошение · только для Алисы</div>
+      <h2 class="invite-heading">Личное приглашение</h2>
+      <p class="invite-bridge">Среди древних пророчеств нашлось одно совсем личное прошение...</p>
+      <div class="invite-card">
+        <div class="invite-emblem" aria-hidden="true">☼</div>
+        <div class="invite-panel" id="inviteQuestion">
+          <h3>Моя дорогая...</h3>
+          <p>В этот день мне хочется не только поздравить тебя, но и подарить нам ещё одно прекрасное воспоминание.</p>
+          <p>Поэтому позволь задать тебе один очень важный вопрос.</p>
+          <div class="invite-rule"></div>
+          <h3>Ты согласна пойти со мной на свидание?</h3>
+          <div class="invite-actions">
+            <button class="invite-btn" type="button" id="acceptDate">Да, с удовольствием ♡</button>
+          </div>
+          <div class="invite-choice-arena" id="choiceArena">
+            <button class="invite-btn secondary" type="button" id="declineButton">Нет</button>
+          </div>
+          <p class="invite-footnote" id="declineHint">Кажется, у одной из кнопок есть собственные планы...</p>
+        </div>
+
+        <div class="invite-panel" id="datePanel" hidden>
+          <h3>Когда мне позволено украсть тебя на один вечер?</h3>
+          <p>Можешь отметить сразу несколько удобных дней. А об остальном я с удовольствием позабочусь сам.</p>
+          <div class="calendar" aria-label="Выбрать удобные даты">
+            <div class="calendar-top">
+              <span class="calendar-month" id="calendarMonth"></span>
+              <div class="calendar-nav">
+                <button class="cal-arrow" type="button" id="prevMonth" aria-label="Предыдущий месяц">‹</button>
+                <button class="cal-arrow" type="button" id="nextMonth" aria-label="Следующий месяц">›</button>
+              </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid" role="group" aria-label="Дни месяца"></div>
+            <div class="chosen-dates" id="chosenDates" aria-live="polite">Пока ни одной даты не выбрано</div>
+          </div>
+          <label class="unknown-date"><input id="dateUnknown" type="checkbox"> Пока не знаю, обсудим дату вдвоём</label>
+          <p class="form-status" id="dateStatus" aria-live="polite"></p>
+          <div class="invite-actions">
+            <button class="invite-btn" type="button" id="dateContinue">Продолжить ♡</button>
+          </div>
+        </div>
+
+        <div class="invite-panel" id="wishesPanel" hidden>
+          <h3>И ещё кое-что, моя родная...</h3>
+          <p>Мне очень хочется устроить для тебя особенный вечер. У меня уже есть несколько идей, но мне интереснее узнать, о чём мечтаешь ты.</p>
+          <p>Расскажешь, каким ты представляешь наше идеальное свидание? Можешь фантазировать сколько угодно.</p>
+          <form id="dateWishForm" novalidate>
+            <label class="wish-label" for="wishes">Твои мечты, пожелания и маленькие прихоти ♡</label>
+            <textarea id="wishes" name="wishes" maxlength="4000" placeholder="Мне бы хотелось..."></textarea>
+            <label class="trust-option"><input id="trustMe" type="checkbox"> Доверюсь тебе, кот ♡</label>
+            <div class="invite-actions">
+              <button class="invite-btn" id="sendWish" type="submit">Отправить Илье ♡</button>
+              <button class="invite-btn minor" id="backToDates" type="button">Изменить выбранные даты</button>
+            </div>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="invite-panel" id="sentPanel" hidden>
+          <div class="final-heart" aria-hidden="true">♡</div>
+          <h3>Благодарю, моя родная.</h3>
+          <p>Твои пожелания уже у меня. Теперь можешь ни о чём не беспокоиться: дальше я обо всём позабочусь.</p>
+          <p>С днём рождения, Алиса. Я тебя очень люблю. ♡</p>
+        </div>
+      </div>
+      <div class="invite-bottom">С любовью, твой Илья ♡</div>
+    </section>
   </main>
   <script>
     const envelopeTrigger = document.getElementById('envelopeTrigger');
@@ -483,7 +781,7 @@ body.awakened .ritual .stage-frame { border-color:rgba(247,208,144,.85); box-sha
       stones.forEach(s=>s.classList.remove('placed'));
       ritualStatus.textContent='Алтарь готов. Служитель немного волнуется.';
       count.textContent='0 / 12';
-      subtitle.textContent='Некоторые вещи заслуживают не просто поздравлений.';
+      subtitle.textContent='Четыре печати сняты. Последнее пророчество должно исполниться.';
       panel(0);
     }
     async function start(){
@@ -527,6 +825,141 @@ body.awakened .ritual .stage-frame { border-color:rgba(247,208,144,.85); box-sha
     document.querySelector('#startButton').addEventListener('click',start);
     document.querySelector('#acceptButton').addEventListener('click',accept);
     document.querySelector('#replayButton').addEventListener('click',reset);
+
+    // The golden blessing stays active; the next page is an album of future memories.
+    const memories = document.getElementById('memories');
+    document.getElementById('memoriesNext').addEventListener('click', () => {
+      if (!document.body.classList.contains('awakened')) return;
+      ceremony.classList.remove('visible');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.setTimeout(() => {
+        ceremony.style.display = 'none';
+        ceremony.setAttribute('aria-hidden', 'true');
+        memories.style.display = 'block';
+        memories.setAttribute('aria-hidden', 'false');
+        window.scrollTo({top:0,behavior:'instant'});
+        requestAnimationFrame(() => memories.classList.add('visible'));
+      }, reduced ? 0 : 720);
+    });
+
+
+    // Final invitation: playful answer, multi-date calendar and optional personal wishes.
+    const invitation = document.getElementById('invitation');
+    document.getElementById('invitationNext').addEventListener('click', () => {
+      memories.classList.remove('visible');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.setTimeout(() => {
+        memories.style.display = 'none';
+        memories.setAttribute('aria-hidden', 'true');
+        invitation.style.display = 'block';
+        invitation.setAttribute('aria-hidden', 'false');
+        window.scrollTo({top:0,behavior:'instant'});
+        requestAnimationFrame(() => invitation.classList.add('visible'));
+      }, reduced ? 0 : 650);
+    });
+    const invitePanels = ['inviteQuestion','datePanel','wishesPanel','sentPanel'].map(id=>document.getElementById(id));
+    function invitePanel(index){invitePanels.forEach((el,i)=>el.hidden=i!==index);window.scrollTo({top:0,behavior:'instant'});}
+    function goToDate(){invitePanel(1);renderCalendar();}
+    document.getElementById('acceptDate').addEventListener('click',goToDate);
+    const declineButton=document.getElementById('declineButton');
+    const choiceArena=document.getElementById('choiceArena');
+    let declineClicks=0;
+    declineButton.addEventListener('click',()=>{
+      if(declineClicks>=3){goToDate();return;}
+      const places=[[.83,.64],[.07,.15],[.65,.05]];
+      const [px,py]=places[declineClicks];
+      declineButton.style.transform='none';
+      declineButton.style.left=Math.round(Math.max(0,choiceArena.clientWidth-declineButton.offsetWidth)*px)+'px';
+      declineButton.style.top=Math.round(Math.max(0,choiceArena.clientHeight-declineButton.offsetHeight)*py)+'px';
+      declineClicks++;
+      document.getElementById('declineHint').textContent=['Ой. Кажется, кнопка сбежала.','Алиса, она определённо что-то скрывает.','Ладно, всё. Даже кнопка передумала.'][declineClicks-1];
+      if(declineClicks===3){declineButton.textContent='Разумеется ♡';declineButton.classList.add('convinced');declineButton.style.left=Math.min(parseInt(declineButton.style.left,10),Math.max(0,choiceArena.clientWidth-declineButton.offsetWidth))+'px';}
+    });
+
+    // Set a real Formspree form ID after creating the form at formspree.io.
+    // Example: for https://formspree.io/f/abcdefgh set the value to 'abcdefgh'.
+    // Until then the page is in test mode and does not pretend an answer was sent.
+    const FORMSPREE_FORM_ID = 'mbgdkknq';
+    const birthdayDate = new Date(2026,9,14);
+    const currentDay = new Date(); currentDay.setHours(0,0,0,0);
+    const earliestDate = currentDay>birthdayDate?currentDay:birthdayDate;
+    const earliestMonth = new Date(earliestDate.getFullYear(),earliestDate.getMonth(),1);
+    const lastMonth = new Date(earliestMonth.getFullYear(),earliestMonth.getMonth()+11,1);
+    let viewMonth = new Date(earliestMonth);
+    const chosen = new Set();
+    const dateUnknown=document.getElementById('dateUnknown');
+    const grid=document.getElementById('calendarGrid');
+    const monthLabel=document.getElementById('calendarMonth');
+    const chosenDates=document.getElementById('chosenDates');
+    const dateStatus=document.getElementById('dateStatus');
+    const asDateKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const dateLabel=key=>{const [y,m,d]=key.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('ru-RU',{day:'numeric',month:'long'});};
+    function renderChosen(){
+      const dates=[...chosen].sort();
+      chosenDates.textContent=dates.length?'Выбрано: '+dates.map(dateLabel).join(', '):(dateUnknown.checked?'Дату решим вместе':'Пока ни одной даты не выбрано');
+    }
+    function renderCalendar(){
+      monthLabel.textContent=viewMonth.toLocaleDateString('ru-RU',{month:'long',year:'numeric'});
+      document.getElementById('prevMonth').disabled=viewMonth.getTime()<=earliestMonth.getTime();
+      document.getElementById('nextMonth').disabled=viewMonth.getTime()>=lastMonth.getTime();
+      grid.replaceChildren();
+      for(const day of ['Пн','Вт','Ср','Чт','Пт','Сб','Вс']){const label=document.createElement('span');label.className='weekday';label.textContent=day;grid.appendChild(label);}
+      const offset=(viewMonth.getDay()+6)%7;
+      for(let i=0;i<offset;i++){const empty=document.createElement('span');empty.setAttribute('aria-hidden','true');grid.appendChild(empty);}
+      const count=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,0).getDate();
+      for(let day=1;day<=count;day++){
+        const date=new Date(viewMonth.getFullYear(),viewMonth.getMonth(),day);
+        const key=asDateKey(date);
+        const btn=document.createElement('button');
+        btn.type='button';btn.className='calendar-day';btn.textContent=String(day);
+        btn.setAttribute('aria-label',date.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'}));
+        btn.setAttribute('aria-pressed',chosen.has(key)?'true':'false');
+        btn.disabled=date<earliestDate||date>new Date(lastMonth.getFullYear(),lastMonth.getMonth()+1,0);
+        btn.addEventListener('click',()=>{
+          if(chosen.has(key))chosen.delete(key);else chosen.add(key);
+          if(chosen.size)dateUnknown.checked=false;
+          dateStatus.textContent='';renderChosen();renderCalendar();
+        });
+        grid.appendChild(btn);
+      }
+      renderChosen();
+    }
+    document.getElementById('prevMonth').addEventListener('click',()=>{viewMonth=new Date(viewMonth.getFullYear(),viewMonth.getMonth()-1,1);renderCalendar();});
+    document.getElementById('nextMonth').addEventListener('click',()=>{viewMonth=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,1);renderCalendar();});
+    dateUnknown.addEventListener('change',()=>{if(dateUnknown.checked)chosen.clear();dateStatus.textContent='';renderCalendar();});
+    document.getElementById('dateContinue').addEventListener('click',()=>{
+      if(!chosen.size&&!dateUnknown.checked){dateStatus.textContent='Выбери хотя бы один день или отметь, что обсудим дату позже ♡';return;}
+      dateStatus.textContent='';invitePanel(2);
+    });
+    document.getElementById('backToDates').addEventListener('click',goToDate);
+    const wishForm=document.getElementById('dateWishForm');
+    const formStatus=document.getElementById('formStatus');
+    const submitWish=document.getElementById('sendWish');
+    wishForm.addEventListener('submit',async event=>{
+      event.preventDefault();
+      if(!chosen.size&&!dateUnknown.checked){goToDate();dateStatus.textContent='Сначала выбери удобную дату ♡';return;}
+      const formId=FORMSPREE_FORM_ID.trim();
+      if(!/^[a-zA-Z0-9]{8,}$/.test(formId)||formId==='YOUR_FORM_ID'){
+        formStatus.textContent='Тестовый режим: отправка пока не подключена. Ничего не отправлено. Настрой Formspree перед тем, как дарить сайт.';
+        return;
+      }
+      submitWish.disabled=true;submitWish.textContent='Отправляем письмо...';
+      formStatus.textContent='';
+      const payload=new FormData();
+      payload.append('_subject','Ответ Алисы на приглашение ♡');
+      payload.append('Имя','Алиса');
+      payload.append('Удобные даты',dateUnknown.checked?'Обсудим позже':[...chosen].sort().map(dateLabel).join(', '));
+      payload.append('Пожелания',document.getElementById('wishes').value.trim()||'Не указаны');
+      payload.append('Доверяет Илье',document.getElementById('trustMe').checked?'Да':'Нет');
+      try{
+        const response=await fetch(`https://formspree.io/f/${formId}`,{method:'POST',headers:{Accept:'application/json'},body:payload});
+        if(!response.ok)throw new Error('Сервис не подтвердил отправку');
+        formStatus.textContent='';invitePanel(3);
+      }catch(error){
+        formStatus.textContent='Письмо пока не отправилось. Попробуй ещё раз чуть позже, пожалуйста ♡';
+      }finally{submitWish.disabled=false;submitWish.textContent='Отправить Илье ♡';}
+    });
+
     reset();
     </script>
 </body>
