@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#24171c" />
+  <title>Церемония для моего солнышка ♡</title>
+  <style>
+    :root { --wine:#24171c; --wine-deep:#160f16; --gold:#ddb987; --ivory:#f4e8d7; --ease:cubic-bezier(.22,.72,.22,1); }
+    *, *::before, *::after { box-sizing:border-box; }
+    html { min-height:100%; }
+    body { margin:0; min-height:100vh; min-height:100dvh; color:var(--ivory); font-family:Georgia,'Times New Roman',serif; background:#1b141b; overflow-x:hidden; }
+    button { font:inherit; }
+    .backdrop, .daylight, .vignette { position:fixed; inset:0; pointer-events:none; }
+    .backdrop { background:radial-gradient(ellipse 60% 44% at 52% 34%,rgba(93,45,61,.42),transparent 91%),radial-gradient(ellipse 70% 58% at 74% 95%,rgba(88,51,49,.21),transparent 96%),linear-gradient(153deg,#151217,#302029 58%,#1d151b); z-index:-3; }
+    .daylight { background:radial-gradient(ellipse 80% 90% at 50% 36%,rgba(251,194,98,.25),transparent 79%),radial-gradient(ellipse 65% 73% at 80% 78%,rgba(169,106,60,.36),transparent),linear-gradient(142deg,#3f2730,#5f3836 51%,#39272a); opacity:0; transition:opacity 2.2s ease; z-index:-2; }
+    .vignette { background:radial-gradient(ellipse 85% 66% at center,transparent 29%,rgba(0,0,0,.36) 100%); z-index:-1; }
+    body.awakened .daylight { opacity:1; }
+    .specks { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; opacity:.6; }
+    .specks span { position:absolute; width:2px;height:2px; border-radius:50%; background:#d6b585; box-shadow:0 0 9px #d6b585; animation:float 7s ease-in-out infinite alternate; }
+    .specks span:nth-child(1){left:11%;top:17%;animation-delay:-4s}.specks span:nth-child(2){left:88%;top:11%;animation-delay:-2s}.specks span:nth-child(3){left:24%;top:81%;animation-delay:-6s}.specks span:nth-child(4){left:79%;top:76%;animation-delay:-3s}.specks span:nth-child(5){left:50%;top:8%;animation-delay:-5s}.specks span:nth-child(6){left:8%;top:62%;animation-delay:-1s}.specks span:nth-child(7){left:92%;top:49%;animation-delay:-6.3s}.specks span:nth-child(8){left:66%;top:92%;animation-delay:-2.5s}
+    @keyframes float { to {transform:translate(12px,-19px);opacity:.28} }
+    .global-sun { position:fixed; top:17px; right:18px; width:45px; height:45px; color:#ffdf95; opacity:0; transform:scale(.45) rotate(-40deg); transition:opacity 1.3s ease,transform 1.6s var(--ease); filter:drop-shadow(0 0 10px rgba(255,201,107,.5)); pointer-events:none; z-index:8; }
+    .global-sun svg { width:100%; height:100%; }
+    body.awakened .global-sun { opacity:1; transform:scale(1) rotate(0); }
+    main { position:relative; z-index:1; max-width:920px; min-height:100dvh; margin:0 auto; display:flex; flex-direction:column; align-items:center; padding:clamp(32px,7vh,58px) 18px 45px; }
+    .eyebrow { font:600 10px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.27em; text-transform:uppercase; color:#c4a174; text-align:center; }
+    .rule { display:flex; justify-content:center; align-items:center; gap:12px; color:#c39a66; margin:14px auto 15px; }
+    .rule::before,.rule::after { content:''; height:1px; width:52px; background:linear-gradient(90deg,transparent,#9a7456); }.rule::after{transform:rotate(180deg)}
+    h1 { font-size:clamp(33px,6.8vw,57px); font-weight:400; font-style:italic; letter-spacing:-.025em; line-height:1.14; text-align:center; margin:0; color:#f7ebd7; transition:color 2s ease,text-shadow 2s ease; }
+    .subtitle { font-style:italic; text-align:center; font-size:clamp(14px,2.5vw,17px); line-height:1.7; max-width:550px; margin:12px 0 16px; color:#cbb7ad; transition:color 2s ease; }
+    body.awakened h1 { color:#fff2cd; text-shadow:0 0 40px rgba(255,214,129,.38); }
+    body.awakened .subtitle { color:#f0d8b9; }
+    .stage-frame { width:min(100%,720px); padding:10px; background:linear-gradient(145deg,rgba(185,137,81,.37),rgba(123,85,62,.10) 31%,rgba(225,182,116,.28)); border:1px solid rgba(211,167,107,.46); border-radius:50% 50% 27% 27% / 10% 10% 5% 5%; box-shadow:0 26px 80px rgba(0,0,0,.27),inset 0 0 0 3px rgba(16,9,12,.55); transition:box-shadow 1.3s,border-color 1.3s; }
+    body.awakened .stage-frame { border-color:rgba(247,208,144,.85); box-shadow:0 0 65px rgba(248,177,92,.21),0 25px 80px rgba(0,0,0,.24); }
+    .stage { position:relative; width:100%; aspect-ratio:660/472; overflow:hidden; isolation:isolate; border-radius:48% 48% 24% 24% / 10% 10% 4% 4%; background:radial-gradient(ellipse 51% 53% at 50% 56%,rgba(116,77,53,.23) 0%,rgba(54,38,37,.13) 57%,transparent 90%),radial-gradient(ellipse 90% 76% at 50% 93%,#413234 0%,#282025 64%,#17151b 100%); }
+    .stage::before { content:'';position:absolute;inset:0; background:repeating-radial-gradient(ellipse at center,transparent 0,transparent 56px,rgba(221,167,100,.018) 57px,transparent 59px),linear-gradient(180deg,rgba(4,3,5,.11),transparent 60%);pointer-events:none; }
+    .stage::after { content:'';position:absolute;inset:0; box-shadow:inset 0 0 52px 16px rgba(7,5,8,.72);pointer-events:none;z-index:6; }
+    .floor-etch { position:absolute; width:58%; aspect-ratio:1; border-radius:50%;left:50%;top:54%;transform:translate(-50%,-50%) rotate(-14deg); border:1px solid rgba(200,155,90,.10); box-shadow:0 0 0 13px rgba(185,140,83,.018),0 0 0 18px rgba(185,140,83,.035),inset 0 0 0 19px rgba(185,140,83,.016); }
+    .floor-etch::before {content:''; position:absolute;inset:20%;border-radius:50%;border:1px dashed rgba(203,170,103,.17);}
+    .floor-etch::after {content:'';position:absolute;inset:35%;border-radius:50%;border:1px solid rgba(207,174,112,.15);}
+    .floor-lines { position:absolute;inset:0;width:100%;height:100%;pointer-events:none; }
+    .floor-lines line {stroke:#b98d58;stroke-width:1;opacity:.14;}
+    .altar {position:absolute; width:27%;aspect-ratio:1;left:50%;top:54%;transform:translate(-50%,-50%);border-radius:50%; background:radial-gradient(circle,#332a29 0%,#201a20 60%,rgba(27,21,25,0) 71%);border:1px solid rgba(172,130,77,.17);box-shadow:0 0 36px 12px rgba(0,0,0,.24),inset 0 0 27px rgba(11,9,10,.7); }
+    .altar::after {content:'';position:absolute;inset:12%;border-radius:50%;border:1px dashed rgba(211,168,95,.17)}
+    .orb { position:absolute; left:50%;top:54%; width:17%; aspect-ratio:1;transform:translate(-50%,-50%) scale(.35);border-radius:50%;opacity:0; background:radial-gradient(circle at 38% 31%,#fff8d8 0%,#ffe2a2 20%,#e9ae53 49%,rgba(152,77,32,.69) 72%,transparent 78%); box-shadow:0 0 21px 6px #e4b05e,0 0 70px 25px rgba(255,186,65,.46),0 0 128px 32px rgba(255,170,73,.14); z-index:3;transition:opacity 1.6s ease,transform 1.8s var(--ease); }
+    .orb::before {content:'';position:absolute;inset:-46%;border-radius:50%; background:repeating-conic-gradient(from 0deg,rgba(255,205,116,.21) 0deg 5deg,transparent 8deg 30deg);filter:blur(5px);animation:rotate 36s linear infinite;}
+    .orb::after {content:'';position:absolute;inset:20%;border-radius:50%;border:1px solid rgba(255,247,211,.65);box-shadow:0 0 10px #fff0bc;}
+    .stage.charged .orb {opacity:1;transform:translate(-50%,-50%) scale(.9)}
+    .stage.awakened .orb {opacity:1;transform:translate(-50%,-50%) scale(1.25);box-shadow:0 0 30px 12px #ffc86d,0 0 94px 51px rgba(255,192,78,.62),0 0 200px 85px rgba(255,190,75,.23);animation:orb-breathe 4s ease-in-out infinite alternate;}
+    .stage-rays {position:absolute;left:50%;top:54%;width:76%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.86);border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,218,127,.13) 0deg 5deg,transparent 6deg 30deg);opacity:0;filter:blur(12px);transition:opacity 1.5s,transform 2s ease;mix-blend-mode:screen;}
+    .stage.awakened .stage-rays {opacity:1;transform:translate(-50%,-50%) scale(1.2);animation:rotate 70s linear infinite;}
+    @keyframes rotate {to {transform:rotate(360deg)}}
+    @keyframes orb-breathe {to {filter:brightness(1.16)}}
+    .stone {position:absolute;width:5.4%;height:6%;transform:translate(-50%,-50%) scale(.3) rotate(var(--rot));opacity:0;z-index:2;filter:drop-shadow(1px 3px 3px rgba(0,0,0,.52));transition:transform .45s var(--ease),opacity .35s ease,filter .5s;}
+    .stone::before {content:'';position:absolute;inset:0;clip-path:polygon(14% 19%,51% 0%,86% 15%,100% 54%,76% 92%,31% 100%,1% 68%);background:linear-gradient(145deg,#b8a087,#746454 52%,#4d3e39);border:1px solid rgba(234,193,125,.23);box-shadow:inset 3px 3px 5px rgba(255,231,172,.18);}
+    .stone::after {content:'';position:absolute;inset:-34%;border-radius:50%;background:radial-gradient(circle,rgba(236,180,94,.37),transparent 68%);opacity:0;transition:opacity .75s ease;}
+    .stone.placed {opacity:1;transform:translate(-50%,-50%) scale(1) rotate(var(--rot));filter:drop-shadow(0 0 6px rgba(249,193,111,.46)) drop-shadow(2px 3px 2px rgba(0,0,0,.5));}
+    .stone.placed::after {opacity:1;}
+    .stage.awakened .stone.placed {filter:drop-shadow(0 0 12px rgba(255,211,138,.87));}
+    .figure {position:absolute;z-index:4;left:11%;top:79%;width:5.8%;height:15.9%;transform:translate(-50%,-70%);transition:left .48s var(--ease),top .48s var(--ease),opacity .9s ease;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5));}
+    .figure svg {width:100%;height:100%;overflow:visible;}
+    .figure .hood {fill:#18151b;stroke:#8b7260;stroke-width:1.5}
+    .figure .cloak {fill:#1d1920;stroke:#937a65;stroke-width:1.6}
+    .figure .cloak-mark {fill:none;stroke:#bb9769;stroke-width:1.5;opacity:.85}
+    .figure .hand-stone {fill:#c3a17a;filter:drop-shadow(0 0 5px #ffd59b);}
+    .figure.moving {animation:step .23s ease-in-out infinite alternate;}
+    .figure.placing svg {animation:bow .25s ease-in-out 2 alternate;transform-origin:50% 75%;}
+    .figure.finished {opacity:0;}
+    @keyframes step {from {transform:translate(-50%,-70%) rotate(-2deg)}to {transform:translate(-50%,-70%) rotate(2deg)}}
+    @keyframes bow {to {transform:rotate(18deg) translateY(3px)}}
+    .placement-spark {position:absolute;width:6.7%;aspect-ratio:1;z-index:2;transform:translate(-50%,-50%) scale(.3);border:1px solid rgba(255,223,145,.64);border-radius:50%;opacity:0;pointer-events:none;}
+    .placement-spark.burst {animation:spark .6s ease-out forwards;}
+    @keyframes spark {25%{opacity:1}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}
+    .light-flash {position:fixed;inset:0;pointer-events:none;z-index:20;background:radial-gradient(circle at 50% 50%,rgba(255,250,211,.97),rgba(255,219,130,.56) 36%,transparent 78%);opacity:0;}
+    .light-flash.play {animation:flash 2.4s ease-in-out forwards;}
+    @keyframes flash {0%,100%{opacity:0}27%{opacity:.96}59%{opacity:.28}}
+    .stage-note {width:min(100%,720px);display:flex;justify-content:space-between;align-items:center;gap:16px;margin:11px auto 20px;padding:0 7px;color:#d1b89a;font:12px/1.45 Arial,Helvetica,sans-serif;}
+    .stage-note .counter {color:#e1bd87;white-space:nowrap;letter-spacing:.09em;}
+    .story {width:min(100%,680px);margin:0 auto;min-height:150px;display:flex;align-items:center;justify-content:flex-start;flex-direction:column;text-align:center;}
+    .story p {font-size:clamp(15px,2.7vw,18px);line-height:1.75;color:#dbc4af;max-width:545px;margin:4px auto 18px;}
+    .story h2 {font-size:clamp(23px,4.7vw,36px);font-weight:400;font-style:italic;color:#fff0d4;line-height:1.3;margin:2px auto 14px;text-shadow:0 0 30px rgba(239,177,87,.16);}
+    .story [hidden] {display:none!important;}
+    .btn {min-height:46px;padding:13px 30px;letter-spacing:.035em;color:#ffe9c6;background:linear-gradient(135deg,#795044,#604040);border:1px solid #ba9267;border-radius:100px;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;font:500 13px/1.3 Arial,Helvetica,sans-serif;}
+    .btn:hover {transform:translateY(-2px);box-shadow:0 8px 23px rgba(0,0,0,.23),0 0 20px rgba(255,187,113,.10);background:linear-gradient(135deg,#92614c,#74484a)}
+    .btn:active {transform:translateY(0)}.btn:focus-visible {outline:2px solid #ffe0a1;outline-offset:4px}
+    .btn:disabled {opacity:.55;cursor:wait}
+    .secondary-btn {background:transparent;border:1px solid rgba(216,172,115,.48);color:#e5cba6;}
+    .secondary-btn:hover {background:rgba(184,126,72,.12);}
+    .response {animation:enter 1s var(--ease) both;}
+    @keyframes enter {from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .final-ornament {font-size:30px;color:#ffe0a0;text-shadow:0 0 20px #ffca65;}
+    .hint {font:11px/1.6 Arial,Helvetica,sans-serif;color:#a99383;text-align:center;margin:18px auto 0;}
+    @media(max-width:530px){main{padding:45px 13px 30px}.subtitle{margin-bottom:19px}.stage-frame{padding:6px}.stage-note{font-size:10px;padding:0 4px;margin-bottom:17px}.story{min-height:178px}.story p{margin-bottom:14px}.figure{width:7.2%;height:19%}.stone{width:6.1%;height:6.8%}.global-sun{width:33px;height:33px;top:9px;right:9px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true"></div><div class="daylight" aria-hidden="true"></div><div class="vignette" aria-hidden="true"></div>
+  <div class="specks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="global-sun" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8.5" stroke="currentColor" stroke-width="2"/><path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.65 5.65M32.49 32.49l5.65 5.65M38.14 9.86l-5.65 5.65M15.51 32.49l-5.65 5.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+  <div class="light-flash" id="lightFlash" aria-hidden="true"></div>
+  <main>
+    <div class="eyebrow">14 октября · особая церемония</div>
+    <div class="rule" aria-hidden="true"><span>✦</span></div>
+    <h1>Церемония почтения</h1>
+    <p class="subtitle" id="subtitle">Некоторые вещи заслуживают не просто поздравлений.</p>
+    <div class="stage-frame">
+      <div class="stage" id="stage" role="img" aria-label="Тёмный алтарь; силуэт служителя готовится выложить солнечный знак из двенадцати камней">
+        <div class="floor-etch" aria-hidden="true"></div>
+        <svg class="floor-lines" viewBox="0 0 660 472" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="330" y1="24" x2="330" y2="450"/><line x1="60" y1="254" x2="600" y2="254"/><line x1="151" y1="81" x2="510" y2="426"/><line x1="509" y1="80" x2="150" y2="424"/>
+        </svg>
+        <div class="stage-rays" aria-hidden="true"></div><div class="altar" aria-hidden="true"></div>
+        <div id="stones" aria-hidden="true"></div><div class="orb" aria-hidden="true"></div>
+        <div class="figure" id="figure" aria-hidden="true"><svg viewBox="0 0 40 76"><ellipse cx="20" cy="73" rx="19" ry="3" fill="#0a090c" opacity=".48"/><path class="cloak" d="M13 20 Q6 29 4 65 Q20 75 36 65 Q34 30 27 20 Z"/><path class="cloak-mark" d="M19.5 29 L19.5 60"/><path class="hood" d="M9 17 Q9 3 20 3 Q31 3 31 17 L28 27 Q20 30 12 25 Z"/><path d="M14 17 Q20 14 26 17 L24 23 Q20 24 16 23Z" fill="#08090d"/><path class="hand-stone" d="M26 38 l6 -4 l5 6 l-6 5 Z"/></svg></div>
+      </div>
+    </div>
+    <div class="stage-note"><span id="ritualStatus" aria-live="polite">Алтарь готов. Служитель немного волнуется.</span><span class="counter" id="count">0 / 12</span></div>
+    <div class="story">
+      <div id="introPanel" class="response"><p>В честь дня рождения самого прекрасного солнышка объявляется небольшая, совершенно обязательная церемония.</p><button class="btn" id="startButton">Начать церемонию ✦</button></div>
+      <div id="progressPanel" class="response" hidden><p>Пожалуйста, сохраняйте торжественное выражение лица. Ваш единственный поклонник проводит ритуал.</p></div>
+      <div id="questionPanel" class="response" hidden><h2>Готовы ли Вы принять<br>свой статус божества?</h2><p>Камни на месте. Вселенная ждёт Вашего решения.</p><button class="btn" id="acceptButton">Разумеется, принимаю ♡</button></div>
+      <div id="finalPanel" class="response" hidden><div class="final-ornament">☼</div><h2>Да будет свет, моё солнышко.</h2><p>Божественный статус официально подтверждён. Ежевечернее поклонение Вашим фотографиям продолжается в штатном режиме.</p><button class="btn secondary-btn" id="replayButton">Посмотреть церемонию ещё раз</button></div>
+    </div>
+    <p class="hint">Это отдельная тестовая сцена. Основное поздравление остаётся нетронутым.</p>
+  </main>
+  <script>
+    'use strict';
+    const stage = document.querySelector('#stage');
+    const stonesHost = document.querySelector('#stones');
+    const figure = document.querySelector('#figure');
+    const ritualStatus = document.querySelector('#ritualStatus');
+    const count = document.querySelector('#count');
+    const subtitle = document.querySelector('#subtitle');
+    const flash = document.querySelector('#lightFlash');
+    const panels = ['introPanel','progressPanel','questionPanel','finalPanel'].map(id => document.getElementById(id));
+    const isReduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timers = [], playing = false;
+    const pause = ms => new Promise(resolve => { const id = window.setTimeout(resolve,ms); timers.push(id); });
+    const positions = Array.from({length:12}, (_,i) => {
+      const rad = (i*30-90)*Math.PI/180;
+      const radius = i%3===0 ? 164 : 156;
+      return {x:330+Math.cos(rad)*radius, y:254+Math.sin(rad)*radius, angle:i*30};
+    });
+    const stones = positions.map((p,i) => {
+      const stone = document.createElement('div');
+      stone.className = 'stone';
+      stone.style.left = `${100*p.x/660}%`;
+      stone.style.top = `${100*p.y/472}%`;
+      stone.style.setProperty('--rot', `${i*31-17}deg`);
+      stonesHost.appendChild(stone);
+      return stone;
+    });
+    function panel(index){panels.forEach((el,i)=>el.hidden=i!==index);}
+    function setFigure(x,y){figure.style.left=`${100*x/660}%`;figure.style.top=`${100*y/472}%`;}
+    function reset(){
+      timers.forEach(clearTimeout);timers=[];playing=false;
+      document.body.classList.remove('awakened');
+      stage.classList.remove('charged','awakened');
+      flash.classList.remove('play');
+      figure.classList.remove('moving','placing','finished');
+      setFigure(74,386);
+      stones.forEach(s=>s.classList.remove('placed'));
+      ritualStatus.textContent='Алтарь готов. Служитель немного волнуется.';
+      count.textContent='0 / 12';
+      subtitle.textContent='Некоторые вещи заслуживают не просто поздравлений.';
+      panel(0);
+    }
+    async function start(){
+      if(playing) return;
+      playing=true; panel(1);
+      ritualStatus.textContent='Служитель приступил к работе.';
+      for(let i=0;i<positions.length;i++){
+        const p=positions[i];
+        setFigure(Math.max(54,Math.min(604,p.x+32)),Math.max(84,Math.min(432,p.y+27)));
+        figure.classList.add('moving');
+        await pause(isReduced()?20:480);
+        figure.classList.remove('moving');
+        figure.classList.add('placing');
+        stones[i].classList.add('placed');
+        count.textContent=`${i+1} / 12`;
+        const spark=document.createElement('div');spark.className='placement-spark burst';spark.style.left=stones[i].style.left;spark.style.top=stones[i].style.top;stage.appendChild(spark);
+        window.setTimeout(()=>spark.remove(),720);
+        if(i===3)ritualStatus.textContent='Первые солнечные лучи обретают форму.';
+        if(i===7)ritualStatus.textContent='Осталось совсем немного. Божество, держитесь.';
+        await pause(isReduced()?15:330);
+        figure.classList.remove('placing');
+      }
+      setFigure(90,406);
+      await pause(isReduced()?20:600);
+      figure.classList.add('finished');
+      stage.classList.add('charged');
+      ritualStatus.textContent='Солнечный символ собран. Сияние пробудилось.';
+      count.textContent='12 / 12 ✓';
+      await pause(isReduced()?30:1450);
+      panel(2); playing=false;
+    }
+    function accept(){
+      if(playing)return;
+      playing=true;
+      document.body.classList.add('awakened');stage.classList.add('awakened');
+      flash.classList.remove('play');void flash.offsetWidth;flash.classList.add('play');
+      subtitle.textContent='Сегодня у солнца появился официальный повод сиять ещё ярче.';
+      ritualStatus.textContent='Сияние распространилось на всю страницу.';
+      panel(3);
+    }
+    document.querySelector('#startButton').addEventListener('click',start);
+    document.querySelector('#acceptButton').addEventListener('click',accept);
+    document.querySelector('#replayButton').addEventListener('click',reset);
+    reset();
+  </script>
+</body>
+</html>
