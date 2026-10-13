@@ -1,966 +1,423 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#24171c" />
-  <meta name="description" content="Одно маленькое письмо для самой прекрасной девушки." />
-  <title>Послание избранной Алисе ♡</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --wine: #24171c;
-      --wine-soft: #41252f;
-      --gold: #ddb987;
-      --ivory: #f4e8d7;
-      --ink: #493b37;
-      --ease: cubic-bezier(.2,.7,.18,1);
-    }
-    * { box-sizing: border-box; }
-    html { min-height: 100%; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      min-height: 100dvh;
-      color: var(--ivory);
-      font-family: Georgia, 'Times New Roman', serif;
-      background:
-        radial-gradient(ellipse 68% 45% at 51% 40%, rgba(120,65,65,.36), transparent 85%),
-        radial-gradient(ellipse 45% 50% at 86% 84%, rgba(92,49,49,.20), transparent 100%),
-        linear-gradient(145deg,#1c151b 0%, #302027 52%, #1e161b 100%);
-      overflow-x: hidden;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center,transparent 38%, rgba(0,0,0,.44) 100%);
-      z-index: 0;
-    }
-    .dust { position:fixed; inset:0; pointer-events:none; overflow:hidden; opacity:.7; z-index:0; }
-    .dust span {
-      position:absolute; width:2px; height:2px; background:#f1d19e; border-radius:50%;
-      box-shadow:0 0 9px 2px rgba(241,209,158,.24);
-      animation: drift 9s ease-in-out infinite alternate;
-    }
-    .dust span:nth-child(1) { left:12%; top:18%; animation-delay:-3s; }
-    .dust span:nth-child(2) { left:78%; top:24%; animation-delay:-7s; }
-    .dust span:nth-child(3) { left:87%; top:66%; animation-delay:-4s; }
-    .dust span:nth-child(4) { left:22%; top:81%; animation-delay:-1s; }
-    .dust span:nth-child(5) { left:54%; top:10%; animation-delay:-8s; }
-    @keyframes drift { to { transform:translate(12px,-18px); opacity:.35; } }
-    .screen {
-      position:relative; z-index:1;
-      width:min(100%,960px);
-      min-height:100vh; min-height:100dvh;
-      margin:0 auto;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      text-align:center;
-      padding:54px 22px 62px;
-    }
-    .intro { transition: opacity .65s ease, transform .65s var(--ease); }
-    .intro.leaving { opacity:0; transform:translateY(-22px) scale(.985); pointer-events:none; }
-    .eyebrow {
-      font: 600 10px/1.6 Arial, Helvetica, sans-serif;
-      letter-spacing:.36em; text-transform:uppercase; color:var(--gold);
-    }
-    .rule { display:flex; gap:12px; justify-content:center; align-items:center; margin:19px 0 22px; color:#b39068; }
-    .rule::before,.rule::after { content:''; height:1px; width:44px; background:linear-gradient(90deg,transparent,#a78665); }
-    .rule::after { transform:rotate(180deg); }
-    .rule span { font-size:13px; }
-    .intro h1 {
-      font-weight:400; font-style:italic; letter-spacing:-.025em;
-      font-size:clamp(38px, 7vw, 69px); line-height:1.15;
-      color:#f6eadb; margin:0 0 11px;
-      text-shadow:0 4px 32px rgba(0,0,0,.20);
-    }
-    .intro .subtitle {
-      max-width:370px; margin:0 auto;
-      font-size:clamp(14px,2.6vw,17px); line-height:1.8;
-      color:#d9c6b9; font-style:italic;
-    }
-    .envelope-trigger {
-      display:block; width:min(90vw,495px); padding:0; margin:24px auto 9px;
-      background:none; border:0; color:inherit; cursor:pointer;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-    .envelope-trigger:focus-visible,.open-label:focus-visible {
-      outline:2px solid #eed1a2; outline-offset:8px; border-radius:6px;
-    }
-    .envelope-trigger:hover:not(:disabled) .envelope { transform:translateY(-5px); }
-    .envelope-trigger:disabled { cursor:default; }
-    .envelope {
-      width:100%; aspect-ratio:1.69; position:relative;
-      filter:drop-shadow(0 19px 24px rgba(0,0,0,.35));
-      transition:transform .5s ease;
-      transform-style:preserve-3d;
-      perspective:1100px;
-    }
-    .envelope-back {
-      position:absolute; inset:19% 0 8%;
-      border-radius:5px 5px 9px 9px;
-      background:linear-gradient(145deg,#f2e1c8 0%,#b9a082 100%);
-      box-shadow:inset 0 0 0 1px rgba(100,63,42,.12);
-    }
-    .letter-preview {
-      position:absolute; left:12%; right:12%; top:27%; height:64%; z-index:2;
-      background:linear-gradient(160deg,#fff6e8,#e8d6bd);
-      box-shadow:0 -2px 12px rgba(86,54,41,.18);
-      border:1px solid #d5bda0;
-      display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
-      padding-top:13%;
-      transition:transform 1s var(--ease) .43s;
-    }
-    .letter-preview .preview-line { width:55%; height:1px; margin-top:10px; background:#d6bd9e; }
-    .letter-preview .preview-line.short { width:38%; }
-    .letter-preview .preview-sun { color:#b88957; font-size:22px; }
-    .envelope-front {
-      position:absolute; inset:19% 0 8%; z-index:4;
-      clip-path:polygon(0 0,50% 59%,100% 0,100% 100%,0 100%);
-      background:linear-gradient(165deg,#e7d5b9 0%,#d8c09d 50%,#c2a784 100%);
-      border-radius:0 0 9px 9px;
-      filter:drop-shadow(0 -1px 1px rgba(86,61,46,.12));
-    }
-    .envelope-front::after {
-      content:'';position:absolute;inset:0;
-      clip-path:polygon(0 0,50% 59%,100% 0);
-      background:linear-gradient(175deg,#f0ddc2,#d3b893);
-    }
-    .envelope-flap {
-      position:absolute; left:0; right:0; top:19%; height:45%; z-index:6;
-      background:linear-gradient(170deg,#f5e6d1 3%, #dac1a0 90%);
-      clip-path:polygon(0 0,100% 0,50% 100%);
-      transform-origin:50% 0;
-      backface-visibility:hidden;
-      transition:transform .75s var(--ease), z-index 0s linear .65s;
-    }
-    .seal {
-      position:absolute; z-index:7; left:50%; top:62%; transform:translate(-50%,-50%);
-      width:69px; height:69px; border-radius:50%;
-      background:radial-gradient(circle at 35% 28%,#9e5260,#783645 61%,#522531);
-      display:grid; place-items:center;
-      box-shadow:0 3px 8px rgba(49,18,23,.30), inset 0 0 0 3px #874352, inset 0 0 0 5px rgba(221,162,129,.44);
-      transition:opacity .24s ease,transform .35s ease;
-    }
-    .seal svg { width:35px;height:35px; color:#e8c68d; filter:drop-shadow(0 0 2px rgba(255,221,162,.22)); }
-    .envelope-trigger.opening .envelope-flap { transform:rotateX(179deg); z-index:1; }
-    .envelope-trigger.opening .seal { opacity:0; transform:translate(-50%,-75%) scale(.7); }
-    .envelope-trigger.opening .letter-preview { transform:translateY(-39%); }
-    .open-label {
-      border:1px solid rgba(218,175,124,.48);
-      background:rgba(72,43,48,.55);
-      color:#f1dcc0; padding:13px 25px;
-      border-radius:100px; font:500 13px/1.3 Arial,Helvetica,sans-serif;
-      letter-spacing:.07em; cursor:pointer; transition:background .2s,border .2s,transform .2s;
-    }
-    .open-label:hover { background:rgba(118,74,72,.6); border-color:#e5c597; transform:translateY(-1px); }
-    .hint { font:12px/1.7 Arial,Helvetica,sans-serif; color:#bda698; margin:18px 0 0; }
-    .letter { display:none; opacity:0; transform:translateY(18px); transition:opacity 1s ease,transform 1s var(--ease); }
-    .letter.visible { opacity:1; transform:translateY(0); }
-    .letter-card {
-      width:min(100%,625px);
-      margin:0 auto;
-      padding:clamp(27px,6vw,59px) clamp(25px,6vw,62px);
-      color:var(--ink); text-align:left;
-      background:linear-gradient(143deg,rgba(255,250,240,.97),rgba(236,218,193,.97));
-      border:1px solid #e7d3b7;
-      outline:1px solid rgba(232,200,159,.46);
-      outline-offset:7px;
-      box-shadow:0 24px 65px rgba(0,0,0,.3),0 0 70px rgba(192,137,85,.06);
-      border-radius:3px;
-      position:relative;
-    }
-    .letter-card::before,.letter-card::after {
-      content:'✦'; color:#b68f60; position:absolute; font-size:19px;
-    }
-    .letter-card::before { top:15px;left:17px; }
-    .letter-card::after { bottom:15px;right:17px; }
-    .letter-sun { color:#a47a4a; text-align:center; margin-bottom:20px; }
-    .letter-sun svg { width:38px;height:38px; }
-    .letter h2 {
-      text-align:center; font-weight:400; font-style:italic;
-      font-size:clamp(29px,5vw,45px); line-height:1.2;
-      margin:0 0 30px; color:#583442;
-    }
-    .letter p { font-size:clamp(15px,2.3vw,17px); line-height:1.85; margin:0 0 19px; }
-    .letter p:last-child { margin-bottom:0; }
-    .letter-footer { font-style:italic; margin-top:25px!important; text-align:right; color:#794c50; }
-    .letter-kicker { margin:0 0 20px; text-align:center; font:600 10px/1.3 Arial,Helvetica,sans-serif; letter-spacing:.28em; color:#b98f63; text-transform:uppercase; }
-    .letter-bottom { text-align:center; margin-top:31px; color:#c6a587; font-style:italic; font-size:14px; }
-    @media (max-width:480px) {
-      .screen { padding:36px 22px 55px; }
-      .envelope-trigger { width:min(88vw,420px); margin:21px auto 7px; }
-      .seal { width:52px;height:52px; }
-      .seal svg { width:27px;height:27px; }
-      .intro .subtitle { max-width:310px; }
-      .letter-card { padding:36px 28px; }
-      .letter p { line-height:1.75; }
-    }
-    @media (prefers-reduced-motion:reduce) {
-      *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; scroll-behavior:auto!important; }
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050a15">
+<title>Маленькая вселенная Алисы ♡ — космический прототип 3</title>
+<style>
+:root{--ivory:#f5eee4;--muted:#b3bfd4;--gold:#f1ce93;--gold-soft:#caa478;--ease:cubic-bezier(.2,.75,.2,1)}*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#040814;color:var(--ivory);font-family:Georgia,'Times New Roman',serif}body{overflow-x:hidden}button{font:inherit}button:focus-visible{outline:2px solid #ffe0ae;outline-offset:5px}#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}.space-tint{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 60% at 51% 42%,rgba(27,48,79,.24),transparent 71%),radial-gradient(ellipse 37% 55% at 12% 53%,rgba(72,37,67,.27),transparent 86%),radial-gradient(ellipse 39% 52% at 88% 10%,rgba(31,59,79,.24),transparent 84%),linear-gradient(155deg,rgba(1,4,11,.58),transparent 45%,rgba(2,5,14,.55))}.edge{position:fixed;inset:0;z-index:0;pointer-events:none;box-shadow:inset 0 0 14vw 3vw #02050e}.topbar{position:fixed;z-index:15;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:23px clamp(22px,5vw,75px);pointer-events:none}.brand{font-family:Arial,sans-serif;letter-spacing:.3em;text-transform:uppercase;font-size:10px;color:#ccb998}.brand em{font-style:normal;color:#fae7c5}.top-right{font:10px Arial,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#9daec2}.intro{position:relative;z-index:4;min-height:100vh;min-height:100dvh;display:grid;place-items:center;text-align:center;padding:110px 20px 65px;isolation:isolate;transition:opacity 1s ease,transform 1s ease}.intro-inner{max-width:720px}.intro-sun{width:110px;height:110px;margin:0 auto 38px;position:relative;display:grid;place-items:center}.intro-sun::before,.intro-sun::after{content:'';position:absolute;inset:-65px;border-radius:50%;background:radial-gradient(circle,rgba(246,197,128,.22),rgba(204,147,85,.07) 25%,transparent 67%)}.intro-sun::after{inset:-110px;background:radial-gradient(circle,rgba(243,185,114,.10),transparent 60%)}.intro-sun .sun-core{width:59px;height:59px;border-radius:50%;background:radial-gradient(circle at 36% 32%,#fffdf5 0%,#fff4d9 24%,#ffe0a5 49%,#dc9654 81%,#ad6446 100%);box-shadow:0 0 21px 5px #fff0b28a,0 0 95px 35px #e7ad6250,0 0 180px 80px #b9803b15;animation:breathe 5s ease-in-out infinite alternate}.kicker{font:11px/1.6 Arial,sans-serif;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin:0 0 23px}.intro h1{font-size:clamp(44px,8.5vw,94px);line-height:1.02;font-weight:400;letter-spacing:-.045em;margin:0 0 34px;text-wrap:balance;text-shadow:0 0 70px #b18a6745}.intro .lead{font-size:clamp(17px,2.5vw,21px);line-height:1.85;color:#e1d6cf;margin:0 auto 28px;max-width:560px}.intro .lead span{color:#ffe6bd}.intro .sublead{font:14px/1.9 Georgia,serif;color:#bfc4d1;margin:0 auto 34px;max-width:500px}.gold-btn{min-height:50px;min-width:225px;display:inline-flex;align-items:center;justify-content:center;padding:14px 28px;border-radius:100px;border:1px solid rgba(255,215,151,.6);color:#ffe8bc;background:linear-gradient(135deg,#705342c9,#3f3439bd);box-shadow:0 7px 32px #0006,0 0 32px #e0a56e1c;cursor:pointer;font:12px Arial,sans-serif;letter-spacing:.11em;transition:transform .25s,box-shadow .25s}.gold-btn:hover{transform:translateY(-3px);box-shadow:0 10px 33px #0009,0 0 45px #e9b97849}.intro .small{font:10px Arial,sans-serif;letter-spacing:.11em;color:#899bb0;margin:25px auto 0}.universe{position:relative;z-index:3;min-height:100vh;min-height:100dvh;display:none;flex-direction:column;align-items:center;padding:100px 18px 25px;text-align:center}.universe.show{display:flex;animation:fade-in 1.15s ease both}.map-top h2{font-size:clamp(34px,5vw,54px);font-weight:400;line-height:1.1;margin:10px 0 12px;letter-spacing:-.03em}.map-top p{font-size:14px;line-height:1.8;color:#bdc2d0;margin:0}.sky-map{width:min(100%,1080px);height:clamp(475px,62vh,640px);margin:auto;position:relative;isolation:isolate}.orbital{position:absolute;left:5%;top:4%;width:90%;height:90%;pointer-events:none;opacity:.42;overflow:visible}.orbital ellipse{fill:none;stroke:#899fbb;stroke-width:.5;stroke-dasharray:1.2 5;opacity:.37}.orbital ellipse:nth-child(2){stroke:#ebc7a4;opacity:.28}.glow-cloud{position:absolute;left:50%;top:52%;width:min(80vw,510px);height:370px;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(195,158,107,.075),rgba(88,62,98,.05) 45%,transparent 75%);filter:blur(22px);pointer-events:none}.node{--c:#dab58a;position:absolute;z-index:2;transform:translate(-50%,-50%);border:0;background:transparent;padding:12px;display:flex;flex-direction:column;align-items:center;gap:13px;cursor:pointer;color:var(--ivory);transition:filter .35s;min-width:135px}.node:hover{filter:brightness(1.32)}.node .planet{position:relative;width:var(--size,61px);height:var(--size,61px);border-radius:50%;display:block;background:var(--planet);box-shadow:inset -17px -10px 23px #020711c9,inset 4px 4px 10px #ffffff14,0 0 19px 4px var(--halo);transition:transform .35s,box-shadow .35s;animation:planet-float var(--float,6.2s) ease-in-out infinite alternate}.node .planet::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid var(--c);opacity:.22;transition:transform .3s,opacity .3s}.node:hover .planet{transform:scale(1.12)}.node:hover .planet::after{transform:scale(1.14);opacity:.55}.node.visited .planet::after{opacity:.72;border-color:#ffe7ad;box-shadow:0 0 18px #ffe2a647}.node strong{font-size:14px;line-height:1.2;font-weight:400;text-shadow:0 1px 8px #000,0 1px 15px #000;white-space:nowrap}.node small{font:10px/1.4 Arial,sans-serif;color:#aebbd0;letter-spacing:.055em;text-shadow:0 2px 9px #000}.node.center{left:50%;top:51%;z-index:4;min-width:160px;gap:15px}.node.center .planet{--size:114px;background:radial-gradient(circle at 37% 29%,#fffdf6 0%,#fff4df 17%,#ffdaa3 38%,#df995b 70%,#b66357 88%);box-shadow:inset -12px -9px 21px #b5603866,0 0 35px 10px #f9d7a8b0,0 0 85px 35px #e9a9677d,0 0 180px 55px #de965132;animation:breathe 4.5s ease-in-out infinite alternate}.node.center .planet::before{content:'';position:absolute;inset:-55%;border-radius:50%;background:repeating-conic-gradient(from 7deg,transparent 0deg 14deg,#fce7bc10 18deg 20deg,transparent 22deg 45deg);filter:blur(8px);animation:rotation 90s linear infinite}.node.center .planet::after{inset:-27px;border-color:#f6dcb3}.node.center strong{font-size:19px;letter-spacing:.17em;text-transform:uppercase;color:#ffebc9}.node.center small{color:#f9dca8}.node.love{left:17%;top:23%;--size:64px;--c:#a8c5ef;--planet:radial-gradient(circle at 30% 25%,#d6ebff 0,#a8bccc 24%,#607ca5 55%,#273a66 95%);--halo:#7f9bc55e}.node.future{left:79%;top:22%;--size:72px;--c:#bba6ec;--planet:radial-gradient(circle at 34% 24%,#ece1ff,#a59dc4 21%,#786c9f 49%,#39335d 92%);--halo:#9e8dd15e}.node.cult{left:11%;top:72%;--size:63px;--c:#e4b66e;--planet:radial-gradient(circle at 32% 24%,#fff2c2,#e8bb70 18%,#a46d43 47%,#583e34 92%);--halo:#e0a15d68}.node.care{left:86%;top:70%;--size:66px;--c:#eb9eb8;--planet:radial-gradient(circle at 30% 23%,#ffe0da,#c4859d 21%,#97576f 52%,#4b304e 90%);--halo:#cb859b65}.node.final{left:51%;top:90%;--size:37px;--c:#f0c89b;--planet:radial-gradient(circle at 28% 20%,#fff8ed,#f7d6a4 28%,#c0917d 65%,#70505c 100%);--halo:#e9b69755;gap:8px}.node.final strong{font-style:italic}.map-footer{font:11px/1.7 Arial,sans-serif;color:#9eaebf;letter-spacing:.06em;margin-top:auto;padding-bottom:19px}.return-note{font:11px/1.5 Arial,sans-serif;color:#d8b989;opacity:0;min-height:19px;transition:opacity .6s}.return-note.visible{opacity:1}.view{position:fixed;z-index:30;inset:0;display:none;align-items:center;justify-content:center;background:rgba(1,5,14,.82);backdrop-filter:blur(16px);padding:45px 18px 25px;animation:fade-in .35s ease both}.view.open{display:flex}.view-close{position:fixed;z-index:31;top:20px;right:20px;background:rgba(16,27,40,.8);border:1px solid #a48d7750;color:#f8e6cf;border-radius:100px;padding:11px 17px;font:12px Arial,sans-serif;cursor:pointer}.view-article{position:relative;width:min(100%,690px);max-height:min(85dvh,900px);overflow:auto;overscroll-behavior:contain;padding:clamp(28px,5vw,54px);border-radius:22px;background:radial-gradient(circle at 40% 0%,rgba(191,144,104,.14),transparent 42%),linear-gradient(150deg,rgba(20,30,45,.96),rgba(14,17,29,.96));border:1px solid #c5ae8740;box-shadow:0 25px 100px #000b,0 0 75px #ad83401a}.view-article::before{content:'';position:absolute;left:10%;right:10%;top:0;height:1px;background:linear-gradient(90deg,transparent,#edcca6,transparent)}.view-article h3{font-size:clamp(30px,6.2vw,52px);font-weight:400;letter-spacing:-.02em;margin:7px 0 22px;line-height:1.15}.view-article p{font-size:16px;line-height:1.85;color:#e7dde0;margin:0 0 17px}.view-article .overline{font:10px Arial,sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#e7bb7d;margin-bottom:17px}.view-article .poem{font-size:19px;color:#f9e8cb;font-style:italic;line-height:1.85}.view-article .letter-box{background:linear-gradient(150deg,#fff9ee,#eee0cb);border-radius:6px;padding:clamp(24px,5vw,41px);color:#604b41;margin-top:22px;box-shadow:0 20px 50px #0005}.view-article .letter-box h4{color:#704a52;font-size:clamp(25px,4vw,32px);font-weight:400;margin:0 0 24px}.view-article .letter-box p{color:#594940;font-size:16px;line-height:1.8}.view-article .star-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:25px 0}.view-article .star-note{border:1px solid #d8c19437;background:#ffffff06;border-radius:13px;padding:17px}.view-article .star-note strong{display:block;color:#f7d39c;font-weight:400;margin:0 0 9px;font-size:16px}.view-article .star-note p{font-size:13px;line-height:1.65;margin:0}.view-article .little-cult{display:flex;flex-direction:column;align-items:center;margin:25px 0 15px;gap:6px}.view-article .little-cult svg{height:110px;width:90px;filter:drop-shadow(0 8px 12px #000)}.view-article .cult-caption{font:11px Arial,sans-serif;color:#d6b78f}.view-article .memory-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}.view-article .polaroid{transform:rotate(-3deg);padding:9px 9px 22px;background:#f8f0e3;color:#584740;box-shadow:0 12px 25px #0006;min-height:190px}.view-article .polaroid:nth-child(2){transform:rotate(3deg)}.view-article .polaroid:nth-child(3){transform:rotate(-2deg)}.view-article .photo-blank{height:111px;background:linear-gradient(165deg,#d4c3b6,#f8ead3);display:grid;place-items:center;color:#a98a74;font-size:27px}.view-article .polaroid p{font-size:12px;line-height:1.4;text-align:center;color:#514136;margin:12px 0 0}.view-article .ending{font-size:23px;color:#ffdeb0;font-style:italic}.view-article .muted{font:12px/1.7 Arial,sans-serif;color:#9eacbf;margin-top:25px}.preview-stamp{position:fixed;bottom:14px;left:18px;z-index:18;font:9px Arial,sans-serif;color:#b6b3ac8a;letter-spacing:.18em;text-transform:uppercase;pointer-events:none}.hidden{display:none!important}body.in-panel{overflow:hidden}body.entered .intro{display:none}@keyframes fade-in{from{opacity:0}to{opacity:1}}@keyframes breathe{from{transform:scale(.96);filter:brightness(.96)}to{transform:scale(1.035);filter:brightness(1.1)}}@keyframes planet-float{from{transform:translateY(3px)}to{transform:translateY(-5px)}}@keyframes rotation{to{transform:rotate(360deg)}}@media(max-width:650px){.topbar{padding:20px 20px}.brand{letter-spacing:.2em;font-size:9px}.top-right{font-size:9px;letter-spacing:.1em}.intro{padding:100px 26px 70px}.intro-sun{margin-bottom:35px}.intro h1{font-size:clamp(44px,12vw,66px)}.universe{padding:82px 8px 28px}.map-top h2{font-size:34px}.map-top p{font-size:13px}.sky-map{height:min(61vh,590px);min-height:470px}.node{min-width:95px;padding:6px;gap:8px}.node strong{font-size:12px}.node small{font-size:9px}.node.center{top:49%;min-width:130px}.node.center .planet{--size:91px}.node.center strong{font-size:16px}.node.love{left:19%;top:17%;--size:51px}.node.future{left:80%;top:20%;--size:57px}.node.cult{left:16%;top:74%;--size:47px}.node.care{left:83%;top:72%;--size:54px}.node.final{left:51%;top:92%;--size:33px}.map-footer{padding:0 15px 14px;font-size:10px}.view{padding:64px 12px 18px}.view-close{top:14px;right:14px}.view-article{padding:28px 22px;max-height:82dvh}.view-article .star-list{grid-template-columns:1fr}.view-article .memory-row{gap:8px}.view-article .polaroid{padding:6px 6px 10px;min-height:0}.view-article .photo-blank{height:77px}.view-article .polaroid p{font-size:10px}}@media(max-width:350px){.sky-map{min-height:490px}.node.love{left:19%}.node.future{left:81%}.node.cult{left:15%}.node.care{left:86%}.node.center .planet{--size:80px}.node strong{font-size:11px}.node.center{top:48%}.node.final{top:90%}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
-
-/* Unified page: scene transitions, warm light after the ceremony. */
-body { transition:background-color 1.5s ease; }
-.site-glow { position:fixed; inset:0; opacity:0; background:radial-gradient(ellipse at 53% 33%,rgba(255,212,133,.18),transparent 65%),radial-gradient(ellipse at 80% 90%,rgba(255,199,112,.13),transparent 70%); transition:opacity 2.2s ease; pointer-events:none; z-index:0; }
-body.awakened .site-glow { opacity:1; }
-.letter.leaving { opacity:0; transform:translateY(-18px); pointer-events:none; }
-.letter-next { display:flex; flex-direction:column; align-items:center; gap:13px; margin-top:30px; }
-.letter-next p { font-size:15px; font-style:italic; color:#e5c8a7; margin:0; }
-.ritual { display:none; position:relative; isolation:isolate; min-height:100vh; min-height:100dvh; width:100%; overflow:hidden; background:#1b141b; color:#f4e8d7; font-family:Georgia,'Times New Roman',serif; opacity:0; transition:opacity .8s ease; }
-.ritual.visible { opacity:1; }
-.ritual button { font:inherit; }
-.ritual *, .ritual *::before, .ritual *::after { box-sizing:border-box; }
-.ritual button { font:inherit; }
-.ritual .backdrop, .ritual .daylight, .ritual .vignette { position:fixed; inset:0; pointer-events:none; }
-.ritual .backdrop { background:radial-gradient(ellipse 60% 44% at 52% 34%,rgba(93,45,61,.42),transparent 91%),radial-gradient(ellipse 70% 58% at 74% 95%,rgba(88,51,49,.21),transparent 96%),linear-gradient(153deg,#151217,#302029 58%,#1d151b); z-index:-3; }
-.ritual .daylight { background:radial-gradient(ellipse 80% 90% at 50% 36%,rgba(251,194,98,.25),transparent 79%),radial-gradient(ellipse 65% 73% at 80% 78%,rgba(169,106,60,.36),transparent),linear-gradient(142deg,#3f2730,#5f3836 51%,#39272a); opacity:0; transition:opacity 2.2s ease; z-index:-2; }
-.ritual .vignette { background:radial-gradient(ellipse 85% 66% at center,transparent 29%,rgba(0,0,0,.36) 100%); z-index:-1; }
-body.awakened .ritual .daylight { opacity:1; }
-.ritual .specks { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; opacity:.6; }
-.ritual .specks span { position:absolute; width:2px;height:2px; border-radius:50%; background:#d6b585; box-shadow:0 0 9px #d6b585; animation:float 7s ease-in-out infinite alternate; }
-.ritual .specks span:nth-child(1) {left:11%;top:17%;animation-delay:-4s}
-.ritual .specks span:nth-child(2) {left:88%;top:11%;animation-delay:-2s}
-.ritual .specks span:nth-child(3) {left:24%;top:81%;animation-delay:-6s}
-.ritual .specks span:nth-child(4) {left:79%;top:76%;animation-delay:-3s}
-.ritual .specks span:nth-child(5) {left:50%;top:8%;animation-delay:-5s}
-.ritual .specks span:nth-child(6) {left:8%;top:62%;animation-delay:-1s}
-.ritual .specks span:nth-child(7) {left:92%;top:49%;animation-delay:-6.3s}
-.ritual .specks span:nth-child(8) {left:66%;top:92%;animation-delay:-2.5s}
-@keyframes  float  { to {transform:translate(12px,-19px);opacity:.28} }
-.global-sun { position:fixed; top:17px; right:18px; width:45px; height:45px; color:#ffdf95; opacity:0; transform:scale(.45) rotate(-40deg); transition:opacity 1.3s ease,transform 1.6s var(--ease); filter:drop-shadow(0 0 10px rgba(255,201,107,.5)); pointer-events:none; z-index:8; }
-.global-sun svg { width:100%; height:100%; }
-body.awakened .global-sun { opacity:1; transform:scale(1) rotate(0); }
-.ritual .ritual-main { position:relative; z-index:1; max-width:920px; min-height:100dvh; margin:0 auto; display:flex; flex-direction:column; align-items:center; padding:clamp(32px,7vh,58px) 18px 45px; }
-.ritual .eyebrow { font:600 10px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.27em; text-transform:uppercase; color:#c4a174; text-align:center; }
-.ritual .rule { display:flex; justify-content:center; align-items:center; gap:12px; color:#c39a66; margin:14px auto 15px; }
-.ritual .rule::before, .ritual .rule::after { content:""; height:1px; width:52px; background:linear-gradient(90deg,transparent,#9a7456); }
-.ritual .rule::after {transform:rotate(180deg)}
-.ritual h1 { font-size:clamp(33px,6.8vw,57px); font-weight:400; font-style:italic; letter-spacing:-.025em; line-height:1.14; text-align:center; margin:0; color:#f7ebd7; transition:color 2s ease,text-shadow 2s ease; }
-.ritual .subtitle { font-style:italic; text-align:center; font-size:clamp(14px,2.5vw,17px); line-height:1.7; max-width:550px; margin:12px 0 16px; color:#cbb7ad; transition:color 2s ease; }
-body.awakened .ritual h1 { color:#fff2cd; text-shadow:0 0 40px rgba(255,214,129,.38); }
-body.awakened .ritual .subtitle { color:#f0d8b9; }
-.ritual .stage-frame { width:min(100%,720px); padding:10px; background:linear-gradient(145deg,rgba(185,137,81,.37),rgba(123,85,62,.10) 31%,rgba(225,182,116,.28)); border:1px solid rgba(211,167,107,.46); border-radius:50% 50% 27% 27% / 10% 10% 5% 5%; box-shadow:0 26px 80px rgba(0,0,0,.27),inset 0 0 0 3px rgba(16,9,12,.55); transition:box-shadow 1.3s,border-color 1.3s; }
-body.awakened .ritual .stage-frame { border-color:rgba(247,208,144,.85); box-shadow:0 0 65px rgba(248,177,92,.21),0 25px 80px rgba(0,0,0,.24); }
-.ritual .stage { position:relative; width:100%; aspect-ratio:660/472; overflow:hidden; isolation:isolate; border-radius:48% 48% 24% 24% / 10% 10% 4% 4%; background:radial-gradient(ellipse 51% 53% at 50% 56%,rgba(116,77,53,.23) 0%,rgba(54,38,37,.13) 57%,transparent 90%),radial-gradient(ellipse 90% 76% at 50% 93%,#413234 0%,#282025 64%,#17151b 100%); }
-.ritual .stage::before { content:"";position:absolute;inset:0; background:repeating-radial-gradient(ellipse at center,transparent 0,transparent 56px,rgba(221,167,100,.018) 57px,transparent 59px),linear-gradient(180deg,rgba(4,3,5,.11),transparent 60%);pointer-events:none; }
-.ritual .stage::after { content:"";position:absolute;inset:0; box-shadow:inset 0 0 52px 16px rgba(7,5,8,.72);pointer-events:none;z-index:6; }
-.ritual .floor-etch { position:absolute; width:58%; aspect-ratio:1; border-radius:50%;left:50%;top:54%;transform:translate(-50%,-50%) rotate(-14deg); border:1px solid rgba(200,155,90,.10); box-shadow:0 0 0 13px rgba(185,140,83,.018),0 0 0 18px rgba(185,140,83,.035),inset 0 0 0 19px rgba(185,140,83,.016); }
-.ritual .floor-etch::before {content:""; position:absolute;inset:20%;border-radius:50%;border:1px dashed rgba(203,170,103,.17);}
-.ritual .floor-etch::after {content:"";position:absolute;inset:35%;border-radius:50%;border:1px solid rgba(207,174,112,.15);}
-.ritual .floor-lines { position:absolute;inset:0;width:100%;height:100%;pointer-events:none; }
-.ritual .floor-lines line {stroke:#b98d58;stroke-width:1;opacity:.14;}
-.ritual .altar {position:absolute; width:27%;aspect-ratio:1;left:50%;top:54%;transform:translate(-50%,-50%);border-radius:50%; background:radial-gradient(circle,#332a29 0%,#201a20 60%,rgba(27,21,25,0) 71%);border:1px solid rgba(172,130,77,.17);box-shadow:0 0 36px 12px rgba(0,0,0,.24),inset 0 0 27px rgba(11,9,10,.7); }
-.ritual .altar::after {content:"";position:absolute;inset:12%;border-radius:50%;border:1px dashed rgba(211,168,95,.17)}
-.ritual .orb { position:absolute; left:50%;top:54%; width:17%; aspect-ratio:1;transform:translate(-50%,-50%) scale(.35);border-radius:50%;opacity:0; background:radial-gradient(circle at 38% 31%,#fff8d8 0%,#ffe2a2 20%,#e9ae53 49%,rgba(152,77,32,.69) 72%,transparent 78%); box-shadow:0 0 21px 6px #e4b05e,0 0 70px 25px rgba(255,186,65,.46),0 0 128px 32px rgba(255,170,73,.14); z-index:3;transition:opacity 1.6s ease,transform 1.8s var(--ease); }
-.ritual .orb::before {content:"";position:absolute;inset:-46%;border-radius:50%; background:repeating-conic-gradient(from 0deg,rgba(255,205,116,.21) 0deg 5deg,transparent 8deg 30deg);filter:blur(5px);animation:rotate 36s linear infinite;}
-.ritual .orb::after {content:"";position:absolute;inset:20%;border-radius:50%;border:1px solid rgba(255,247,211,.65);box-shadow:0 0 10px #fff0bc;}
-.ritual .stage.charged .orb {opacity:1;transform:translate(-50%,-50%) scale(.9)}
-.ritual .stage.awakened .orb {opacity:1;transform:translate(-50%,-50%) scale(1.25);box-shadow:0 0 30px 12px #ffc86d,0 0 94px 51px rgba(255,192,78,.62),0 0 200px 85px rgba(255,190,75,.23);animation:orb-breathe 4s ease-in-out infinite alternate;}
-.ritual .stage-rays {position:absolute;left:50%;top:54%;width:76%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.86);border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,218,127,.13) 0deg 5deg,transparent 6deg 30deg);opacity:0;filter:blur(12px);transition:opacity 1.5s,transform 2s ease;mix-blend-mode:screen;}
-.ritual .stage.awakened .stage-rays {opacity:1;transform:translate(-50%,-50%) scale(1.2);animation:rotate 70s linear infinite;}
-@keyframes  rotate  {to {transform:rotate(360deg)}}
-@keyframes  orb-breathe  {to {filter:brightness(1.16)}}
-.ritual .stone {position:absolute;width:5.4%;height:6%;transform:translate(-50%,-50%) scale(.3) rotate(var(--rot));opacity:0;z-index:2;filter:drop-shadow(1px 3px 3px rgba(0,0,0,.52));transition:transform .45s var(--ease),opacity .35s ease,filter .5s;}
-.ritual .stone::before {content:"";position:absolute;inset:0;clip-path:polygon(14% 19%,51% 0%,86% 15%,100% 54%,76% 92%,31% 100%,1% 68%);background:linear-gradient(145deg,#b8a087,#746454 52%,#4d3e39);border:1px solid rgba(234,193,125,.23);box-shadow:inset 3px 3px 5px rgba(255,231,172,.18);}
-.ritual .stone::after {content:"";position:absolute;inset:-34%;border-radius:50%;background:radial-gradient(circle,rgba(236,180,94,.37),transparent 68%);opacity:0;transition:opacity .75s ease;}
-.ritual .stone.placed {opacity:1;transform:translate(-50%,-50%) scale(1) rotate(var(--rot));filter:drop-shadow(0 0 6px rgba(249,193,111,.46)) drop-shadow(2px 3px 2px rgba(0,0,0,.5));}
-.ritual .stone.placed::after {opacity:1;}
-.ritual .stage.awakened .stone.placed {filter:drop-shadow(0 0 12px rgba(255,211,138,.87));}
-.ritual .figure {position:absolute;z-index:4;left:11%;top:79%;width:5.8%;height:15.9%;transform:translate(-50%,-70%);transition:left .48s var(--ease),top .48s var(--ease),opacity .9s ease;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5));}
-.ritual .figure svg {width:100%;height:100%;overflow:visible;}
-.ritual .figure .hood {fill:#18151b;stroke:#8b7260;stroke-width:1.5}
-.ritual .figure .cloak {fill:#1d1920;stroke:#937a65;stroke-width:1.6}
-.ritual .figure .cloak-mark {fill:none;stroke:#bb9769;stroke-width:1.5;opacity:.85}
-.ritual .figure .hand-stone {fill:#c3a17a;filter:drop-shadow(0 0 5px #ffd59b);}
-.ritual .figure.moving {animation:step .23s ease-in-out infinite alternate;}
-.ritual .figure.placing svg {animation:bow .25s ease-in-out 2 alternate;transform-origin:50% 75%;}
-.ritual .figure.finished {opacity:0;}
-@keyframes  step  {from {transform:translate(-50%,-70%) rotate(-2deg)}to {transform:translate(-50%,-70%) rotate(2deg)}}
-@keyframes  bow  {to {transform:rotate(18deg) translateY(3px)}}
-.ritual .placement-spark {position:absolute;width:6.7%;aspect-ratio:1;z-index:2;transform:translate(-50%,-50%) scale(.3);border:1px solid rgba(255,223,145,.64);border-radius:50%;opacity:0;pointer-events:none;}
-.ritual .placement-spark.burst {animation:spark .6s ease-out forwards;}
-@keyframes  spark  {25%{opacity:1}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}
-.ritual .light-flash {position:fixed;inset:0;pointer-events:none;z-index:20;background:radial-gradient(circle at 50% 50%,rgba(255,250,211,.97),rgba(255,219,130,.56) 36%,transparent 78%);opacity:0;}
-.ritual .light-flash.play {animation:flash 2.4s ease-in-out forwards;}
-@keyframes  flash  {0%,100%{opacity:0}27%{opacity:.96}59%{opacity:.28}}
-.ritual .stage-note {width:min(100%,720px);display:flex;justify-content:space-between;align-items:center;gap:16px;margin:11px auto 20px;padding:0 7px;color:#d1b89a;font:12px/1.45 Arial,Helvetica,sans-serif;}
-.ritual .stage-note .counter {color:#e1bd87;white-space:nowrap;letter-spacing:.09em;}
-.ritual .story {width:min(100%,680px);margin:0 auto;min-height:150px;display:flex;align-items:center;justify-content:flex-start;flex-direction:column;text-align:center;}
-.ritual .story p {font-size:clamp(15px,2.7vw,18px);line-height:1.75;color:#dbc4af;max-width:545px;margin:4px auto 18px;}
-.ritual .story h2 {font-size:clamp(23px,4.7vw,36px);font-weight:400;font-style:italic;color:#fff0d4;line-height:1.3;margin:2px auto 14px;text-shadow:0 0 30px rgba(239,177,87,.16);}
-.ritual .story [hidden] {display:none!important;}
-.ritual .btn {min-height:46px;padding:13px 30px;letter-spacing:.035em;color:#ffe9c6;background:linear-gradient(135deg,#795044,#604040);border:1px solid #ba9267;border-radius:100px;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;font:500 13px/1.3 Arial,Helvetica,sans-serif;}
-.ritual .btn:hover {transform:translateY(-2px);box-shadow:0 8px 23px rgba(0,0,0,.23),0 0 20px rgba(255,187,113,.10);background:linear-gradient(135deg,#92614c,#74484a)}
-.ritual .btn:active {transform:translateY(0)}
-.ritual .btn:focus-visible {outline:2px solid #ffe0a1;outline-offset:4px}
-.ritual .btn:disabled {opacity:.55;cursor:wait}
-.ritual .secondary-btn {background:transparent;border:1px solid rgba(216,172,115,.48);color:#e5cba6;}
-.ritual .secondary-btn:hover {background:rgba(184,126,72,.12);}
-.ritual .response {animation:enter 1s var(--ease) both;}
-@keyframes  enter  {from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.ritual .final-ornament {font-size:30px;color:#ffe0a0;text-shadow:0 0 20px #ffca65;}
-.ritual .hint {font:11px/1.6 Arial,Helvetica,sans-serif;color:#a99383;text-align:center;margin:18px auto 0;}
-@media (max-width:530px) {.ritual .ritual-main {padding:45px 13px 30px}
-.ritual .subtitle {margin-bottom:19px}
-.ritual .stage-frame {padding:6px}
-.ritual .stage-note {font-size:10px;padding:0 4px;margin-bottom:17px}
-.ritual .story {min-height:178px}
-.ritual .story p {margin-bottom:14px}
-.ritual .figure {width:7.2%;height:19%}
-.ritual .stone {width:6.1%;height:6.8%}
-.global-sun {width:33px;height:33px;top:9px;right:9px}}
-@media (prefers-reduced-motion:reduce) {.ritual *, .ritual *::before, .ritual *::after {animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-
-
-/* БЛОК №4. Полароиды ещё не случившихся воспоминаний. */
-.ritual .after-ritual-actions { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:12px; margin:6px auto 0; }
-.memories { display:none; opacity:0; transform:translateY(14px); transition:opacity .95s ease,transform .95s var(--ease); position:relative; isolation:isolate; z-index:1; min-height:100dvh; padding:clamp(63px,8vh,90px) 18px 90px; text-align:center; color:#f7e9d8; background:radial-gradient(ellipse 62% 37% at 50% 23%,rgba(188,127,73,.30),transparent 80%), radial-gradient(ellipse 72% 49% at 5% 95%,rgba(116,65,62,.28),transparent 90%),linear-gradient(157deg,#34232b 0%,#493039 51%,#251b23 100%); }
-.memories.visible { opacity:1; transform:translateY(0); }
-.memories::before { content:''; pointer-events:none; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 12%,rgba(255,225,166,.10),transparent 66%); z-index:-1; }
-.memories .memories-header { max-width:700px; margin:0 auto; }
-.memories .memory-eyebrow { font:600 10px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.29em;text-transform:uppercase;color:#ddb987; }
-.memories .memory-rule { display:flex;align-items:center;justify-content:center;gap:13px;margin:16px 0; color:#efc996; }
-.memories .memory-rule::before,.memories .memory-rule::after {content:'';width:53px;height:1px;background:linear-gradient(90deg,transparent,rgba(234,192,137,.65));}
-.memories .memory-rule::after {transform:rotate(180deg);}
-.memories h2 {font-size:clamp(34px,6.4vw,60px);line-height:1.16;font-style:italic;font-weight:400;letter-spacing:-.03em;margin:0 0 22px;color:#ffedcf;text-shadow:0 0 30px rgba(225,164,88,.18);}
-.memories .memory-intro {font-size:clamp(16px,2.7vw,19px);line-height:1.76;max-width:600px;margin:0 auto 11px;color:#e8d6c3;}
-.memories .memory-punchline {color:#ffe5b5;font-size:clamp(18px,3.2vw,23px);font-style:italic;margin:10px auto 15px;}
-.memories .memory-lead {font-size:clamp(15px,2.5vw,17px);line-height:1.65;color:#d9bd9e;margin:0 auto;max-width:650px;}
-.memories .memory-gallery {width:min(100%,990px);position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3.2vw,38px);align-items:start;margin:57px auto 55px;padding:14px 4px 0;}
-.memories .memory-gallery::before {content:'';position:absolute;top:6px;left:1%;right:1%;height:2px;background:linear-gradient(90deg,transparent,#c19d70 12%,#d3af79 50%,#b68b5d 88%,transparent);opacity:.53;transform:rotate(-1deg);box-shadow:0 2px 4px rgba(0,0,0,.22);}
-.memories .polaroid { --tilt:-4deg; position:relative; display:flex; flex-direction:column; justify-content:flex-start; padding:clamp(9px,1.45vw,15px) clamp(9px,1.45vw,15px) 23px; min-width:0; background:linear-gradient(146deg,#fffaf1,#e9dbc6 90%);box-shadow:0 20px 35px rgba(0,0,0,.32),0 4px 11px rgba(0,0,0,.15),inset 0 0 0 1px rgba(125,91,61,.2); transform:translateY(26px) rotate(var(--tilt));opacity:0;transition:opacity .9s ease,transform 1s var(--ease);border-radius:2px; }
-.memories.visible .polaroid { opacity:1;transform:translateY(0) rotate(var(--tilt)); }
-.memories.visible .polaroid:nth-child(1) { transition-delay:.2s; }
-.memories.visible .polaroid:nth-child(2) { transition-delay:.42s; }
-.memories.visible .polaroid:nth-child(3) { transition-delay:.64s; }
-.memories .polaroid:nth-child(2) { --tilt:3.8deg; margin-top:22px; }
-.memories .polaroid:nth-child(3) { --tilt:-2deg; margin-top:7px; }
-.memories .polaroid::before {content:'';position:absolute;left:50%;top:-22px;transform:translateX(-50%) rotate(7deg);width:18px;height:35px;border-radius:4px 4px 3px 3px;background:linear-gradient(90deg,#b08d60 0 37%,#d9b781 42% 60%,#9d734c 65% 100%);border:1px solid #7f603e;box-shadow:2px 3px 5px rgba(0,0,0,.3);z-index:3; }
-.memories .polaroid::after {content:'';position:absolute;top:-18px;left:calc(50% - 4px);width:8px;height:10px;border-radius:1px;background:rgba(255,245,204,.2);z-index:3; }
-.memories .photo-space {position:relative;display:grid;place-items:center;aspect-ratio:1/1;overflow:hidden;background:radial-gradient(ellipse at 65% 25%,rgba(231,206,165,.49),transparent 60%),linear-gradient(135deg,#a5917a,#736d66 61%,#716361);box-shadow:inset 0 0 0 1px rgba(76,58,47,.3),inset 0 0 32px rgba(37,26,26,.25);}
-.memories .photo-space::before {content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(250,223,177,.13) 45%,transparent 65%),radial-gradient(ellipse at center,transparent 20%,rgba(36,23,25,.19) 100%);}
-.memories .photo-space::after {content:'';position:absolute;inset:0;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.56' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");mix-blend-mode:multiply;pointer-events:none;}
-.memories .photo-art {width:71%;height:71%;position:relative;z-index:1;color:rgba(255,235,198,.75);filter:drop-shadow(0 3px 6px rgba(44,29,26,.20));}
-.memories .photo-art * {stroke-linecap:round;stroke-linejoin:round;}
-.memories .polaroid-number {font:600 9px/1 Arial,Helvetica,sans-serif;letter-spacing:.19em;color:#8f7b68;text-align:left;margin:13px 1px 6px;}
-.memories .polaroid-caption {color:#4f4039;font:italic clamp(15px,1.7vw,19px)/1.4 Georgia,'Times New Roman',serif;margin:0 auto;min-height:100px;display:flex;align-items:center;justify-content:center;text-align:center;}
-.memories .polaroid:nth-child(3) .polaroid-caption {color:#5a3a3d;}
-.memories .memory-outro {max-width:700px;margin:0 auto;padding:8px 20px 0; }
-.memories .memory-outro p {font-size:clamp(17px,3vw,21px);line-height:1.75;font-style:italic;color:#fff0d5;margin:0 auto 24px;}
-.memories .memory-end {font:italic 14px/1.5 Georgia,serif;color:#c9a780;margin:26px auto 0;}
-@media (max-width:700px) {
-  .memories {padding:60px 14px 66px;}
-  .memories .memory-gallery {width:min(100%,560px);grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px;margin:48px auto 37px;padding:9px 6px 0;}
-  .memories .polaroid { padding:10px 10px 14px;}
-  .memories .polaroid:nth-child(2) {margin-top:13px;}
-  .memories .polaroid:nth-child(3) {grid-column:1/-1;justify-self:center; width:min(77%,295px); margin-top:7px;}
-  .memories .polaroid-caption {font-size:clamp(13px,3.55vw,17px);line-height:1.38;min-height:98px;}
-  .memories .polaroid::before {height:29px;width:15px;top:-18px;}
-  .memories .polaroid::after {top:-14px;}
-  .memories .polaroid-number {font-size:8px;}
+/* Cosmic map v2: different astronomical objects and a travelling camera */
+.sky-map{isolation:isolate;overflow:clip}
+.map-camera{position:absolute;inset:0;transform:translate(0,0) scale(1);transform-origin:center center;transition:transform 920ms cubic-bezier(.16,.84,.18,1);will-change:transform}
+.universe.travelling .map-top,.universe.travelling .map-footer,.universe.travelling .return-note{opacity:.08;transition:opacity .38s}
+.map-top,.map-footer,.return-note{transition:opacity .55s}
+.flight-bloom{position:fixed;inset:0;z-index:25;pointer-events:none;opacity:0;--bx:50%;--by:50%;background:radial-gradient(circle at var(--bx) var(--by),rgba(255,234,194,.40),rgba(172,151,225,.12) 18%,transparent 55%);transition:opacity .42s ease}
+.flight-bloom.active{opacity:1}
+.node.love,.node.future{--size:0}
+.node.love .planet,.node.future .planet,.node.final .planet{display:none}
+.constellation-art{width:132px;height:98px;display:block;position:relative;filter:drop-shadow(0 0 12px #a6c5ff66);transition:filter .65s,transform .5s;animation:constellation-drift 8s ease-in-out infinite alternate}
+.constellation-art svg{width:100%;height:100%;overflow:visible}
+.con-lines{fill:none;stroke:#a9c7fa;stroke-width:1.05;opacity:.55;stroke-dasharray:2 4}
+.con-points{fill:#f7f7ff;filter:drop-shadow(0 0 3px #baceff)}
+.con-glow{fill:#b1cfff;opacity:.66}
+.node.love:hover .constellation-art{filter:drop-shadow(0 0 23px #bbd7ffad);transform:scale(1.06)}
+.node.love.visited .constellation-art{filter:drop-shadow(0 0 25px #b9d2ff) drop-shadow(0 0 14px #d4bbff)}
+.node.love.visited .con-lines{stroke:#e7efff;opacity:.9;stroke-dasharray:none}
+.microgalaxy{width:162px;height:120px;display:block;position:relative;filter:drop-shadow(0 0 10px #9882d787);animation:galaxy-drift 28s linear infinite;transition:filter .6s,transform .6s}
+.microgalaxy svg{width:100%;height:100%;overflow:visible}
+.node.future:hover .microgalaxy{filter:drop-shadow(0 0 22px #bea7fc);transform:scale(1.08)}
+.node.future.visited .microgalaxy{filter:drop-shadow(0 0 26px #b7a2ff) drop-shadow(0 0 12px #e8bcfc)}
+.tiny-star{width:16px;height:16px;display:block;position:relative;border-radius:50%;background:radial-gradient(circle,#fff 0%,#fff1cf 27%,#f0c894 44%,#a87866 62%,transparent 75%);box-shadow:0 0 9px #fff6dfb3,0 0 27px #f8d49b81;transition:transform .4s,box-shadow .6s;animation:star-shimmer 5s ease-in-out infinite alternate}
+.tiny-star::before,.tiny-star::after{content:'';position:absolute;inset:calc(50% - .7px) -18px;background:linear-gradient(90deg,transparent,#ffeac9a1,transparent);pointer-events:none}
+.tiny-star::after{transform:rotate(90deg)}
+.node.final{gap:10px}
+.node.final.locked{opacity:.45;filter:grayscale(.7);cursor:not-allowed}
+.node.final.locked .tiny-star{box-shadow:0 0 5px #a0a1b1}
+.node.final.unlocked .tiny-star{transform:scale(1.22);box-shadow:0 0 18px #fff7e7,0 0 45px #f9d7ac,0 0 85px #edb98c87}
+.node.final.unlocked strong{color:#ffe0b3}
+.node.visited .planet{filter:brightness(1.22);box-shadow:inset -17px -10px 23px #020711b0,0 0 25px 7px var(--halo),0 0 42px 9px var(--halo)}
+.node.center.visited .planet{box-shadow:inset -12px -9px 21px #b5603866,0 0 42px 15px #f9d7a8ef,0 0 105px 42px #e9a967ac,0 0 180px 55px #de965132}
+.node.visited:not(.center) strong{color:#fff1d6}
+.node.love{top:21%;left:17%}.node.future{top:21%;left:79%}
+.node.final{top:90%}
+.love-field{position:relative;height:clamp(220px,38vw,330px);margin:19px auto 20px;border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 53% 48%,#1c2c53a8,transparent 66%),radial-gradient(ellipse at 25% 70%,#38305c7a,transparent 58%),linear-gradient(150deg,#071020,#0b1226);box-shadow:inset 0 0 50px #050916}
+.love-field::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 12% 27%,#c7dafc 1px,transparent 2px),radial-gradient(circle at 63% 71%,#d2b9ef 1px,transparent 2px),radial-gradient(circle at 85% 19%,#c7dafc 1px,transparent 2px);opacity:.5}
+.love-field>svg{position:absolute;inset:0;width:100%;height:100%}
+.love-point{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);border:0;padding:12px;background:transparent;color:#f4efff;font-size:20px;text-shadow:0 0 7px #9fbcff,0 0 23px #b6a9ef;cursor:pointer;transition:transform .2s,text-shadow .3s}
+.love-point:hover,.love-point:focus-visible{transform:translate(-50%,-50%) scale(1.45);text-shadow:0 0 14px white,0 0 36px #f2d2ff}
+.love-point.opened{color:#ffe4ad;text-shadow:0 0 13px #ffe7ab,0 0 27px #fff0c0}
+.love-message{min-height:98px;padding:20px;border:1px solid #bfc5e345;background:#d5c5ff0b;border-radius:12px;color:#e7dff3;line-height:1.75}
+.love-message strong{display:block;color:#f2ce92;font-size:18px;margin-bottom:8px;font-weight:400}
+.future-sky{height:140px;position:relative;margin:0 0 20px;overflow:hidden;border-radius:13px;background:radial-gradient(ellipse at center,#563f6880,transparent 62%),#080f22}
+.future-sky-core{position:absolute;left:50%;top:48%;width:14px;height:14px;transform:translate(-50%,-50%);border-radius:50%;background:#fff6e8;box-shadow:0 0 21px 9px #d1b5ff9c,0 0 75px 42px #ae80c45c}
+.future-orbit{position:absolute;left:12%;right:12%;top:20%;bottom:20%;border:1px solid #bd9ee28c;border-radius:50%;transform:rotate(-17deg)}
+.future-orbit.b{left:22%;right:22%;top:10%;bottom:10%;transform:rotate(53deg);border-color:#dfc3e35c}
+.future-orbit.c{left:32%;right:32%;top:8%;bottom:8%;transform:rotate(-60deg);border-color:#b3c7f15c}
+.future-spark{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffecdc;box-shadow:0 0 12px 4px #e9cafcb3}
+.future-spark.first{left:18%;top:45%}.future-spark.second{left:68%;top:18%}.future-spark.third{left:76%;top:80%}
+@keyframes constellation-drift{from{transform:translateY(3px)}to{transform:translateY(-4px)}}
+@keyframes galaxy-drift{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@keyframes star-shimmer{from{filter:brightness(.78)}to{filter:brightness(1.3)}}
+@media(max-width:650px){
+ .node.love{left:19%;top:17%}.node.future{left:80%;top:19%}
+ .constellation-art{width:100px;height:76px}
+ .microgalaxy{width:108px;height:88px}
+ .node.final{top:91%}
+ .node.final .tiny-star{width:12px;height:12px}
+ .love-field{height:235px}
+ .love-point{padding:10px;font-size:17px}
+ .love-message{min-height:120px}
 }
-@media (max-width:350px) {.memories .memory-gallery {gap:18px 12px;}.memories .polaroid{padding:8px 8px 12px;}.memories .polaroid-caption {font-size:13px;}}
-@media (prefers-reduced-motion:reduce) {.memories, .memories .polaroid {transition:none!important;}}
+@media(max-width:350px){.constellation-art{width:86px;height:66px}.microgalaxy{width:100px;height:80px}.node.love{left:19%}.node.future{left:82%}.node.final{top:90%}}
+@media(prefers-reduced-motion:reduce){.map-camera{transition:none}.flight-bloom{transition:none}}
 
+/* === Third prototype: the original little acolyte + a miniature solar rite === */
+.view-article:has(.cult-content){width:min(100%,800px)}
+.cult-content{--rite-gold:#dfbd83}
+.cult-stage-frame{padding:7px;border:1px solid #c89d6759;border-radius:35% 35% 18% 18% / 8% 8% 5% 5%;background:linear-gradient(135deg,#c7a07238,#4a302b42,#dbb78130);box-shadow:0 14px 42px #0006;margin:19px 0 10px}
+.cult-stage{aspect-ratio:660/472;position:relative;overflow:hidden;isolation:isolate;border-radius:33% 33% 12% 12% / 8% 8% 4% 4%;background:radial-gradient(ellipse at 50% 52%,#5b443d88,#30283199 46%,#131923 86%),radial-gradient(ellipse at 50% 87%,#55413c,#16131a);}
+.cult-stage:after{content:"";position:absolute;inset:0;z-index:7;pointer-events:none;box-shadow:inset 0 0 46px 12px #090b11a8;border-radius:inherit}
+.cult-etched{position:absolute;left:50%;top:54%;width:55%;aspect-ratio:1;border:1px solid #f0c48b23;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 11px #ebbb7e09,0 0 0 22px #edb47708,inset 0 0 25px #0007}
+.cult-etched:after{content:"";position:absolute;inset:18%;border:1px dashed #e0b17734;border-radius:50%}
+.cult-stone{position:absolute;z-index:3;width:4%;height:5.2%;opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(var(--stone-rot));transition:transform .23s ease-out,opacity .21s ease;filter:drop-shadow(1px 2px 2px #0009)}
+.cult-stone:before{content:"";position:absolute;inset:0;clip-path:polygon(13% 14%,52% 0%,87% 18%,100% 60%,71% 100%,26% 89%,0% 55%);background:linear-gradient(135deg,#e1c7a3,#917960 50%,#544442);border:1px solid #e4c6a349}
+.cult-stone:after{content:"";position:absolute;inset:-40%;border-radius:50%;background:radial-gradient(circle,#ffdf9545,transparent 68%);opacity:0;transition:opacity .45s}
+.cult-stone.placed{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(var(--stone-rot));filter:drop-shadow(0 0 5px #ffcf8599)}
+.cult-stone.placed:after{opacity:1}
+.cult-stage.charged .cult-stone.placed{filter:drop-shadow(0 0 6px #ffda93b0)}
+.cult-orb{position:absolute;left:50%;top:54%;z-index:2;width:18%;aspect-ratio:1;border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(.35);background:radial-gradient(circle at 35% 31%,#fffae7,#fff2ba 23%,#ffc972 49%,#cf8640 69%,transparent 78%);box-shadow:0 0 30px 13px #ffa85276,0 0 85px 25px #dfa04d54;transition:opacity 1.1s,transform 1.6s}
+.cult-orb:before{content:"";position:absolute;inset:-56%;border-radius:50%;background:repeating-conic-gradient(#ffd78832 0deg 6deg,transparent 11deg 45deg);filter:blur(7px);animation:orbit-rotate 40s linear infinite}
+.cult-stage.charged .cult-orb{opacity:1;transform:translate(-50%,-50%) scale(.95)}
+.cult-stage.awakened .cult-orb{opacity:1;transform:translate(-50%,-50%) scale(1.25);box-shadow:0 0 32px 15px #ffc76ba5,0 0 110px 55px #fbc15c95}
+.cult-aura{position:absolute;left:50%;top:54%;width:73%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:repeating-conic-gradient(#fbc77825 0 6deg,transparent 8deg 45deg);filter:blur(12px);opacity:0;transition:opacity 1.1s}
+.cult-stage.awakened .cult-aura{opacity:.92}
+.cult-figure{position:absolute;z-index:6;left:11%;top:82%;width:6.5%;height:17%;border:0;background:transparent;padding:0;cursor:pointer;transform:translate(-50%,-70%);transition:left .25s cubic-bezier(.2,.75,.2,1),top .25s cubic-bezier(.2,.75,.2,1),opacity .5s;filter:drop-shadow(0 4px 3px #080609a3);animation:cult-idle 3.1s ease-in-out infinite alternate}
+.cult-figure svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 4px #f0b87144)}
+.cult-figure .hood{fill:#18151b;stroke:#8b7260;stroke-width:1.5}.cult-figure .cloak{fill:#1d1920;stroke:#937a65;stroke-width:1.6}.cult-figure .cloak-mark{fill:none;stroke:#bb9769;stroke-width:1.5;opacity:.85}.cult-figure .hand-stone{fill:#c3a17a;filter:drop-shadow(0 0 5px #ffd59b)}
+.cult-figure.moving{animation:cult-step .14s ease-in-out infinite alternate}
+.cult-figure.placing svg{animation:cult-bow .25s ease-in-out 2 alternate;transform-origin:50% 77%}
+.cult-figure.bowing svg{animation:cult-deep-bow 1.15s ease-in-out both;transform-origin:50% 85%}
+.cult-figure.materialize{animation:cult-materialize .85s ease-out both}
+.cult-figure:focus-visible{outline:2px solid #f9d093;outline-offset:4px;border-radius:15px}
+.cult-spark{position:absolute;z-index:4;width:6%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.2);border:1px solid #ffe4aebb;border-radius:50%;pointer-events:none;animation:cult-spark-burst .6s ease-out both}
+.cult-teleport{position:absolute;z-index:5;left:11%;top:70%;width:11%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff9d6cc,#ffda9680 35%,transparent 72%);filter:blur(3px);pointer-events:none;opacity:0}
+.cult-teleport.on{animation:cult-teleport-in .95s ease-out both}
+.cult-flash{position:absolute;inset:0;z-index:8;pointer-events:none;background:radial-gradient(ellipse at 50% 54%,#fffef5f5,#ffe6a4bb 42%,transparent 78%);opacity:0}
+.cult-flash.play{animation:cult-flash-play 2.1s ease-out both}
+.cult-note{display:flex;align-items:center;justify-content:space-between;gap:12px;font:12px/1.5 Arial,sans-serif;color:#e1c69d;margin:10px 2px 16px}
+.cult-count{color:#f6d399;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cult-dialogue{min-height:94px;text-align:center;display:grid;place-items:center;padding:7px 8px}
+.cult-dialogue [hidden]{display:none!important}
+.cult-dialogue h4{font:italic normal clamp(20px,4vw,31px)/1.3 Georgia,serif;color:#ffe7bd;margin:6px auto 13px}
+.cult-dialogue p{font-size:14px;line-height:1.7;margin:5px auto 16px;color:#e8d7c0}
+.cult-action{border:1px solid #c89f70;background:linear-gradient(125deg,#755343,#544048);border-radius:100px;min-height:45px;padding:11px 24px;color:#ffe1ba;font:12px/1.4 Arial,sans-serif;cursor:pointer;box-shadow:0 9px 30px #0004}
+.cult-action:hover{box-shadow:0 0 25px #edb27452,0 9px 30px #0004}
+.cult-action:disabled{opacity:.65;cursor:wait}
+.cult-content p.cult-footnote{font-size:12px;color:#a9a7af;text-align:center;margin:14px auto 0}
+.universe.sun-blessed .node.cult .planet{filter:brightness(1.42);box-shadow:0 0 20px 8px #e9ae6f9c,0 0 55px 19px #ffc57770,inset -12px -10px 20px #9a554077}
+.universe.sun-blessed .node.center .planet{box-shadow:inset -12px -9px 18px #a95c4266,0 0 52px 17px #f9d7a8ee,0 0 115px 55px #e9a967ad,0 0 190px 69px #de965156}
+.map-acolyte{position:absolute;z-index:3;left:29%;top:63%;width:24px;height:42px;opacity:0;transform:translate(-50%,-70%) scale(.8);pointer-events:none;transition:left 2.2s ease,top 2.2s ease,opacity .7s,transform .7s;filter:drop-shadow(0 2px 5px #000a)}
+.map-acolyte.visible{opacity:.88;transform:translate(-50%,-70%) scale(1)}
+.map-acolyte svg{width:100%;height:100%;animation:cult-idle 3.5s ease-in-out infinite alternate}
+@keyframes cult-idle{from{transform:translate(-50%,-70%) rotate(-1.8deg)}to{transform:translate(-50%,-72%) rotate(2deg)}}
+@keyframes cult-step{from{transform:translate(-50%,-70%) rotate(-5deg)}to{transform:translate(-50%,-70%) rotate(5deg)}}
+@keyframes cult-bow{to{transform:rotate(22deg) translateY(2px)}}
+@keyframes cult-deep-bow{40%,82%{transform:rotate(42deg) translateY(7px) scaleY(.85)}100%{transform:rotate(30deg) translateY(4px)}}
+@keyframes cult-materialize{from{opacity:0;filter:brightness(5) blur(8px)}65%{opacity:1;filter:brightness(2)}to{opacity:1;filter:brightness(1)}}
+@keyframes cult-teleport-in{0%{opacity:0;transform:scale(.2)}36%{opacity:1;transform:scale(1.9)}100%{opacity:0;transform:scale(2.8)}}
+@keyframes cult-spark-burst{25%{opacity:1}100%{transform:translate(-50%,-50%) scale(2.5);opacity:0}}
+@keyframes cult-flash-play{0%,100%{opacity:0}24%{opacity:1}68%{opacity:.1}}
+@keyframes orbit-rotate{to{transform:rotate(360deg)}}
+/* === The planet of tenderness + four orbiting satellites === */
+.care-world{--care-glow:.25;position:relative;height:clamp(310px,56vw,385px);overflow:hidden;isolation:isolate;border:1px solid #e6b9d03f;border-radius:21px;background:radial-gradient(ellipse at 50% 54%,#ab5e8450,transparent 48%),radial-gradient(ellipse at 20% 20%,#55345d65,transparent 52%),radial-gradient(ellipse at 85% 90%,#46416b55,transparent 55%),#080d20;margin:20px 0 14px;touch-action:manipulation}
+.care-world:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.7;background-image:radial-gradient(circle at 9% 13%,#f2cde4 1px,transparent 2px),radial-gradient(circle at 24% 68%,#fff1ce 1px,transparent 2px),radial-gradient(circle at 81% 18%,#dbe0ff 1px,transparent 2px),radial-gradient(circle at 72% 80%,#efd0e6 1px,transparent 2px),radial-gradient(circle at 47% 13%,#dae4ff 1px,transparent 2px)}
+.care-world:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;box-shadow:inset 0 0 50px 5px #030510;border-radius:inherit}
+.care-orbit-track{position:absolute;left:50%;top:50%;width:min(76%,355px);height:69%;border:1px solid #c7a4c93f;border-radius:50%;transform:translate(-50%,-50%) rotate(-16deg);pointer-events:none;box-shadow:0 0 22px #a8678840}
+.care-orbit-track.b{width:min(64%,295px);height:84%;transform:translate(-50%,-50%) rotate(30deg);border-color:#edc6b336}
+.care-glow{position:absolute;left:50%;top:50%;width:220px;height:220px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#ffc7cc48,transparent 68%);filter:blur(25px);opacity:calc(.3 + var(--care-glow));pointer-events:none;transition:opacity 1s}
+.care-planet{position:absolute;z-index:2;left:50%;top:50%;width:clamp(116px,35%,165px);aspect-ratio:1;transform:translate(-50%,-50%);padding:0;border:1px solid #e8b9c767;border-radius:50%;background:radial-gradient(circle at 30% 25%,#ffe0de 0%,#d59caf 18%,#a26583 43%,#6e3d6b 75%,#382748 100%);box-shadow:inset -20px -14px 33px #160d31d0,inset 5px 5px 12px #fff6e12b,0 0 35px 12px #c2779e69;cursor:pointer;transition:box-shadow 1.1s,filter 1s}
+.care-planet::after{content:"";position:absolute;inset:-17%;border:2px solid #ffd2dd24;border-radius:50%;box-shadow:0 0 26px #e9a4c51a;transition:box-shadow 1s,border-color 1s}
+.care-planet:active{filter:brightness(1.2)}
+.care-world.bloomed .care-planet{box-shadow:inset -18px -12px 33px #25143cb0,0 0 37px 14px #ffb4d5bd,0 0 85px 36px #fa9fa969}
+.care-world.bloomed .care-planet:after{border-color:#ffe6cb9e;box-shadow:0 0 36px #ffc8df85,0 0 74px 12px #ffb5ca3d}
+.care-world.bloomed .care-orbit-track{border-color:#ffd5d69a;box-shadow:0 0 22px #eb90c554}
+.care-planet .planet-sig{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#ffe5e6dd;font-size:24px;text-shadow:0 0 18px #fff0e0}
+.care-satellite{position:absolute;z-index:4;left:50%;top:50%;min-width:76px;min-height:65px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:0;padding:4px 5px;background:transparent;color:#ffdeed;cursor:pointer;will-change:left,top;transform:translate(-50%,-50%);touch-action:manipulation}
+.care-satellite .moon{width:29px;height:29px;border-radius:50%;background:radial-gradient(circle at 29% 27%,#fff0e5,#d6a7c6 28%,#88608a 65%,#372846 100%);box-shadow:0 0 16px 5px #e5a3be6b,inset -6px -5px 9px #110f25a8;transition:transform .25s,box-shadow .5s}
+.care-satellite:nth-of-type(even) .moon{background:radial-gradient(circle at 29% 27%,#fff3e6,#e1b9a4 29%,#9a6f83 67%,#4d334c 100%)}
+.care-satellite span:last-child{color:#e9c7dc;font:11px/1.2 Arial,sans-serif;letter-spacing:.04em;text-shadow:0 1px 8px #000,0 0 14px #000}
+.care-satellite:hover .moon,.care-satellite:focus-visible .moon{transform:scale(1.18);box-shadow:0 0 18px 8px #ffbfdc9d}
+.care-satellite.seen .moon{box-shadow:0 0 16px 6px #ffc6d5b9,0 0 35px 9px #c28cc088}
+.care-satellite.seen span:last-child{color:#fff0da}
+.care-satellite .sat-check{position:absolute;right:10px;top:0;color:#ffe8c5;font:13px Arial,sans-serif;opacity:0;transition:opacity .3s}
+.care-satellite.seen .sat-check{opacity:1}
+.care-wave{position:absolute;left:50%;top:50%;z-index:3;width:40px;aspect-ratio:1;border-radius:50%;border:2px solid #ffd6eaba;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.4)}
+.care-wave.ripple{animation:care-ripple 1.1s ease-out}
+.care-revelation{min-height:130px;border:1px solid #d9a9c04a;background:linear-gradient(145deg,#ad74951a,#9280b017);border-radius:15px;padding:19px 23px;display:grid;align-content:center;gap:8px}
+.care-revelation strong{color:#ffe5df;font:italic normal 23px Georgia,serif}
+.care-revelation p{margin:0;font-size:15px;line-height:1.75}
+.care-meter{font:11px Arial,sans-serif;letter-spacing:.12em;color:#ddb5c8;text-align:center;margin:7px auto 12px}
+.care-gift{margin:12px auto 4px;padding:12px 22px;border:1px solid #ffdbbe8a;border-radius:100px;background:#a7779650;color:#fff0df;cursor:pointer;display:none}
+.care-gift.visible{display:block;animation:fade-in 1s both}
+@keyframes care-ripple{10%{opacity:.85}100%{opacity:0;transform:translate(-50%,-50%) scale(5.4)}}
+@media(max-width:520px){.cult-stage-frame{padding:4px}.cult-figure{width:8%;height:20%}.cult-stone{width:5%;height:6%}.cult-note{font-size:10px}.care-world{height:340px;margin-left:-8px;margin-right:-8px}.care-satellite{min-width:70px}.care-satellite .moon{width:26px;height:26px}}
+@media(prefers-reduced-motion:reduce){.cult-figure,.cult-orb:before,.map-acolyte svg{animation:none!important}.cult-figure,.cult-stone{transition-duration:.01ms!important}.care-wave.ripple{animation:none}.cult-flash.play{animation:none}}
 
-
-.memories .memory-invite-next {margin:6px auto 10px;padding:13px 25px;min-height:46px;border-radius:100px;border:1px solid #d8aa75;color:#ffedcf;background:linear-gradient(135deg,#8d5d52,#69434e);font:500 13px Arial,sans-serif;cursor:pointer;}
-.memories .memory-invite-next:hover {filter:brightness(1.12);}
-
-/* БЛОК №5. Персональное приглашение, календарь и письмо-пожелание. */
-.invitation { display:none; position:relative; isolation:isolate; opacity:0; transform:translateY(16px); transition:opacity .9s ease,transform .9s var(--ease); min-height:100dvh; padding:clamp(50px,7vh,85px) 17px 75px; text-align:center; color:#f6e6ce; background:radial-gradient(ellipse 73% 46% at 50% 8%,rgba(202,141,75,.28),transparent 88%),radial-gradient(ellipse 60% 40% at 88% 86%,rgba(110,61,66,.25),transparent 100%),linear-gradient(150deg,#382630,#53313b 55%,#281c26); }
-.invitation.visible {opacity:1;transform:translateY(0);}
-.invitation::before {content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(255,231,179,.085),transparent 70%);z-index:-1;}
-.invitation .invite-eyebrow {font:600 10px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.28em;color:#e3c18c;text-transform:uppercase;}
-.invitation .invite-heading {font:italic 400 clamp(36px,6.6vw,59px)/1.14 Georgia,'Times New Roman',serif;margin:14px auto 21px;color:#ffebc9;}
-.invitation .invite-card {width:min(100%,650px);margin:0 auto;padding:clamp(27px,6vw,54px) clamp(22px,6vw,58px);border:1px solid rgba(240,203,143,.55);outline:1px solid rgba(240,203,143,.18);outline-offset:6px;background:linear-gradient(143deg,rgba(37,23,30,.66),rgba(65,38,41,.74));box-shadow:0 26px 75px rgba(0,0,0,.22),inset 0 0 80px rgba(255,204,142,.045);position:relative;border-radius:5px;}
-.invitation .invite-card::before,.invitation .invite-card::after {content:'❦';color:#dbb783;position:absolute;font-size:23px;opacity:.8;}
-.invitation .invite-card::before {top:12px;left:17px;}.invitation .invite-card::after{bottom:12px;right:17px;transform:rotate(180deg);}
-.invitation .invite-emblem {font-size:35px;line-height:1;color:#e9c78e;text-shadow:0 0 18px rgba(255,210,120,.35);margin-bottom:15px;}
-.invitation .invite-card h3 {font:italic 400 clamp(27px,5vw,39px)/1.22 Georgia,serif;color:#f9e5c8;margin:0 auto 18px;}
-.invitation .invite-card p {font:16px/1.76 Georgia,'Times New Roman',serif;color:#e9d4c2;margin:0 auto 15px;max-width:500px;}
-.invitation .invite-rule {height:1px;width:130px;margin:23px auto;background:linear-gradient(90deg,transparent,#cb9f69,transparent);}
-.invitation .invite-actions {margin:22px auto 0;display:flex;flex-direction:column;align-items:center;gap:12px;}
-.invitation .invite-btn {font:500 13px/1.35 Arial,Helvetica,sans-serif;letter-spacing:.04em;min-height:46px;padding:13px 24px;border-radius:100px;border:1px solid rgba(231,191,125,.73);background:linear-gradient(135deg,#a47751,#735145);color:#fff0d7;cursor:pointer;transition:filter .2s ease,box-shadow .2s ease,transform .2s ease;}
-.invitation .invite-btn:hover {filter:brightness(1.12);box-shadow:0 5px 23px rgba(236,174,95,.15);}
-.invitation .invite-btn:focus-visible,.invitation .calendar-day:focus-visible {outline:2px solid #ffdf9f;outline-offset:3px;}
-.invitation .invite-btn:disabled {opacity:.45;cursor:default;}
-.invitation .invite-btn.secondary {background:transparent;border-color:rgba(220,179,129,.53);color:#ecd1b2;}
-.invitation .invite-btn.minor {background:transparent;border:0;color:#c8ad9c;font-size:12px;text-decoration:underline;text-decoration-color:rgba(200,173,156,.45);padding:5px 10px;min-height:32px;}
-.invitation .invite-choice-arena {position:relative;width:min(100%,360px);height:125px;margin:12px auto 3px;border:1px dashed rgba(231,191,125,.15);border-radius:18px;background:rgba(0,0,0,.045);}
-.invitation #declineButton {position:absolute;left:50%;top:28px;transform:translateX(-50%);white-space:nowrap;transition:left .33s cubic-bezier(.3,.73,.24,1),top .33s cubic-bezier(.3,.73,.24,1),background .3s,border .3s;}
-.invitation #declineButton.convinced {background:linear-gradient(135deg,#a47751,#735145);border-color:#f4d6a1;color:#fff6e6;}
-.invitation .invite-footnote {font:italic 12px/1.6 Georgia,serif;color:#c4a995;margin:8px auto;max-width:350px;}
-.invitation .invite-panel[hidden] {display:none!important;}
-.invitation .invite-panel {animation:invite-in .75s var(--ease) both;}
-@keyframes invite-in {from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.invitation .calendar {width:min(100%,410px);margin:25px auto 12px;text-align:left;}
-.invitation .calendar-top {display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;}
-.invitation .calendar-month {font:italic 21px/1.3 Georgia,serif;color:#fce5c0;text-transform:capitalize;}
-.invitation .calendar-nav {display:flex;gap:8px;}
-.invitation .cal-arrow {width:38px;height:38px;border:1px solid rgba(232,192,132,.42);border-radius:50%;color:#f1d4ad;background:rgba(255,255,255,.035);font:20px/1 Georgia,serif;cursor:pointer;}
-.invitation .cal-arrow:disabled {opacity:.3;cursor:default;}
-.invitation .calendar-grid {display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center;}
-.invitation .weekday {font:600 11px/34px Arial,Helvetica,sans-serif;color:#c9ae91;}
-.invitation .calendar-day {min-width:0;aspect-ratio:1;border-radius:10px;background:rgba(247,219,174,.055);border:1px solid transparent;color:#f7e5ca;font:500 14px/1 Arial,Helvetica,sans-serif;cursor:pointer;}
-.invitation .calendar-day:disabled {background:transparent;color:#816b69;cursor:default;}
-.invitation .calendar-day:not(:disabled):hover {background:rgba(248,209,153,.16);}
-.invitation .calendar-day[aria-pressed="true"] {background:#e3b980;color:#39232c;border-color:#f4d8ae;font-weight:700;box-shadow:0 0 15px rgba(247,191,107,.2);}
-.invitation .chosen-dates {font:12px/1.7 Arial,Helvetica,sans-serif;color:#ebcda8;min-height:34px;margin:12px auto 8px;text-align:center;}
-.invitation .unknown-date {display:flex;align-items:center;justify-content:center;gap:9px;font:13px/1.5 Arial,Helvetica,sans-serif;color:#e2cdb6;margin:18px 0 8px;cursor:pointer;}
-.invitation input[type=checkbox] {accent-color:#d7ae73;width:17px;height:17px;}
-.invitation .wish-label {display:block;text-align:left;font:italic 15px/1.5 Georgia,serif;color:#e7cdae;margin:18px 0 9px;}
-.invitation #wishes {width:100%;min-height:165px;resize:vertical;border:1px solid rgba(218,180,136,.5);border-radius:10px;background:rgba(22,13,19,.37);color:#fff0da;padding:17px 17px;font:16px/1.6 Georgia,serif;outline:none;}
-.invitation #wishes::placeholder{color:#ac978f;opacity:1;}
-.invitation #wishes:focus {border-color:#edc991;box-shadow:0 0 0 2px rgba(233,193,132,.12);}
-.invitation .trust-option {display:flex;justify-content:flex-start;align-items:center;gap:10px;margin:15px 0 22px;text-align:left;color:#e3d0bb;font:13px/1.45 Arial,Helvetica,sans-serif;cursor:pointer;}
-.invitation .form-status {min-height:20px;max-width:450px;margin:13px auto 0;color:#f6c39e;font:13px/1.55 Arial,Helvetica,sans-serif;}
-.invitation .form-status.success {color:#f2d4a5;}
-.invitation .final-heart {font-size:34px;color:#f5d3a1;margin-bottom:15px;}
-.invitation .invite-bottom {margin:28px auto 0;font:italic 14px/1.55 Georgia,serif;color:#d7b692;}
-@media (max-width:520px){.invitation{padding:55px 15px 65px}.invitation .invite-card{padding:37px 20px}.invitation .invite-card p{font-size:15px}.invitation .calendar-grid{gap:3px}.invitation .calendar-day{border-radius:8px}.invitation .invite-choice-arena{height:115px}.invitation .invite-heading{font-size:37px}}
-@media (prefers-reduced-motion:reduce){.invitation,.invitation .invite-panel,.invitation #declineButton{animation:none!important;transition:none!important;}}
-
-
-/* Эпилог Четырёх печатей Рассвета: сдержанный оккультный романтизм. */
-.intro {
-  isolation:isolate;
-  background:radial-gradient(ellipse 68% 46% at 50% 51%, rgba(153,106,64,.10), transparent 78%);
-}
-.intro::before,.intro::after {
-  position:absolute; z-index:-1; pointer-events:none; color:rgba(207,160,101,.14);
-  text-shadow:0 0 33px rgba(222,170,101,.17); font:400 clamp(64px,13vw,136px)/1 Georgia,serif;
-}
-.intro::before {content:'✶';top:7%;left:5%;transform:rotate(-17deg)}
-.intro::after {content:'☼';bottom:5%;right:7%;transform:rotate(14deg)}
-.intro-restored {font:500 10px/1.65 Arial,Helvetica,sans-serif;color:#e0bf90;letter-spacing:.16em;text-transform:uppercase;margin:0 auto 13px;max-width:500px;}
-.intro h1 {max-width:680px;margin-bottom:15px;font-size:clamp(33px,6.3vw,62px);}
-.intro .subtitle {max-width:505px;}
-.four-seals {display:flex;justify-content:center;align-items:center;gap:16px;margin:25px auto -2px;}
-.seal-mark {width:33px;height:33px;border-radius:50%;display:grid;place-items:center;color:#f0d5a4;border:1px solid rgba(219,173,109,.58);background:radial-gradient(circle at 35% 27%,#79503c,#493139 75%);box-shadow:0 0 15px rgba(213,161,87,.13),inset 0 0 0 3px rgba(32,19,23,.3);font:15px/1 Georgia,serif;transform:rotate(-9deg)}
-.seal-mark:nth-child(2){transform:rotate(8deg)}
-.seal-mark:nth-child(3){transform:rotate(-5deg)}
-.seal-mark:nth-child(4){transform:rotate(9deg)}
-.envelope-trigger {position:relative;}
-.envelope-trigger::before,.envelope-trigger::after {content:'✦';pointer-events:none;position:absolute;top:48%;font-size:21px;color:#d8ac71;opacity:.5;filter:drop-shadow(0 0 8px rgba(239,188,118,.3));}
-.envelope-trigger::before{left:-4%}.envelope-trigger::after{right:-4%}
-.letter-decrypted {max-width:600px;margin-left:auto;margin-right:auto;line-height:1.9;letter-spacing:.13em;}
-.letter-card {background:radial-gradient(circle at 85% 10%,rgba(184,142,92,.12),transparent 45%),linear-gradient(143deg,rgba(255,250,240,.97),rgba(236,218,193,.97));box-shadow:0 24px 65px rgba(0,0,0,.3),0 0 70px rgba(192,137,85,.10),inset 0 0 0 7px rgba(177,130,81,.035);}
-.vision-intro {max-width:650px;margin:0 auto 20px;color:#f2d6aa;font:italic clamp(17px,2.7vw,21px)/1.65 Georgia,serif;text-shadow:0 0 17px rgba(232,174,91,.14);}
-.invite-bridge {max-width:650px;margin:0 auto 29px;color:#f3d8b3;font:italic clamp(16px,2.8vw,19px)/1.6 Georgia,serif;}
-@media (max-width:480px) {
-  .intro-restored {font-size:9px;line-height:1.6;letter-spacing:.10em;}
-  .intro h1{font-size:clamp(32px,8.3vw,42px)}
-  .four-seals{gap:11px;margin-top:20px}
-  .seal-mark{width:28px;height:28px;font-size:13px}
-  .envelope-trigger::before{left:-2%}.envelope-trigger::after{right:-2%}
-  .letter-decrypted{letter-spacing:.08em;font-size:9px}
-  .vision-intro{padding:0 8px}
-}
-
-  </style>
+</style>
 </head>
 <body>
-  <div class="site-glow" aria-hidden="true"></div>
-  <div class="global-sun" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8.5" stroke="currentColor" stroke-width="2"/><path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.65 5.65M32.49 32.49l5.65 5.65M38.14 9.86l-5.65 5.65M15.51 32.49l-5.65 5.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-  <div class="dust" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-  <main>
-    <!-- БЛОК №1. Конверт и открытие письма -->
-    <section class="screen intro" id="intro">
-      <div class="eyebrow">14 октября 2026 · последнее послание</div>
-      <div class="rule" aria-hidden="true"><span>✦</span></div>
-      <div class="intro-restored">Четыре печати сняты · Послание восстановлено</div>
-      <h1>Алисе, избранной светом</h1>
-      <p class="subtitle">То, что веками хранилось во мраке, наконец нашло свою адресатку.</p>
-      <div class="four-seals" aria-label="Четыре восстановленные солнечные печати">
-        <span class="seal-mark" title="Первая печать">Ⅰ</span>
-        <span class="seal-mark" title="Вторая печать">Ⅱ</span>
-        <span class="seal-mark" title="Третья печать">Ⅲ</span>
-        <span class="seal-mark" title="Четвёртая печать">Ⅳ</span>
-      </div>
-      <button class="envelope-trigger" id="envelopeTrigger" type="button" aria-label="Открыть письмо">
-        <div class="envelope" aria-hidden="true">
-          <div class="envelope-back"></div>
-          <div class="letter-preview">
-            <span class="preview-sun">☼</span>
-            <i class="preview-line"></i><i class="preview-line short"></i>
-          </div>
-          <div class="envelope-front"></div>
-          <div class="envelope-flap"></div>
-          <div class="seal">
-            <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <circle cx="24" cy="24" r="8.5" stroke="currentColor" stroke-width="2"/>
-              <path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.65 5.65M32.49 32.49l5.65 5.65M38.14 9.86l-5.65 5.65M15.51 32.49l-5.65 5.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-        </div>
-      </button>
-      <button class="open-label" id="openButton" type="button">Открыть письмо ♡</button>
-      <p class="hint">Жмякай на конверт, он только для тебя.</p>
-    </section>
-
-    <!-- БЛОК №2. Поздравление с правками автора. -->
-    <section class="screen letter" id="letter" aria-label="Поздравление" aria-hidden="true">
-      <div class="letter-kicker letter-decrypted">Последняя тайна раскрыта. Это послание всегда предназначалось тебе.</div>
-      <article class="letter-card">
-        <div class="letter-sun" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="8.5" stroke="currentColor" stroke-width="1.8"/>
-            <path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.65 5.65M32.49 32.49l5.65 5.65M38.14 9.86l-5.65 5.65M15.51 32.49l-5.65 5.65" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h2>С днём рождения, моя родная! ❤️</h2>
-        <p>Знаешь, есть одна вещь, за которую я особенно тебя ценю. С тобой удивительно спокойно. Не приходится о чём-то переживать, подбирать слова или пытаться быть кем-то другим. Рядом с тобой всё настолько легко и естественно, что иногда даже не верится, насколько мне повезло среди всех отыскать именно тебя.</p>
-        <p>Я искренне восхищаюсь тобой. Тем, какая ты трудолюбивая, ответственная, сколько всего ты для всех делаешь и при этом остаёшься такой невероятно милой. Иногда (часто) мне хочется просто обнять тебя, спрятать от всех забот и сделать так, чтобы тебе хотя бы ненадолго не приходилось ни о чём беспокоиться.</p>
-        <p>В твой День рождения я хочу пожелать тебе как можно больше счастливых моментов, исполнения твоих желаний и сил на всё, к чему ты стремишься. Но ещё больше я хочу, чтобы у тебя всегда находилось время просто отдыхать, улыбаться и чувствовать себя любимой.</p>
-        <p>Я безумно рад и благодарен, что ты есть в моей жизни. И очень хочу, чтобы этот день стал для тебя по-настоящему особенным.</p>
-      </article>
-      <div class="letter-next">
-        <p>P.S. Хотя... кажется, у Ордена осталась ещё одна обязательная формальность.</p>
-        <button class="open-label" id="ceremonyNext" type="button">Узнать какая ✦</button>
-      </div>
-    </section>
-
-    <!-- БЛОК №3. Одобренная церемония, со всеми анимациями. -->
-    <section class="ritual" id="ceremony" aria-label="Обряд признания" aria-hidden="true">
-  <div class="backdrop" aria-hidden="true"></div><div class="daylight" aria-hidden="true"></div><div class="vignette" aria-hidden="true"></div>
-  <div class="specks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-  <div class="light-flash" id="lightFlash" aria-hidden="true"></div>
-  <div class="ritual-main">
-    <div class="eyebrow">14 октября · особая церемония</div>
-    <div class="rule" aria-hidden="true"><span>✦</span></div>
-    <h1>Обряд признания</h1>
-    <p class="subtitle" id="subtitle">Четыре печати сняты. Последнее пророчество должно исполниться.</p>
-    <div class="stage-frame">
-      <div class="stage" id="stage" role="img" aria-label="Тёмный алтарь; силуэт служителя готовится выложить солнечный знак из двенадцати камней">
-        <div class="floor-etch" aria-hidden="true"></div>
-        <svg class="floor-lines" viewBox="0 0 660 472" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="330" y1="24" x2="330" y2="450"/><line x1="60" y1="254" x2="600" y2="254"/><line x1="151" y1="81" x2="510" y2="426"/><line x1="509" y1="80" x2="150" y2="424"/>
-        </svg>
-        <div class="stage-rays" aria-hidden="true"></div><div class="altar" aria-hidden="true"></div>
-        <div id="stones" aria-hidden="true"></div><div class="orb" aria-hidden="true"></div>
-        <div class="figure" id="figure" aria-hidden="true"><svg viewBox="0 0 40 76"><ellipse cx="20" cy="73" rx="19" ry="3" fill="#0a090c" opacity=".48"/><path class="cloak" d="M13 20 Q6 29 4 65 Q20 75 36 65 Q34 30 27 20 Z"/><path class="cloak-mark" d="M19.5 29 L19.5 60"/><path class="hood" d="M9 17 Q9 3 20 3 Q31 3 31 17 L28 27 Q20 30 12 25 Z"/><path d="M14 17 Q20 14 26 17 L24 23 Q20 24 16 23Z" fill="#08090d"/><path class="hand-stone" d="M26 38 l6 -4 l5 6 l-6 5 Z"/></svg></div>
-      </div>
-    </div>
-    <div class="stage-note"><span id="ritualStatus" aria-live="polite">Алтарь готов. Служитель немного волнуется.</span><span class="counter" id="count">0 / 12</span></div>
-    <div class="story">
-      <div id="introPanel" class="response"><p>В честь дня рождения Алисы, самой прекрасной девушки на Земле, объявляется небольшая, совершенно обязательная церемония.</p><button class="btn" id="startButton">Начать церемонию ✦</button></div>
-      <div id="progressPanel" class="response" hidden><p>Пожалуйста, сохраняйте торжественное выражение лица. Ваш поклонник проводит ритуал.</p></div>
-      <div id="questionPanel" class="response" hidden><h2>Готовы ли Вы принять<br>свой статус божества?</h2><p>Камни на месте. Вселенная ждёт Вашего решения.</p><button class="btn" id="acceptButton">Принимаю своё предназначение ♡</button></div>
-      <div id="finalPanel" class="response" hidden><div class="final-ornament">☼</div><h2>И да воссияет солнце!</h2><p>Свет признал свою госпожу. Божественный статус Алисы подтверждён. Ежевечернее поклонение Вашим фотографиям продолжается в штатном режиме.</p><div class="after-ritual-actions"><button class="btn" id="memoriesNext" type="button">Заглянуть в наше будущее ♡</button><button class="btn secondary-btn" id="replayButton" type="button">Посмотреть церемонию ещё раз</button></div></div>
-    </div>
-    <p class="hint">С любовью, от Вашего самого преданного поклонника ♡</p>
+<canvas id="sky" aria-hidden="true"></canvas><div class="space-tint"></div><div class="edge"></div>
+<header class="topbar"><div class="brand">ONLY FOR <em>ALISA</em> ♡</div><div class="top-right">14 OCTOBER · 2026</div></header>
+<main>
+<section class="intro" id="intro" aria-label="Добро пожаловать">
+  <div class="intro-inner"><div class="intro-sun"><span class="sun-core"></span></div>
+    <div class="kicker">Вселенная, созданная для одной</div>
+    <h1>Маленькая<br>вселенная Алисы</h1>
+    <p class="lead">В мире миллиарды страниц.<br>Но эту я создал <span>только для тебя.</span></p>
+    <p class="sublead">Я не умею дарить настоящие звёзды, поэтому решил собрать тебе свои. Каждая из них хранит что-то, что я хотел тебе сказать.</p>
+    <button id="enter" class="gold-btn" type="button">Исследовать свою вселенную ✧</button>
+    <p class="small">Здесь можно никуда не торопиться.</p>
   </div>
 </section>
+<section class="universe" id="universe" aria-label="Карта вселенной Алисы">
+  <div class="map-top"><div class="kicker">Она существует только ради тебя</div><h2>Всё это — твоё</h2><p>Выбирай любую звезду. Каждая хранит для тебя что-то своё.</p></div>
+  <div class="sky-map" id="skyMap">
+ <div class="map-camera" id="mapCamera">
+  <div class="glow-cloud"></div>
+  <svg class="orbital" viewBox="0 0 900 520" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="450" cy="260" rx="400" ry="220" transform="rotate(-19 450 260)"/><ellipse cx="450" cy="260" rx="360" ry="135" transform="rotate(20 450 260)"/><ellipse cx="450" cy="260" rx="170" ry="245" transform="rotate(35 450 260)"/></svg>
+  <button class="node center" data-scene="letter" type="button" aria-label="Открыть сердце вселенной"><span class="planet"></span><strong>Алиса</strong><small>Сердце вселенной ♡</small></button>
+  <button class="node love" data-scene="love" type="button" aria-label="Открыть созвездие любви">
+   <span class="constellation-art" aria-hidden="true">
+    <svg viewBox="0 0 142 105"><defs><filter id="constGlow"><feGaussianBlur stdDeviation="2"/></filter></defs>
+     <path class="con-lines" d="M17 77 L35 28 L62 59 L75 18 L103 55 L121 30 L126 85 L103 55"/>
+     <g class="con-points"><circle cx="17" cy="77" r="3.4"/><circle cx="35" cy="28" r="3.4"/><circle cx="62" cy="59" r="3.5"/><circle cx="75" cy="18" r="4"/><circle cx="103" cy="55" r="3.3"/><circle cx="121" cy="30" r="3.6"/><circle cx="126" cy="85" r="3.5"/></g>
+     <g class="con-glow" filter="url(#constGlow)"><circle cx="17" cy="77" r="7"/><circle cx="35" cy="28" r="6"/><circle cx="62" cy="59" r="7"/><circle cx="75" cy="18" r="8"/><circle cx="103" cy="55" r="7"/><circle cx="121" cy="30" r="7"/><circle cx="126" cy="85" r="6"/></g>
+    </svg>
+   </span><strong>Созвездие любви</strong><small>Семь маленьких звёзд</small></button>
+  <button class="node future" data-scene="future" type="button" aria-label="Открыть галактику будущего">
+   <span class="microgalaxy" aria-hidden="true">
+    <svg viewBox="0 0 160 118"><defs><radialGradient id="futureHaze"><stop stop-color="#ffe8dd" stop-opacity=".7"/><stop offset=".24" stop-color="#aa83cc" stop-opacity=".33"/><stop offset="1" stop-color="#6655b3" stop-opacity="0"/></radialGradient><linearGradient id="futureArm" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ab98de" stop-opacity=".08"/><stop offset=".5" stop-color="#e4b8ec" stop-opacity=".78"/><stop offset="1" stop-color="#9dc1ff" stop-opacity=".08"/></linearGradient><filter id="futureBlur"><feGaussianBlur stdDeviation="4"/></filter></defs>
+     <ellipse cx="80" cy="59" rx="66" ry="32" fill="url(#futureHaze)" transform="rotate(-23 80 59)"/>
+     <g transform="rotate(-23 80 59)" fill="none" stroke="url(#futureArm)" stroke-width="7" stroke-linecap="round" filter="url(#futureBlur)"><path d="M17 60 C38 16 112 17 132 55 C144 94 91 98 74 70 C62 49 88 42 94 54"/><path d="M142 58 C121 100 43 105 28 69 C17 31 69 22 86 49 C98 69 74 78 66 65"/></g>
+     <g transform="rotate(-23 80 59)" fill="none" stroke="#d8c7ff" stroke-width="1" stroke-linecap="round" opacity=".76"><path d="M17 60 C38 16 112 17 132 55 C144 94 91 98 74 70 C62 49 88 42 94 54"/><path d="M142 58 C121 100 43 105 28 69 C17 31 69 22 86 49 C98 69 74 78 66 65"/></g>
+     <g fill="#ffebda"><circle cx="80" cy="59" r="5"/><circle cx="33" cy="40" r="1.5"/><circle cx="118" cy="77" r="1.3"/><circle cx="134" cy="48" r="1.4"/><circle cx="49" cy="89" r="1.2"/><circle cx="105" cy="30" r="1.5"/><circle cx="70" cy="44" r="1.3"/><circle cx="93" cy="73" r="1.1"/><circle cx="29" cy="63" r="1"/><circle cx="123" cy="27" r="1"/><circle cx="62" cy="24" r="1.2"/></g>
+    </svg>
+   </span><strong>Наше будущее</strong><small>Маленькая галактика</small></button>
+  <button class="node cult" data-scene="cult" type="button"><span class="planet"></span><strong>Святилище Солнца</strong><small>Кое-кто Вас ожидает</small></button>
+  <button class="node care" data-scene="care" type="button"><span class="planet"></span><strong>Орбита нежности</strong><small>Для тебя и только для тебя</small></button>
+  <button class="node final locked" data-scene="final" type="button" disabled aria-label="От меня, пока закрыто: сначала посмотри остальные пять разделов"><span class="tiny-star" aria-hidden="true"></span><strong>От меня</strong><small>Откроется чуть позже</small></button>
+ <div class="map-acolyte" id="mapAcolyte" aria-hidden="true"><svg viewBox="0 0 40 76" aria-hidden="true"><ellipse cx="20" cy="73" rx="19" ry="3" fill="#0a090c" opacity=".48"/><path class="cloak" d="M13 20 Q6 29 4 65 Q20 75 36 65 Q34 30 27 20 Z"/><path class="cloak-mark" d="M19.5 29 L19.5 60"/><path class="hood" d="M9 17 Q9 3 20 3 Q31 3 31 17 L28 27 Q20 30 12 25 Z"/><path d="M14 17 Q20 14 26 17 L24 23 Q20 24 16 23Z" fill="#08090d"/><path class="hand-stone" d="M26 38 l6 -4 l5 6 l-6 5 Z"/></svg></div>
+ </div>
+</div>  <div class="return-note" id="returnNote">Эта вселенная принадлежит тебе. И всегда будет ждать твоего возвращения. ♡</div>
+  <p class="map-footer">Выбирай, куда отправиться · Маленькая звезда «От меня» подождёт до конца</p>
+</section>
+</main>
+<div class="view" id="view" role="dialog" aria-modal="true" aria-label="История звезды" aria-hidden="true"><button class="view-close" id="close" type="button">← К звёздам</button><article class="view-article" id="viewArticle" tabindex="-1"></article></div>
+<template id="tpl-letter"><div class="overline">Сердце вселенной · Главное письмо</div><h3>У каждой вселенной есть сердце.</h3><p class="poem">И в моей всегда была ты.</p><div class="letter-box"><h4>С днём рождения, моя родная! ❤️</h4><p>Знаешь, есть одна вещь, за которую я особенно тебя ценю. С тобой удивительно спокойно. Не приходится о чём-то переживать, подбирать слова или пытаться быть кем-то другим. Рядом с тобой всё настолько легко и естественно, что иногда даже не верится, насколько мне повезло среди всех отыскать именно тебя.</p><p>Я искренне восхищаюсь тобой. Тем, какая ты трудолюбивая, ответственная, сколько всего ты для всех делаешь и при этом остаёшься такой невероятно милой. Иногда (часто) мне хочется просто обнять тебя, спрятать от всех забот и сделать так, чтобы тебе хотя бы ненадолго не приходилось ни о чём беспокоиться.</p><p>В твой День рождения я хочу пожелать тебе как можно больше счастливых моментов, исполнения твоих желаний и сил на всё, к чему ты стремишься. Но ещё больше я хочу, чтобы у тебя всегда находилось время просто отдыхать, улыбаться и чувствовать себя любимой.</p><p>Я безумно рад и благодарен, что ты есть в моей жизни. И очень хочу, чтобы этот день стал для тебя по-настоящему особенным.</p></div></template>
+<template id="tpl-love"><div class="overline">Семь звёзд · Семь причин</div><h3>За что я люблю тебя</h3><p>Коснись звёзд. За каждой из них — кое-что, что мне особенно дорого в тебе.</p>
+ <div class="love-field" role="group" aria-label="Созвездие любви из семи звёзд">
+  <svg viewBox="0 0 600 320" preserveAspectRatio="none" aria-hidden="true"><path d="M72 229 L150 90 L232 174 L294 52 L384 160 L470 79 L530 230 L384 160" fill="none" stroke="#b1c9ff" stroke-opacity=".53" stroke-width="1.25" stroke-dasharray="3 5"/></svg>
+  <button class="love-point" data-love-star="0" style="--x:12%;--y:72%" type="button" aria-label="Первая звезда: Твоё упорство">✦</button>
+  <button class="love-point" data-love-star="1" style="--x:25%;--y:28%" type="button" aria-label="Вторая звезда: Твоё присутствие">✦</button>
+  <button class="love-point" data-love-star="2" style="--x:38.67%;--y:54%" type="button" aria-label="Третья звезда: Твоя улыбка">✦</button>
+  <button class="love-point" data-love-star="3" style="--x:49%;--y:16%" type="button" aria-label="Четвёртая звезда: Твоя искренность">✦</button>
+  <button class="love-point" data-love-star="4" style="--x:64%;--y:50%" type="button" aria-label="Пятая звезда: Твоя красота">✦</button>
+  <button class="love-point" data-love-star="5" style="--x:78.33%;--y:24.7%" type="button" aria-label="Шестая звезда: Твои особенности">✦</button>
+  <button class="love-point" data-love-star="6" style="--x:88.33%;--y:72%" type="button" aria-label="Седьмая звезда: Просто ты">✦</button>
+ </div><div class="love-message" id="loveMessage" aria-live="polite">Выбери звезду, чтобы узнать, что она хранит.</div>
+ </template>
+<template id="tpl-future"><div class="overline">Галактика будущих воспоминаний</div><h3>Однажды это будет нашей памятью</h3><div class="future-sky" aria-hidden="true"><span class="future-sky-core"></span><i class="future-orbit a"></i><i class="future-orbit b"></i><i class="future-orbit c"></i><span class="future-spark first"></span><span class="future-spark second"></span><span class="future-spark third"></span></div><p>Не все звёзды этой вселенной уже зажглись. Некоторые только ждут своего часа. И мне очень хочется, чтобы однажды мы смогли назвать их нашими воспоминаниями.</p><p>Я хотел добавить сюда наши фотографии. Но есть одна маленькая проблема... У нас их пока нет. Ахахах.</p><div class="memory-row"><div class="polaroid"><div class="photo-blank">✧</div><p>Наш ужин при свечах</p></div><div class="polaroid"><div class="photo-blank">✈</div><p>Первое путешествие</p></div><div class="polaroid"><div class="photo-blank">♡</div><p>Нам 67 и 69, а на экране «Беременна в 16»</p></div></div></template>
+<template id="tpl-cult"><div class="cult-content"><div class="overline">Локальная солнечная система · Особо почитаемая зона</div><h3>Святилище Солнца</h3><p>О, благословенная Алиса! Орден обнаружил, что Вам принадлежит не просто звезда, а целая вселенная.</p><p>К сожалению, бюджет Ордена позволяет содержать лишь одного служителя. Но уверяю Вас, он исключительно предан.</p>
+<div class="cult-stage-frame"><div class="cult-stage" id="cultStage" role="group" aria-label="Солнечный алтарь и маленький служитель, расставляющий камни"><div class="cult-etched"></div><div class="cult-aura"></div><div class="cult-orb"></div><div id="cultStones" aria-hidden="true"></div><div class="cult-teleport" id="cultTeleport"></div><button class="cult-figure materialize" id="cultFigure" type="button" aria-label="Позвать маленького служителя" title="Позвать служителя"><svg viewBox="0 0 40 76" aria-hidden="true"><ellipse cx="20" cy="73" rx="19" ry="3" fill="#0a090c" opacity=".48"/><path class="cloak" d="M13 20 Q6 29 4 65 Q20 75 36 65 Q34 30 27 20 Z"/><path class="cloak-mark" d="M19.5 29 L19.5 60"/><path class="hood" d="M9 17 Q9 3 20 3 Q31 3 31 17 L28 27 Q20 30 12 25 Z"/><path d="M14 17 Q20 14 26 17 L24 23 Q20 24 16 23Z" fill="#08090d"/><path class="hand-stone" d="M26 38 l6 -4 l5 6 l-6 5 Z"/></svg></button><div class="cult-flash" id="cultFlash"></div></div></div>
+<div class="cult-note"><span id="cultStatus" aria-live="polite">Служитель готовится к церемонии.</span><span class="cult-count" id="cultCount">0 / 28</span></div>
+<div class="cult-dialogue" id="cultDialogue" aria-live="polite"><div data-cult-panel="intro"><p>Наш единственный служитель приготовил в Вашу честь небольшой обряд.</p><button class="cult-action" id="cultStart" type="button">Начать церемонию ✦</button></div><div data-cult-panel="progress" hidden><p>Пожалуйста, сохраняйте торжественное выражение лица. Солнечный символ требует точности.</p></div><div data-cult-panel="question" hidden><h4>Готовы ли Вы принять свой статус божества?</h4><p>Солнце из камней собрано. Орден ожидает Вашего решения.</p><button class="cult-action" id="cultAccept" type="button">Разумеется, принимаю ♡</button></div><div data-cult-panel="final" hidden><h4>Свет признал свою госпожу.</h4><p>Божественный статус Алисы подтверждён. Ежевечернее поклонение фотографиям продолжается в штатном режиме.</p><button class="cult-action" id="cultReplay" type="button">Посмотреть церемонию ещё раз</button></div></div>
+<p class="cult-footnote">Нажми на самого служителя — он кое-что скажет.</p></div></template>
+<template id="tpl-care"><div class="overline">Орбита нежности</div><h3>Что мне хочется тебе дарить</h3><p>Кроме этого маленького уголка интернета — ещё кое-что. Не вещи и не громкие обещания. Просто то, что я очень хочу, чтобы было в нашей жизни.</p>
+<div class="care-world" id="careWorld" aria-label="Планета нежности с четырьмя вращающимися спутниками"><span class="care-orbit-track"></span><span class="care-orbit-track b"></span><span class="care-glow"></span><button class="care-planet" id="carePlanet" type="button" aria-label="Прикоснуться к планете нежности" title="Прикоснуться к планете"><span class="planet-sig">♡</span></button><span class="care-wave" id="careWave"></span><button type="button" class="care-satellite" data-care="0" aria-label="Открыть спутник Тепло"><span class="moon"></span><span>Тепло</span><i class="sat-check">✓</i></button><button type="button" class="care-satellite" data-care="1" aria-label="Открыть спутник Забота"><span class="moon"></span><span>Забота</span><i class="sat-check">✓</i></button><button type="button" class="care-satellite" data-care="2" aria-label="Открыть спутник Радость"><span class="moon"></span><span>Радость</span><i class="sat-check">✓</i></button><button type="button" class="care-satellite" data-care="3" aria-label="Открыть спутник Время"><span class="moon"></span><span>Время</span><i class="sat-check">✓</i></button></div>
+<div class="care-meter" id="careMeter" aria-live="polite">Зажжено спутников: 0 из 4</div><div class="care-revelation" id="careReveal" aria-live="polite"><strong>Прикоснись к одному из спутников</strong><p>Здесь каждый хранит маленькое желание.</p></div><button type="button" class="care-gift" id="careGift">♡ Самая тихая звезда</button></template>
+<template id="tpl-final"><div class="overline">Самая маленькая звезда · От Ильи</div><h3>Это всё для тебя</h3><p>Знаешь, наверное, всё это немного глупо.</p><p>Целая вселенная, звёзды, планеты, какой-то странный человек в капюшоне, искренне убеждённый в твоём божественном происхождении...</p><p>Но мне очень хотелось подарить тебе что-то особенное. Что-то, чего больше ни у кого нет.</p><p>Поэтому я решил создать маленькое место, в котором всё будет посвящено тебе.</p><p>Здесь не нужно ничего делать правильно. Не нужно проходить испытания, искать ответы или куда-то торопиться. Можешь просто заглядывать сюда, когда захочется.</p><p>А я надеюсь, что каждый раз, когда ты будешь смотреть на эти маленькие звёзды, ты будешь вспоминать, как сильно ты мне дорога.</p><p class="ending">С днём рождения, моя любимая.<br>С любовью, твой Илья. ♡</p></template>
+<div class="flight-bloom" id="flightBloom" aria-hidden="true"></div>
+<div class="preview-stamp">Космический прототип 3 · механики без текстовой правки</div>
+<script>
+(() => {
+'use strict';
+const canvas=document.getElementById('sky'),ctx=canvas.getContext('2d',{alpha:true});let stars=[],w=0,h=0,dpr=1,raf=0,last=0;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let seed=36487;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296}
+function resize(){w=innerWidth;h=innerHeight;dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(w*dpr);canvas.height=Math.floor(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);seed=36487;const n=Math.min(920,Math.floor(w*h/1250));stars=Array.from({length:n},()=>({x:rand()*w,y:rand()*h,r:rand()<.045?1.4+rand()*.7:.3+rand()*.72,a:.2+rand()*.62,p:rand()*7,spd:.0003+rand()*.00055,warm:rand()>.81}));paint(0)}
+function paint(t){ctx.clearRect(0,0,w,h);for(const s of stars){let a=s.a*(reduce?1:(.85+.15*Math.sin(t*s.spd+s.p)));ctx.fillStyle=s.warm?`rgba(255,220,179,${a})`:`rgba(210,227,255,${a})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();if(s.r>1.5){ctx.fillStyle=`rgba(220,226,254,${a*.07})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r*6,0,Math.PI*2);ctx.fill()}}}
+function animate(t){if(t-last>38){paint(t);last=t}raf=requestAnimationFrame(animate)}
+addEventListener('resize',()=>resize(),{passive:true});resize();if(!reduce)raf=requestAnimationFrame(animate);
+const intro=document.getElementById('intro'),universe=document.getElementById('universe'),view=document.getElementById('view'),article=document.getElementById('viewArticle'),close=document.getElementById('close'),returnNote=document.getElementById('returnNote'),mapCamera=document.getElementById('mapCamera'),flightBloom=document.getElementById('flightBloom');
+let lastFocused=null,travelling=false;
+const requiredScenes=['letter','love','future','cult','care'];
+const visited=new Set();try{for(const id of JSON.parse(localStorage.getItem('alisaUniverseV2Visited')||'[]'))if([...requiredScenes,'final'].includes(id))visited.add(id)}catch{}
+function saveProgress(){try{localStorage.setItem('alisaUniverseV2Visited',JSON.stringify([...visited]))}catch{}}
+function updateVisited(){
+ for(const btn of document.querySelectorAll('[data-scene]'))btn.classList.toggle('visited',visited.has(btn.dataset.scene));
+ const unlocked=requiredScenes.every(id=>visited.has(id)),finalBtn=document.querySelector('[data-scene="final"]');
+ finalBtn.disabled=!unlocked;finalBtn.classList.toggle('locked',!unlocked);finalBtn.classList.toggle('unlocked',unlocked);
+ finalBtn.setAttribute('aria-label',unlocked?'Открыть последнее послание от Ильи':'От меня, пока закрыто: сначала посмотри остальные пять разделов');
+ finalBtn.querySelector('small').textContent=unlocked?'Последняя звезда ♡':'Откроется чуть позже';
+ returnNote.classList.toggle('visible',visited.has('final'));
+}
+updateVisited();
+function enter(){intro.classList.add('hidden');document.body.classList.add('entered');universe.classList.add('show');universe.querySelector('button').focus({preventScroll:true})}
+document.getElementById('enter').addEventListener('click',enter);
+const loveDetails=[
+ ['Твоё упорство','Мне нравится, с какой серьёзностью ты относишься к тому, что для тебя важно.'],
+ ['Твоё присутствие','Мне удивительно хорошо рядом с тобой. Даже когда ничего особенного не происходит.'],
+ ['Твоя улыбка','Ради неё хочется делать совершенно несусветные вещи. Например, построить вселенную.'],
+ ['Твоя искренность','Мне нравится, что рядом с тобой можно быть собой.'],
+ ['Твоя красота','Иногда я просто смотрю на тебя и думаю: господи, какая же ты красивая.'],
+ ['Твои особенности','Тут появится что-то очень личное, что знаю о тебе только я.'],
+ ['Просто ты','Я люблю не выдуманный идеальный образ, а тебя. Со всем, что делает тебя тобой.']
+];
 
-    <!-- БЛОК №4. Будущие воспоминания: фоток ещё нет, но планы уже есть. -->
-    <section class="memories" id="memories" aria-label="Видения грядущего" aria-hidden="true">
-      <header class="memories-header">
-        <div class="memory-eyebrow">ПОСЛЕ ОБРЯДА · ТРИ ВИДЕНИЯ</div>
-        <div class="memory-rule" aria-hidden="true"><span>✦</span></div>
-        <h2>Видения грядущего</h2>
-        <p class="vision-intro">После обряда мне открылись три маленьких видения нашего будущего...</p>
-        <p class="memory-intro">Я хотел добавить сюда наши совместные фотографии. Но есть одна небольшая проблема...</p>
-        <p class="memory-punchline">У нас их нет. Вообще ни одной. Ахахах.</p>
-        <p class="memory-lead">Так что пока покажу тебе несколько снимков, которые обязательно появятся у нас в будущем.</p>
-      </header>
+const acolytePhrases=[
+ 'Орден счастлив видеть Вас вновь, госпожа.',
+ 'Сияние заметно усилилось. Я старательно записал это в летопись.',
+ 'Мне по-прежнему трудно смотреть на Ваше великолепие.',
+ 'Бюджет Ордена ограничен, но преданность безгранична.',
+ 'Служитель на месте. Как и все двадцать восемь камней.'
+];
+const tenderness=[
+ ['Тепло','Чтобы рядом со мной тебе было спокойно и хорошо.'],
+ ['Забота','Чтобы ты могла отдыхать и знать, что рядом есть человек, который поддержит.'],
+ ['Радость','Чтобы у меня всегда находились силы придумать какую-нибудь глупость ради твоей улыбки.'],
+ ['Время','Чтобы у нас появлялись истории, которые однажды мы будем вспоминать вместе.']
+];
+let sceneCleanup=null;
+let blessedSession=false;
+const wasBlessed=()=>{try{return blessedSession||localStorage.getItem('alisaUniverseSunBlessed')==='yes'}catch{return blessedSession}};
+const saveBlessed=()=>{blessedSession=true;try{localStorage.setItem('alisaUniverseSunBlessed','yes')}catch{}};
+const careOpened=new Set();try{for(const i of JSON.parse(localStorage.getItem('alisaUniverseCareSatellites')||'[]'))if(Number.isInteger(i)&&i>=0&&i<4)careOpened.add(i)}catch{}
+const saveCare=()=>{try{localStorage.setItem('alisaUniverseCareSatellites',JSON.stringify([...careOpened]))}catch{}};
+function blessUniverse(){universe.classList.add('sun-blessed')}
+if(wasBlessed())blessUniverse();
+const mapAcolyte=document.getElementById('mapAcolyte');
+const acolyteSpots=[[29,64],[70,57],[63,35],[34,79]];let mapAcolyteIndex=0;
+function showMapAcolyte(){if(!wasBlessed()||!mapAcolyte)return;mapAcolyteIndex=(mapAcolyteIndex+1)%acolyteSpots.length;
+ const [x,y]=acolyteSpots[mapAcolyteIndex];mapAcolyte.style.left=x+'%';mapAcolyte.style.top=y+'%';
+ mapAcolyte.classList.toggle('visible',Math.random()>.17);
+}
+setInterval(()=>{if(wasBlessed()&&universe.classList.contains('show')&&!view.classList.contains('open'))showMapAcolyte()},11500);
+function setupCult(){
+ const stage=document.getElementById('cultStage'),figure=document.getElementById('cultFigure'),host=document.getElementById('cultStones');
+ const status=document.getElementById('cultStatus'),count=document.getElementById('cultCount'),flash=document.getElementById('cultFlash');
+ const tp=document.getElementById('cultTeleport');const panels=[...document.querySelectorAll('[data-cult-panel]')];
+ let alive=true,playing=false,phase='intro',voiceIndex=0;
+ const pending=new Set();
+ const delay=ms=>new Promise(resolve=>{const handle=setTimeout(()=>{pending.delete(handle);resolve()},ms);pending.add(handle)});
+ const sunPositions=[];
+ // 12 stones outline the sun disk. Eight rays, each built from two more stones.
+ for(let i=0;i<12;i++){const a=(i*30-90)*Math.PI/180;sunPositions.push({x:330+Math.cos(a)*78,y:254+Math.sin(a)*78})}
+ for(let ring=0;ring<2;ring++)for(let i=0;i<8;i++){const a=(i*45-90)*Math.PI/180,r=ring?169:126;sunPositions.push({x:330+Math.cos(a)*r,y:254+Math.sin(a)*r})}
+ const stones=sunPositions.map((p,i)=>{const s=document.createElement('div');s.className='cult-stone';s.style.left=(p.x/660*100)+'%';s.style.top=(p.y/472*100)+'%';s.style.setProperty('--stone-rot',((i*47)%90-45)+'deg');host.append(s);return s});
+ const setPanel=p=>{phase=p;for(const el of panels)el.hidden=el.dataset.cultPanel!==p};
+ const setFigure=(x,y)=>{figure.style.left=(x/660*100)+'%';figure.style.top=(y/472*100)+'%'};
+ function speak(){if(!alive||playing)return;status.textContent=acolytePhrases[(voiceIndex++)%acolytePhrases.length];figure.classList.remove('bowing');void figure.offsetWidth;figure.classList.add('bowing');setTimeout(()=>{if(alive&&phase==='intro')figure.classList.remove('bowing')},1300)}
+ function reset(){if(!alive)return;playing=false;figure.classList.remove('bowing','moving','placing');stage.classList.remove('charged','awakened');flash.classList.remove('play');setFigure(74,386);stones.forEach(s=>s.classList.remove('placed'));count.textContent='0 / 28';status.textContent='Алтарь готов. Служитель немного волнуется.';setPanel('intro')}
+ function particles(p){const el=document.createElement('div');el.className='cult-spark';el.style.left=(p.x/660*100)+'%';el.style.top=(p.y/472*100)+'%';stage.append(el);setTimeout(()=>el.remove(),700)}
+ async function start(){if(playing||!alive)return;reset();playing=true;setPanel('progress');status.textContent='Служитель приступил к работе.';
+  for(let i=0;i<sunPositions.length;i++){
+   if(!alive)return;
+   const p=sunPositions[i];setFigure(Math.max(50,Math.min(602,p.x+20)),Math.max(65,Math.min(416,p.y+24)));
+   figure.classList.add('moving');await delay(reduce?9:205);if(!alive)return;
+   figure.classList.remove('moving');figure.classList.add('placing');stones[i].classList.add('placed');count.textContent=`${i+1} / 28`;particles(p);
+   if(i===11)status.textContent='Солнечный круг замкнулся. Теперь нужны лучи.';
+   if(i===19)status.textContent='Восемь лучей пробуждаются вокруг солнца.';
+   await delay(reduce?8:130);if(!alive)return;figure.classList.remove('placing');
+  }
+  setFigure(77,395);await delay(reduce?15:360);if(!alive)return;
+  stage.classList.add('charged');status.textContent='Солнце собрано. Осталось последнее решение.';
+  await delay(reduce?20:1050);if(!alive)return;setPanel('question');playing=false;document.getElementById('cultAccept').scrollIntoView({block:'nearest',behavior:reduce?'instant':'smooth'});
+ }
+ function accept(){if(playing||!alive)return;playing=true;stage.classList.add('awakened');flash.classList.remove('play');void flash.offsetWidth;flash.classList.add('play');
+  figure.classList.remove('moving','placing','bowing');setFigure(80,399);void figure.offsetWidth;figure.classList.add('bowing');status.textContent='Солнечное сияние озарило всю вселенную.';setPanel('final');document.getElementById('cultReplay').scrollIntoView({block:'nearest',behavior:reduce?'instant':'smooth'});
+  saveBlessed();blessUniverse();setTimeout(()=>{if(alive)playing=false},reduce?40:1800);
+ }
+ document.getElementById('cultStart').addEventListener('click',start);
+ document.getElementById('cultAccept').addEventListener('click',accept);
+ document.getElementById('cultReplay').addEventListener('click',reset);
+ figure.addEventListener('click',speak);
+ tp.classList.add('on');
+ if(wasBlessed()){status.textContent='Орден преклоняется перед возвращением своей госпожи.';setPanel('final');stage.classList.add('charged','awakened');stones.forEach(s=>s.classList.add('placed'));count.textContent='28 / 28 ✓';setFigure(80,399);figure.classList.add('bowing')}
+ const idleHandle=setInterval(()=>{if(alive&&!playing&&phase==='intro')speak()},12500);
+ sceneCleanup=()=>{alive=false;clearInterval(idleHandle);for(const t of pending){clearTimeout(t)}pending.clear()};
+}
+function setupCare(){
+ const world=document.getElementById('careWorld'),planet=document.getElementById('carePlanet'),reveal=document.getElementById('careReveal'),meter=document.getElementById('careMeter'),gift=document.getElementById('careGift'),wave=document.getElementById('careWave');
+ const sats=[...world.querySelectorAll('[data-care]')];let live=true,frame=0,lastFrame=performance.now(),orbitAngle=0;
+ const update=()=>{sats.forEach((b,i)=>b.classList.toggle('seen',careOpened.has(i)));meter.textContent=`Зажжено спутников: ${careOpened.size} из 4`;world.style.setProperty('--care-glow',String(careOpened.size*.13+.18));world.classList.toggle('bloomed',careOpened.size===4);gift.classList.toggle('visible',careOpened.size===4)};
+ const tell=(title,body)=>{reveal.replaceChildren();const strong=document.createElement('strong');strong.textContent=title;const p=document.createElement('p');p.textContent=body;reveal.append(strong,p)};
+ const ripple=()=>{wave.classList.remove('ripple');void wave.offsetWidth;wave.classList.add('ripple')};
+ sats.forEach((s,i)=>s.addEventListener('click',()=>{careOpened.add(i);saveCare();update();const [title,body]=tenderness[i];tell(title,body);ripple()}));
+ planet.addEventListener('click',()=>{ripple();tell('Здесь живёт тепло','Эта планета становится ярче каждый раз, когда ты к ней прикасаешься.')});
+ gift.addEventListener('click',()=>{ripple();tell('Самая тихая звезда','Мне просто очень хочется быть для тебя местом, где спокойно.')});
+ function orbit(t){if(!live)return;const paused=reduce||sats.some(s=>s.matches(':hover')||s===document.activeElement);if(!paused)orbitAngle+=Math.min((t-lastFrame)/1000,.1)*.12;lastFrame=t;const rect=world.getBoundingClientRect();const rx=Math.min(rect.width*.35,196),ry=Math.min(rect.height*.305,118);sats.forEach((s,i)=>{const a=-Math.PI/2+(i*Math.PI/2)+orbitAngle;s.style.left=`calc(50% + ${Math.cos(a)*rx}px)`;s.style.top=`calc(50% + ${Math.sin(a)*ry}px)`});if(!reduce)frame=requestAnimationFrame(orbit)}
+ update();orbit(performance.now());sceneCleanup=()=>{live=false;cancelAnimationFrame(frame)};
+}
 
-      <div class="memory-gallery" aria-label="Три пустых полароида с планами на будущее">
-        <article class="polaroid" aria-label="Будущий ужин при свечах">
-          <div class="photo-space" aria-hidden="true">
-            <svg class="photo-art" viewBox="0 0 160 160" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M18 112 Q80 102 142 112" opacity=".7"/>
-              <path d="M30 125 H130 M40 126 L33 143 M120 126 L127 143" opacity=".65"/>
-              <path d="M79 47 V102 M69 102 H89 M74 98 V101 M84 98 V101"/>
-              <path d="M79 39 C72 31 76 26 79 21 C85 29 87 33 79 39Z" fill="currentColor" stroke="none" opacity=".88"/>
-              <path d="M72 45 H86 V61 H72Z" stroke="none" fill="currentColor" opacity=".55"/>
-              <path d="M35 73 H60 Q60 92 47 96 Q35 92 35 73Z M47 96 V108 M36 108 H58"/>
-              <path d="M101 73 H125 Q125 92 113 96 Q101 92 101 73Z M113 96 V108 M103 108 H124"/>
-              <path d="M25 69 C30 61 39 58 47 59 M133 69 C127 61 118 58 110 59" opacity=".65"/>
-            </svg>
-          </div>
-          <div class="polaroid-number">КАДР № 01</div>
-          <p class="polaroid-caption">Смотри, здесь когда-нибудь будет наш первый ужин при свечах.</p>
-        </article>
-
-        <article class="polaroid" aria-label="Наше первое совместное путешествие">
-          <div class="photo-space" aria-hidden="true">
-            <svg class="photo-art" viewBox="0 0 160 160" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M22 120 Q80 112 138 120" opacity=".7"/>
-              <rect x="36" y="70" width="47" height="51" rx="6"/>
-              <path d="M48 70 V61 Q48 56 53 56 H66 Q71 56 71 61 V70 M47 83 V110 M71 83 V110 M39 91 H80"/>
-              <rect x="89" y="83" width="37" height="38" rx="5"/>
-              <path d="M99 83 V75 Q99 71 104 71 H112 Q116 71 116 75 V83 M97 96 V110 M117 96 V110"/>
-              <path d="M70 33 L132 18 L110 49 L98 37 L84 47 L88 35Z" fill="currentColor" fill-opacity=".12"/>
-              <path d="M98 37 L132 18"/>
-              <path d="M26 37 Q45 17 66 31 M24 48 Q29 42 35 45" stroke-dasharray="3 6" opacity=".75"/>
-            </svg>
-          </div>
-          <div class="polaroid-number">КАДР № 02</div>
-          <p class="polaroid-caption">А здесь мы впервые отправимся в совместное путешествие.</p>
-        </article>
-
-        <article class="polaroid" aria-label="Мы в 67 и 69 лет под пледом смотрим Беременна в 16">
-          <div class="photo-space" aria-hidden="true">
-            <svg class="photo-art" viewBox="0 0 160 160" fill="none" stroke="currentColor" stroke-width="2.2">
-              <rect x="80" y="27" width="57" height="45" rx="5"/>
-              <path d="M85 32 H132 V67 H85Z M104 72 V81 M94 81 H114" opacity=".7"/>
-              <path d="M94 44 C93 41 99 38 105 41 L108 47 L118 42 M95 57 H121" opacity=".55"/>
-              <path d="M17 106 V91 Q17 82 26 82 H66 Q76 82 76 91 V106 M17 105 Q46 112 76 105 V122 H17Z"/>
-              <path d="M25 122 V135 M68 122 V135"/>
-              <circle cx="36" cy="72" r="9"/>
-              <circle cx="57" cy="70" r="9"/>
-              <path d="M27 87 Q34 81 42 87 Q52 79 65 86 L69 106 Q46 118 24 106Z" fill="currentColor" fill-opacity=".22"/>
-              <path d="M39 95 Q45 102 54 96" opacity=".55"/>
-              <path d="M18 139 H76" opacity=".7"/>
-            </svg>
-          </div>
-          <div class="polaroid-number">КАДР № 03 · ЧЕРЕЗ МНОГО ЛЕТ</div>
-          <p class="polaroid-caption">Зацени, тут нам 67 и 69 лет. Мы лежим под пледом и всё ещё смотрим "Беременна в 16".</p>
-        </article>
-      </div>
-
-      <footer class="memory-outro">
-        <p>Пока у нас нет ни одной совместной фотографии. Но я верю в то, что мы это исправим.</p>
-        <button class="invite-btn memory-invite-next" id="invitationNext" type="button">И ещё кое-что для тебя ♡</button>
-        <div class="memory-end">Продолжение обязательно будет ♡</div>
-      </footer>
-    </section>
-
-    <!-- БЛОК №5. Шутливое приглашение, календарь и личные пожелания. -->
-    <section class="invitation" id="invitation" aria-label="Личное приглашение Алисе" aria-hidden="true">
-      <div class="invite-eyebrow">Последнее прошение · только для Алисы</div>
-      <h2 class="invite-heading">Личное приглашение</h2>
-      <p class="invite-bridge">Среди древних пророчеств нашлось одно совсем личное прошение...</p>
-      <div class="invite-card">
-        <div class="invite-emblem" aria-hidden="true">☼</div>
-        <div class="invite-panel" id="inviteQuestion">
-          <h3>Моя дорогая...</h3>
-          <p>В этот день мне хочется не только поздравить тебя, но и подарить нам ещё одно прекрасное воспоминание.</p>
-          <p>Поэтому позволь задать тебе один очень важный вопрос.</p>
-          <div class="invite-rule"></div>
-          <h3>Ты согласна пойти со мной на свидание?</h3>
-          <div class="invite-actions">
-            <button class="invite-btn" type="button" id="acceptDate">Да, с удовольствием ♡</button>
-          </div>
-          <div class="invite-choice-arena" id="choiceArena">
-            <button class="invite-btn secondary" type="button" id="declineButton">Нет</button>
-          </div>
-          <p class="invite-footnote" id="declineHint">Кажется, у одной из кнопок есть собственные планы...</p>
-        </div>
-
-        <div class="invite-panel" id="datePanel" hidden>
-          <h3>Когда мне позволено украсть тебя на один вечер?</h3>
-          <p>Можешь отметить сразу несколько удобных дней. А об остальном я с удовольствием позабочусь сам.</p>
-          <div class="calendar" aria-label="Выбрать удобные даты">
-            <div class="calendar-top">
-              <span class="calendar-month" id="calendarMonth"></span>
-              <div class="calendar-nav">
-                <button class="cal-arrow" type="button" id="prevMonth" aria-label="Предыдущий месяц">‹</button>
-                <button class="cal-arrow" type="button" id="nextMonth" aria-label="Следующий месяц">›</button>
-              </div>
-            </div>
-            <div class="calendar-grid" id="calendarGrid" role="group" aria-label="Дни месяца"></div>
-            <div class="chosen-dates" id="chosenDates" aria-live="polite">Пока ни одной даты не выбрано</div>
-          </div>
-          <label class="unknown-date"><input id="dateUnknown" type="checkbox"> Пока не знаю, обсудим дату вдвоём</label>
-          <p class="form-status" id="dateStatus" aria-live="polite"></p>
-          <div class="invite-actions">
-            <button class="invite-btn" type="button" id="dateContinue">Продолжить ♡</button>
-          </div>
-        </div>
-
-        <div class="invite-panel" id="wishesPanel" hidden>
-          <h3>И ещё кое-что, моя родная...</h3>
-          <p>Мне очень хочется устроить для тебя особенный вечер. У меня уже есть несколько идей, но мне интереснее узнать, о чём мечтаешь ты.</p>
-          <p>Расскажешь, каким ты представляешь наше идеальное свидание? Можешь фантазировать сколько угодно.</p>
-          <form id="dateWishForm" novalidate>
-            <label class="wish-label" for="wishes">Твои мечты, пожелания и маленькие прихоти ♡</label>
-            <textarea id="wishes" name="wishes" maxlength="4000" placeholder="Мне бы хотелось..."></textarea>
-            <label class="trust-option"><input id="trustMe" type="checkbox"> Доверюсь тебе, кот ♡</label>
-            <div class="invite-actions">
-              <button class="invite-btn" id="sendWish" type="submit">Отправить Илье ♡</button>
-              <button class="invite-btn minor" id="backToDates" type="button">Изменить выбранные даты</button>
-            </div>
-            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-          </form>
-        </div>
-
-        <div class="invite-panel" id="sentPanel" hidden>
-          <div class="final-heart" aria-hidden="true">♡</div>
-          <h3>Благодарю, моя родная.</h3>
-          <p>Твои пожелания уже у меня. Теперь можешь ни о чём не беспокоиться: дальше я обо всём позабочусь.</p>
-          <p>С днём рождения, Алиса. Я тебя очень люблю. ♡</p>
-        </div>
-      </div>
-      <div class="invite-bottom">С любовью, твой Илья ♡</div>
-    </section>
-  </main>
-  <script>
-    const envelopeTrigger = document.getElementById('envelopeTrigger');
-    const openButton = document.getElementById('openButton');
-    const intro = document.getElementById('intro');
-    const letter = document.getElementById('letter');
-    let isOpening = false;
-
-    function openLetter() {
-      if (isOpening) return;
-      isOpening = true;
-      envelopeTrigger.disabled = true;
-      openButton.disabled = true;
-      envelopeTrigger.classList.add('opening');
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      setTimeout(() => intro.classList.add('leaving'), reduceMotion ? 0 : 1150);
-      setTimeout(() => {
-        intro.style.display = 'none';
-        intro.setAttribute('aria-hidden', 'true');
-        letter.style.display = 'flex';
-        letter.setAttribute('aria-hidden', 'false');
-        window.scrollTo(0, 0);
-        requestAnimationFrame(() => letter.classList.add('visible'));
-      }, reduceMotion ? 30 : 1780);
-    }
-    envelopeTrigger.addEventListener('click', openLetter);
-    openButton.addEventListener('click', openLetter);
-
-    // Switch from the romantic birthday letter to the accepted ritual scene.
-    const ceremony = document.getElementById('ceremony');
-    document.getElementById('ceremonyNext').addEventListener('click', () => {
-      letter.classList.add('leaving');
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.setTimeout(() => {
-        letter.style.display = 'none';
-        letter.setAttribute('aria-hidden', 'true');
-        ceremony.style.display = 'block';
-        ceremony.setAttribute('aria-hidden', 'false');
-        window.scrollTo({top:0,behavior:'instant'});
-        requestAnimationFrame(() => ceremony.classList.add('visible'));
-      }, reduced ? 0 : 650);
-    });
-  </script>
-  <script>
-    'use strict';
-    const stage = document.querySelector('#stage');
-    const stonesHost = document.querySelector('#stones');
-    const figure = document.querySelector('#figure');
-    const ritualStatus = document.querySelector('#ritualStatus');
-    const count = document.querySelector('#count');
-    const subtitle = document.querySelector('#subtitle');
-    const flash = document.querySelector('#lightFlash');
-    const panels = ['introPanel','progressPanel','questionPanel','finalPanel'].map(id => document.getElementById(id));
-    const isReduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let timers = [], playing = false;
-    const pause = ms => new Promise(resolve => { const id = window.setTimeout(resolve,ms); timers.push(id); });
-    const positions = Array.from({length:12}, (_,i) => {
-      const rad = (i*30-90)*Math.PI/180;
-      const radius = i%3===0 ? 164 : 156;
-      return {x:330+Math.cos(rad)*radius, y:254+Math.sin(rad)*radius, angle:i*30};
-    });
-    const stones = positions.map((p,i) => {
-      const stone = document.createElement('div');
-      stone.className = 'stone';
-      stone.style.left = `${100*p.x/660}%`;
-      stone.style.top = `${100*p.y/472}%`;
-      stone.style.setProperty('--rot', `${i*31-17}deg`);
-      stonesHost.appendChild(stone);
-      return stone;
-    });
-    function panel(index){panels.forEach((el,i)=>el.hidden=i!==index);}
-    function setFigure(x,y){figure.style.left=`${100*x/660}%`;figure.style.top=`${100*y/472}%`;}
-    function reset(){
-      timers.forEach(clearTimeout);timers=[];playing=false;
-      document.body.classList.remove('awakened');
-      stage.classList.remove('charged','awakened');
-      flash.classList.remove('play');
-      figure.classList.remove('moving','placing','finished');
-      setFigure(74,386);
-      stones.forEach(s=>s.classList.remove('placed'));
-      ritualStatus.textContent='Алтарь готов. Служитель немного волнуется.';
-      count.textContent='0 / 12';
-      subtitle.textContent='Четыре печати сняты. Последнее пророчество должно исполниться.';
-      panel(0);
-    }
-    async function start(){
-      if(playing) return;
-      playing=true; panel(1);
-      ritualStatus.textContent='Служитель приступил к работе.';
-      for(let i=0;i<positions.length;i++){
-        const p=positions[i];
-        setFigure(Math.max(54,Math.min(604,p.x+32)),Math.max(84,Math.min(432,p.y+27)));
-        figure.classList.add('moving');
-        await pause(isReduced()?20:480);
-        figure.classList.remove('moving');
-        figure.classList.add('placing');
-        stones[i].classList.add('placed');
-        count.textContent=`${i+1} / 12`;
-        const spark=document.createElement('div');spark.className='placement-spark burst';spark.style.left=stones[i].style.left;spark.style.top=stones[i].style.top;stage.appendChild(spark);
-        window.setTimeout(()=>spark.remove(),720);
-        if(i===3)ritualStatus.textContent='Первые солнечные лучи обретают форму.';
-        if(i===7)ritualStatus.textContent='Осталось совсем немного. Божество, держитесь.';
-        await pause(isReduced()?15:330);
-        figure.classList.remove('placing');
-      }
-      setFigure(90,406);
-      await pause(isReduced()?20:600);
-      figure.classList.add('finished');
-      stage.classList.add('charged');
-      ritualStatus.textContent='Солнечный символ собран. Сияние пробудилось.';
-      count.textContent='12 / 12 ✓';
-      await pause(isReduced()?30:1450);
-      panel(2); playing=false;
-    }
-    function accept(){
-      if(playing)return;
-      playing=true;
-      document.body.classList.add('awakened');stage.classList.add('awakened');
-      flash.classList.remove('play');void flash.offsetWidth;flash.classList.add('play');
-      subtitle.textContent='Сегодня у солнца появился официальный повод сиять ещё ярче.';
-      ritualStatus.textContent='Сияние распространилось на всю страницу.';
-      panel(3);
-    }
-    document.querySelector('#startButton').addEventListener('click',start);
-    document.querySelector('#acceptButton').addEventListener('click',accept);
-    document.querySelector('#replayButton').addEventListener('click',reset);
-
-    // The golden blessing stays active; the next page is an album of future memories.
-    const memories = document.getElementById('memories');
-    document.getElementById('memoriesNext').addEventListener('click', () => {
-      if (!document.body.classList.contains('awakened')) return;
-      ceremony.classList.remove('visible');
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.setTimeout(() => {
-        ceremony.style.display = 'none';
-        ceremony.setAttribute('aria-hidden', 'true');
-        memories.style.display = 'block';
-        memories.setAttribute('aria-hidden', 'false');
-        window.scrollTo({top:0,behavior:'instant'});
-        requestAnimationFrame(() => memories.classList.add('visible'));
-      }, reduced ? 0 : 720);
-    });
-
-
-    // Final invitation: playful answer, multi-date calendar and optional personal wishes.
-    const invitation = document.getElementById('invitation');
-    document.getElementById('invitationNext').addEventListener('click', () => {
-      memories.classList.remove('visible');
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.setTimeout(() => {
-        memories.style.display = 'none';
-        memories.setAttribute('aria-hidden', 'true');
-        invitation.style.display = 'block';
-        invitation.setAttribute('aria-hidden', 'false');
-        window.scrollTo({top:0,behavior:'instant'});
-        requestAnimationFrame(() => invitation.classList.add('visible'));
-      }, reduced ? 0 : 650);
-    });
-    const invitePanels = ['inviteQuestion','datePanel','wishesPanel','sentPanel'].map(id=>document.getElementById(id));
-    function invitePanel(index){invitePanels.forEach((el,i)=>el.hidden=i!==index);window.scrollTo({top:0,behavior:'instant'});}
-    function goToDate(){invitePanel(1);renderCalendar();}
-    document.getElementById('acceptDate').addEventListener('click',goToDate);
-    const declineButton=document.getElementById('declineButton');
-    const choiceArena=document.getElementById('choiceArena');
-    let declineClicks=0;
-    declineButton.addEventListener('click',()=>{
-      if(declineClicks>=3){goToDate();return;}
-      const places=[[.83,.64],[.07,.15],[.65,.05]];
-      const [px,py]=places[declineClicks];
-      declineButton.style.transform='none';
-      declineButton.style.left=Math.round(Math.max(0,choiceArena.clientWidth-declineButton.offsetWidth)*px)+'px';
-      declineButton.style.top=Math.round(Math.max(0,choiceArena.clientHeight-declineButton.offsetHeight)*py)+'px';
-      declineClicks++;
-      document.getElementById('declineHint').textContent=['Ой. Кажется, кнопка сбежала.','Алиса, она определённо что-то скрывает.','Ладно, всё. Даже кнопка передумала.'][declineClicks-1];
-      if(declineClicks===3){declineButton.textContent='Разумеется ♡';declineButton.classList.add('convinced');declineButton.style.left=Math.min(parseInt(declineButton.style.left,10),Math.max(0,choiceArena.clientWidth-declineButton.offsetWidth))+'px';}
-    });
-
-    // Set a real Formspree form ID after creating the form at formspree.io.
-    // Example: for https://formspree.io/f/abcdefgh set the value to 'abcdefgh'.
-    // Until then the page is in test mode and does not pretend an answer was sent.
-    const FORMSPREE_FORM_ID = 'mbgdkknq';
-    const birthdayDate = new Date(2026,9,14);
-    const currentDay = new Date(); currentDay.setHours(0,0,0,0);
-    const earliestDate = currentDay>birthdayDate?currentDay:birthdayDate;
-    const earliestMonth = new Date(earliestDate.getFullYear(),earliestDate.getMonth(),1);
-    const lastMonth = new Date(earliestMonth.getFullYear(),earliestMonth.getMonth()+11,1);
-    let viewMonth = new Date(earliestMonth);
-    const chosen = new Set();
-    const dateUnknown=document.getElementById('dateUnknown');
-    const grid=document.getElementById('calendarGrid');
-    const monthLabel=document.getElementById('calendarMonth');
-    const chosenDates=document.getElementById('chosenDates');
-    const dateStatus=document.getElementById('dateStatus');
-    const asDateKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    const dateLabel=key=>{const [y,m,d]=key.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('ru-RU',{day:'numeric',month:'long'});};
-    function renderChosen(){
-      const dates=[...chosen].sort();
-      chosenDates.textContent=dates.length?'Выбрано: '+dates.map(dateLabel).join(', '):(dateUnknown.checked?'Дату решим вместе':'Пока ни одной даты не выбрано');
-    }
-    function renderCalendar(){
-      monthLabel.textContent=viewMonth.toLocaleDateString('ru-RU',{month:'long',year:'numeric'});
-      document.getElementById('prevMonth').disabled=viewMonth.getTime()<=earliestMonth.getTime();
-      document.getElementById('nextMonth').disabled=viewMonth.getTime()>=lastMonth.getTime();
-      grid.replaceChildren();
-      for(const day of ['Пн','Вт','Ср','Чт','Пт','Сб','Вс']){const label=document.createElement('span');label.className='weekday';label.textContent=day;grid.appendChild(label);}
-      const offset=(viewMonth.getDay()+6)%7;
-      for(let i=0;i<offset;i++){const empty=document.createElement('span');empty.setAttribute('aria-hidden','true');grid.appendChild(empty);}
-      const count=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,0).getDate();
-      for(let day=1;day<=count;day++){
-        const date=new Date(viewMonth.getFullYear(),viewMonth.getMonth(),day);
-        const key=asDateKey(date);
-        const btn=document.createElement('button');
-        btn.type='button';btn.className='calendar-day';btn.textContent=String(day);
-        btn.setAttribute('aria-label',date.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'}));
-        btn.setAttribute('aria-pressed',chosen.has(key)?'true':'false');
-        btn.disabled=date<earliestDate||date>new Date(lastMonth.getFullYear(),lastMonth.getMonth()+1,0);
-        btn.addEventListener('click',()=>{
-          if(chosen.has(key))chosen.delete(key);else chosen.add(key);
-          if(chosen.size)dateUnknown.checked=false;
-          dateStatus.textContent='';renderChosen();renderCalendar();
-        });
-        grid.appendChild(btn);
-      }
-      renderChosen();
-    }
-    document.getElementById('prevMonth').addEventListener('click',()=>{viewMonth=new Date(viewMonth.getFullYear(),viewMonth.getMonth()-1,1);renderCalendar();});
-    document.getElementById('nextMonth').addEventListener('click',()=>{viewMonth=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,1);renderCalendar();});
-    dateUnknown.addEventListener('change',()=>{if(dateUnknown.checked)chosen.clear();dateStatus.textContent='';renderCalendar();});
-    document.getElementById('dateContinue').addEventListener('click',()=>{
-      if(!chosen.size&&!dateUnknown.checked){dateStatus.textContent='Выбери хотя бы один день или отметь, что обсудим дату позже ♡';return;}
-      dateStatus.textContent='';invitePanel(2);
-    });
-    document.getElementById('backToDates').addEventListener('click',goToDate);
-    const wishForm=document.getElementById('dateWishForm');
-    const formStatus=document.getElementById('formStatus');
-    const submitWish=document.getElementById('sendWish');
-    wishForm.addEventListener('submit',async event=>{
-      event.preventDefault();
-      if(!chosen.size&&!dateUnknown.checked){goToDate();dateStatus.textContent='Сначала выбери удобную дату ♡';return;}
-      const formId=FORMSPREE_FORM_ID.trim();
-      if(!/^[a-zA-Z0-9]{8,}$/.test(formId)||formId==='YOUR_FORM_ID'){
-        formStatus.textContent='Тестовый режим: отправка пока не подключена. Ничего не отправлено. Настрой Formspree перед тем, как дарить сайт.';
-        return;
-      }
-      submitWish.disabled=true;submitWish.textContent='Отправляем письмо...';
-      formStatus.textContent='';
-      const payload=new FormData();
-      payload.append('_subject','Ответ Алисы на приглашение ♡');
-      payload.append('Имя','Алиса');
-      payload.append('Удобные даты',dateUnknown.checked?'Обсудим позже':[...chosen].sort().map(dateLabel).join(', '));
-      payload.append('Пожелания',document.getElementById('wishes').value.trim()||'Не указаны');
-      payload.append('Доверяет Илье',document.getElementById('trustMe').checked?'Да':'Нет');
-      try{
-        const response=await fetch(`https://formspree.io/f/${formId}`,{method:'POST',headers:{Accept:'application/json'},body:payload});
-        if(!response.ok)throw new Error('Сервис не подтвердил отправку');
-        formStatus.textContent='';invitePanel(3);
-      }catch(error){
-        formStatus.textContent='Письмо пока не отправилось. Попробуй ещё раз чуть позже, пожалуйста ♡';
-      }finally{submitWish.disabled=false;submitWish.textContent='Отправить Илье ♡';}
-    });
-
-    reset();
-    </script>
-</body>
-</html>
+function setupScene(id){
+ if(id==='cult'){setupCult();return}
+ if(id==='care'){setupCare();return}
+ if(id!=='love')return;
+ const message=document.getElementById('loveMessage');
+ article.querySelectorAll('[data-love-star]').forEach(star=>star.addEventListener('click',()=>{
+  const [title,body]=loveDetails[Number(star.dataset.loveStar)];
+  star.classList.add('opened');
+  message.replaceChildren();
+  const heading=document.createElement('strong'),p=document.createElement('span');
+  heading.textContent=title;p.textContent=body;message.append(heading,p);
+ }));
+}
+function openScene(id,btn){
+ if(travelling||btn.disabled||id==='final'&&!requiredScenes.every(x=>visited.has(x)))return;
+ const tpl=document.getElementById('tpl-'+id);if(!tpl)return;
+ travelling=true;lastFocused=btn;
+ const mapRect=mapCamera.getBoundingClientRect();
+ const focusEl=btn.querySelector('.planet,.constellation-art,.microgalaxy,.tiny-star')||btn;
+ const nodeRect=focusEl.getBoundingClientRect();
+ const px=(nodeRect.left+nodeRect.right)/2-mapRect.left;
+ const py=(nodeRect.top+nodeRect.bottom)/2-mapRect.top;
+ const scale=innerWidth<=650?2.4:3;
+ const dx=(mapRect.width/2-px)*scale,dy=(mapRect.height/2-py)*scale;
+ const bloomX=((nodeRect.left+nodeRect.right)/2/innerWidth*100).toFixed(2)+'%';
+ const bloomY=((nodeRect.top+nodeRect.bottom)/2/innerHeight*100).toFixed(2)+'%';
+ flightBloom.style.setProperty('--bx',bloomX);flightBloom.style.setProperty('--by',bloomY);
+ universe.classList.add('travelling');mapCamera.style.transform=`translate(${dx}px,${dy}px) scale(${scale})`;
+ flightBloom.classList.add('active');
+ const delay=reduce?40:870;
+ setTimeout(()=>{
+  if(sceneCleanup){sceneCleanup();sceneCleanup=null;}
+  article.replaceChildren(tpl.content.cloneNode(true));
+  view.classList.add('open');setupScene(id);view.setAttribute('aria-hidden','false');document.body.classList.add('in-panel');article.scrollTop=0;close.focus({preventScroll:true});
+  visited.add(id);saveProgress();updateVisited();travelling=false;
+  setTimeout(()=>flightBloom.classList.remove('active'),reduce?0:200);
+ },delay);
+}
+function closeScene(){
+ if(!view.classList.contains('open'))return;
+ if(sceneCleanup){sceneCleanup();sceneCleanup=null;}
+ if(wasBlessed())showMapAcolyte();
+ view.classList.remove('open');view.setAttribute('aria-hidden','true');document.body.classList.remove('in-panel');
+ mapCamera.style.transform='';universe.classList.remove('travelling');flightBloom.classList.remove('active');
+ if(lastFocused)lastFocused.focus({preventScroll:true});
+}
+document.querySelectorAll('[data-scene]').forEach(btn=>btn.addEventListener('click',()=>openScene(btn.dataset.scene,btn)));
+close.addEventListener('click',closeScene);
+view.addEventListener('click',e=>{if(e.target===view)closeScene()});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&view.classList.contains('open'))closeScene();
+ if(e.key==='Tab'&&view.classList.contains('open')){
+  const candidates=[close,...article.querySelectorAll('button:not([disabled]),a[href],input:not([disabled])')];
+  if(!candidates.length)return;let i=candidates.indexOf(document.activeElement);
+  if(e.shiftKey&&i<=0){e.preventDefault();candidates.at(-1).focus()}
+  else if(!e.shiftKey&&i===candidates.length-1){e.preventDefault();candidates[0].focus()}
+ }
+});
+})();
+</script>
+</body></html>
