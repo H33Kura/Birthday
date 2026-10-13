@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#050a15">
-<title>Маленькая вселенная Алисы ♡ — космический прототип 3</title>
+<title>Маленькая вселенная Алисы ♡</title>
 <style>
 :root{--ivory:#f5eee4;--muted:#b3bfd4;--gold:#f1ce93;--gold-soft:#caa478;--ease:cubic-bezier(.2,.75,.2,1)}*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#040814;color:var(--ivory);font-family:Georgia,'Times New Roman',serif}body{overflow-x:hidden}button{font:inherit}button:focus-visible{outline:2px solid #ffe0ae;outline-offset:5px}#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}.space-tint{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 60% at 51% 42%,rgba(27,48,79,.24),transparent 71%),radial-gradient(ellipse 37% 55% at 12% 53%,rgba(72,37,67,.27),transparent 86%),radial-gradient(ellipse 39% 52% at 88% 10%,rgba(31,59,79,.24),transparent 84%),linear-gradient(155deg,rgba(1,4,11,.58),transparent 45%,rgba(2,5,14,.55))}.edge{position:fixed;inset:0;z-index:0;pointer-events:none;box-shadow:inset 0 0 14vw 3vw #02050e}.topbar{position:fixed;z-index:15;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:23px clamp(22px,5vw,75px);pointer-events:none}.brand{font-family:Arial,sans-serif;letter-spacing:.3em;text-transform:uppercase;font-size:10px;color:#ccb998}.brand em{font-style:normal;color:#fae7c5}.top-right{font:10px Arial,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#9daec2}.intro{position:relative;z-index:4;min-height:100vh;min-height:100dvh;display:grid;place-items:center;text-align:center;padding:110px 20px 65px;isolation:isolate;transition:opacity 1s ease,transform 1s ease}.intro-inner{max-width:720px}.intro-sun{width:110px;height:110px;margin:0 auto 38px;position:relative;display:grid;place-items:center}.intro-sun::before,.intro-sun::after{content:'';position:absolute;inset:-65px;border-radius:50%;background:radial-gradient(circle,rgba(246,197,128,.22),rgba(204,147,85,.07) 25%,transparent 67%)}.intro-sun::after{inset:-110px;background:radial-gradient(circle,rgba(243,185,114,.10),transparent 60%)}.intro-sun .sun-core{width:59px;height:59px;border-radius:50%;background:radial-gradient(circle at 36% 32%,#fffdf5 0%,#fff4d9 24%,#ffe0a5 49%,#dc9654 81%,#ad6446 100%);box-shadow:0 0 21px 5px #fff0b28a,0 0 95px 35px #e7ad6250,0 0 180px 80px #b9803b15;animation:breathe 5s ease-in-out infinite alternate}.kicker{font:11px/1.6 Arial,sans-serif;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin:0 0 23px}.intro h1{font-size:clamp(44px,8.5vw,94px);line-height:1.02;font-weight:400;letter-spacing:-.045em;margin:0 0 34px;text-wrap:balance;text-shadow:0 0 70px #b18a6745}.intro .lead{font-size:clamp(17px,2.5vw,21px);line-height:1.85;color:#e1d6cf;margin:0 auto 28px;max-width:560px}.intro .lead span{color:#ffe6bd}.intro .sublead{font:14px/1.9 Georgia,serif;color:#bfc4d1;margin:0 auto 34px;max-width:500px}.gold-btn{min-height:50px;min-width:225px;display:inline-flex;align-items:center;justify-content:center;padding:14px 28px;border-radius:100px;border:1px solid rgba(255,215,151,.6);color:#ffe8bc;background:linear-gradient(135deg,#705342c9,#3f3439bd);box-shadow:0 7px 32px #0006,0 0 32px #e0a56e1c;cursor:pointer;font:12px Arial,sans-serif;letter-spacing:.11em;transition:transform .25s,box-shadow .25s}.gold-btn:hover{transform:translateY(-3px);box-shadow:0 10px 33px #0009,0 0 45px #e9b97849}.intro .small{font:10px Arial,sans-serif;letter-spacing:.11em;color:#899bb0;margin:25px auto 0}.universe{position:relative;z-index:3;min-height:100vh;min-height:100dvh;display:none;flex-direction:column;align-items:center;padding:100px 18px 25px;text-align:center}.universe.show{display:flex;animation:fade-in 1.15s ease both}.map-top h2{font-size:clamp(34px,5vw,54px);font-weight:400;line-height:1.1;margin:10px 0 12px;letter-spacing:-.03em}.map-top p{font-size:14px;line-height:1.8;color:#bdc2d0;margin:0}.sky-map{width:min(100%,1080px);height:clamp(475px,62vh,640px);margin:auto;position:relative;isolation:isolate}.orbital{position:absolute;left:5%;top:4%;width:90%;height:90%;pointer-events:none;opacity:.42;overflow:visible}.orbital ellipse{fill:none;stroke:#899fbb;stroke-width:.5;stroke-dasharray:1.2 5;opacity:.37}.orbital ellipse:nth-child(2){stroke:#ebc7a4;opacity:.28}.glow-cloud{position:absolute;left:50%;top:52%;width:min(80vw,510px);height:370px;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(195,158,107,.075),rgba(88,62,98,.05) 45%,transparent 75%);filter:blur(22px);pointer-events:none}.node{--c:#dab58a;position:absolute;z-index:2;transform:translate(-50%,-50%);border:0;background:transparent;padding:12px;display:flex;flex-direction:column;align-items:center;gap:13px;cursor:pointer;color:var(--ivory);transition:filter .35s;min-width:135px}.node:hover{filter:brightness(1.32)}.node .planet{position:relative;width:var(--size,61px);height:var(--size,61px);border-radius:50%;display:block;background:var(--planet);box-shadow:inset -17px -10px 23px #020711c9,inset 4px 4px 10px #ffffff14,0 0 19px 4px var(--halo);transition:transform .35s,box-shadow .35s;animation:planet-float var(--float,6.2s) ease-in-out infinite alternate}.node .planet::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid var(--c);opacity:.22;transition:transform .3s,opacity .3s}.node:hover .planet{transform:scale(1.12)}.node:hover .planet::after{transform:scale(1.14);opacity:.55}.node.visited .planet::after{opacity:.72;border-color:#ffe7ad;box-shadow:0 0 18px #ffe2a647}.node strong{font-size:14px;line-height:1.2;font-weight:400;text-shadow:0 1px 8px #000,0 1px 15px #000;white-space:nowrap}.node small{font:10px/1.4 Arial,sans-serif;color:#aebbd0;letter-spacing:.055em;text-shadow:0 2px 9px #000}.node.center{left:50%;top:51%;z-index:4;min-width:160px;gap:15px}.node.center .planet{--size:114px;background:radial-gradient(circle at 37% 29%,#fffdf6 0%,#fff4df 17%,#ffdaa3 38%,#df995b 70%,#b66357 88%);box-shadow:inset -12px -9px 21px #b5603866,0 0 35px 10px #f9d7a8b0,0 0 85px 35px #e9a9677d,0 0 180px 55px #de965132;animation:breathe 4.5s ease-in-out infinite alternate}.node.center .planet::before{content:'';position:absolute;inset:-55%;border-radius:50%;background:repeating-conic-gradient(from 7deg,transparent 0deg 14deg,#fce7bc10 18deg 20deg,transparent 22deg 45deg);filter:blur(8px);animation:rotation 90s linear infinite}.node.center .planet::after{inset:-27px;border-color:#f6dcb3}.node.center strong{font-size:19px;letter-spacing:.17em;text-transform:uppercase;color:#ffebc9}.node.center small{color:#f9dca8}.node.love{left:17%;top:23%;--size:64px;--c:#a8c5ef;--planet:radial-gradient(circle at 30% 25%,#d6ebff 0,#a8bccc 24%,#607ca5 55%,#273a66 95%);--halo:#7f9bc55e}.node.future{left:79%;top:22%;--size:72px;--c:#bba6ec;--planet:radial-gradient(circle at 34% 24%,#ece1ff,#a59dc4 21%,#786c9f 49%,#39335d 92%);--halo:#9e8dd15e}.node.cult{left:11%;top:72%;--size:63px;--c:#e4b66e;--planet:radial-gradient(circle at 32% 24%,#fff2c2,#e8bb70 18%,#a46d43 47%,#583e34 92%);--halo:#e0a15d68}.node.care{left:86%;top:70%;--size:66px;--c:#eb9eb8;--planet:radial-gradient(circle at 30% 23%,#ffe0da,#c4859d 21%,#97576f 52%,#4b304e 90%);--halo:#cb859b65}.node.final{left:51%;top:90%;--size:37px;--c:#f0c89b;--planet:radial-gradient(circle at 28% 20%,#fff8ed,#f7d6a4 28%,#c0917d 65%,#70505c 100%);--halo:#e9b69755;gap:8px}.node.final strong{font-style:italic}.map-footer{font:11px/1.7 Arial,sans-serif;color:#9eaebf;letter-spacing:.06em;margin-top:auto;padding-bottom:19px}.return-note{font:11px/1.5 Arial,sans-serif;color:#d8b989;opacity:0;min-height:19px;transition:opacity .6s}.return-note.visible{opacity:1}.view{position:fixed;z-index:30;inset:0;display:none;align-items:center;justify-content:center;background:rgba(1,5,14,.82);backdrop-filter:blur(16px);padding:45px 18px 25px;animation:fade-in .35s ease both}.view.open{display:flex}.view-close{position:fixed;z-index:31;top:20px;right:20px;background:rgba(16,27,40,.8);border:1px solid #a48d7750;color:#f8e6cf;border-radius:100px;padding:11px 17px;font:12px Arial,sans-serif;cursor:pointer}.view-article{position:relative;width:min(100%,690px);max-height:min(85dvh,900px);overflow:auto;overscroll-behavior:contain;padding:clamp(28px,5vw,54px);border-radius:22px;background:radial-gradient(circle at 40% 0%,rgba(191,144,104,.14),transparent 42%),linear-gradient(150deg,rgba(20,30,45,.96),rgba(14,17,29,.96));border:1px solid #c5ae8740;box-shadow:0 25px 100px #000b,0 0 75px #ad83401a}.view-article::before{content:'';position:absolute;left:10%;right:10%;top:0;height:1px;background:linear-gradient(90deg,transparent,#edcca6,transparent)}.view-article h3{font-size:clamp(30px,6.2vw,52px);font-weight:400;letter-spacing:-.02em;margin:7px 0 22px;line-height:1.15}.view-article p{font-size:16px;line-height:1.85;color:#e7dde0;margin:0 0 17px}.view-article .overline{font:10px Arial,sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#e7bb7d;margin-bottom:17px}.view-article .poem{font-size:19px;color:#f9e8cb;font-style:italic;line-height:1.85}.view-article .letter-box{background:linear-gradient(150deg,#fff9ee,#eee0cb);border-radius:6px;padding:clamp(24px,5vw,41px);color:#604b41;margin-top:22px;box-shadow:0 20px 50px #0005}.view-article .letter-box h4{color:#704a52;font-size:clamp(25px,4vw,32px);font-weight:400;margin:0 0 24px}.view-article .letter-box p{color:#594940;font-size:16px;line-height:1.8}.view-article .star-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:25px 0}.view-article .star-note{border:1px solid #d8c19437;background:#ffffff06;border-radius:13px;padding:17px}.view-article .star-note strong{display:block;color:#f7d39c;font-weight:400;margin:0 0 9px;font-size:16px}.view-article .star-note p{font-size:13px;line-height:1.65;margin:0}.view-article .little-cult{display:flex;flex-direction:column;align-items:center;margin:25px 0 15px;gap:6px}.view-article .little-cult svg{height:110px;width:90px;filter:drop-shadow(0 8px 12px #000)}.view-article .cult-caption{font:11px Arial,sans-serif;color:#d6b78f}.view-article .memory-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}.view-article .polaroid{transform:rotate(-3deg);padding:9px 9px 22px;background:#f8f0e3;color:#584740;box-shadow:0 12px 25px #0006;min-height:190px}.view-article .polaroid:nth-child(2){transform:rotate(3deg)}.view-article .polaroid:nth-child(3){transform:rotate(-2deg)}.view-article .photo-blank{height:111px;background:linear-gradient(165deg,#d4c3b6,#f8ead3);display:grid;place-items:center;color:#a98a74;font-size:27px}.view-article .polaroid p{font-size:12px;line-height:1.4;text-align:center;color:#514136;margin:12px 0 0}.view-article .ending{font-size:23px;color:#ffdeb0;font-style:italic}.view-article .muted{font:12px/1.7 Arial,sans-serif;color:#9eacbf;margin-top:25px}.preview-stamp{position:fixed;bottom:14px;left:18px;z-index:18;font:9px Arial,sans-serif;color:#b6b3ac8a;letter-spacing:.18em;text-transform:uppercase;pointer-events:none}.hidden{display:none!important}body.in-panel{overflow:hidden}body.entered .intro{display:none}@keyframes fade-in{from{opacity:0}to{opacity:1}}@keyframes breathe{from{transform:scale(.96);filter:brightness(.96)}to{transform:scale(1.035);filter:brightness(1.1)}}@keyframes planet-float{from{transform:translateY(3px)}to{transform:translateY(-5px)}}@keyframes rotation{to{transform:rotate(360deg)}}@media(max-width:650px){.topbar{padding:20px 20px}.brand{letter-spacing:.2em;font-size:9px}.top-right{font-size:9px;letter-spacing:.1em}.intro{padding:100px 26px 70px}.intro-sun{margin-bottom:35px}.intro h1{font-size:clamp(44px,12vw,66px)}.universe{padding:82px 8px 28px}.map-top h2{font-size:34px}.map-top p{font-size:13px}.sky-map{height:min(61vh,590px);min-height:470px}.node{min-width:95px;padding:6px;gap:8px}.node strong{font-size:12px}.node small{font-size:9px}.node.center{top:49%;min-width:130px}.node.center .planet{--size:91px}.node.center strong{font-size:16px}.node.love{left:19%;top:17%;--size:51px}.node.future{left:80%;top:20%;--size:57px}.node.cult{left:16%;top:74%;--size:47px}.node.care{left:83%;top:72%;--size:54px}.node.final{left:51%;top:92%;--size:33px}.map-footer{padding:0 15px 14px;font-size:10px}.view{padding:64px 12px 18px}.view-close{top:14px;right:14px}.view-article{padding:28px 22px;max-height:82dvh}.view-article .star-list{grid-template-columns:1fr}.view-article .memory-row{gap:8px}.view-article .polaroid{padding:6px 6px 10px;min-height:0}.view-article .photo-blank{height:77px}.view-article .polaroid p{font-size:10px}}@media(max-width:350px){.sky-map{min-height:490px}.node.love{left:19%}.node.future{left:81%}.node.cult{left:15%}.node.care{left:86%}.node.center .planet{--size:80px}.node strong{font-size:11px}.node.center{top:48%}.node.final{top:90%}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
@@ -165,6 +165,26 @@
 @media(max-width:520px){.cult-stage-frame{padding:4px}.cult-figure{width:8%;height:20%}.cult-stone{width:5%;height:6%}.cult-note{font-size:10px}.care-world{height:340px;margin-left:-8px;margin-right:-8px}.care-satellite{min-width:70px}.care-satellite .moon{width:26px;height:26px}}
 @media(prefers-reduced-motion:reduce){.cult-figure,.cult-orb:before,.map-acolyte svg{animation:none!important}.cult-figure,.cult-stone{transition-duration:.01ms!important}.care-wave.ripple{animation:none}.cult-flash.play{animation:none}}
 
+/* Final-approved text and presentation details */
+.intro .intro-gift{margin-top:-10px;color:#f3e5d5;font-size:17px;line-height:1.85}
+.intro .intro-gift span{color:#ffdfaf}
+.intro .lead{max-width:650px;margin-bottom:23px}
+.intro .sublead{max-width:640px;margin-bottom:24px;font-size:15px}
+.view-article .love-instruction{margin-top:8px;margin-bottom:13px}
+.love-field.whole-constellation .love-point{animation:constellation-celebrate 2.4s ease-out both}
+.love-field.whole-constellation>svg{filter:drop-shadow(0 0 8px #ffdb9a)}
+.love-field .love-point[data-love-star="6"]{font-size:29px;text-shadow:0 0 16px #ffdeaf,0 0 25px #a0baff}
+@keyframes constellation-celebrate{0%,100%{filter:brightness(1)}40%{filter:brightness(2.2)}}
+.cult-welcome{margin:18px 0 20px;padding:20px 22px;border:1px solid #d2ab7860;background:#c6934a0a;border-radius:14px}
+.cult-welcome h4{text-align:center;color:#ffe1ad;font:italic normal 23px Georgia,serif;margin:0 0 17px}
+.cult-welcome p{font-size:14px;line-height:1.72;margin-bottom:13px}
+.cult-final-ps{font-size:12px!important;opacity:.85}
+.final-promise{color:#ffe0ba!important;font-size:21px!important;margin-top:27px!important}
+.final-promise strong{font-weight:400}
+.final-back{display:flex;margin:25px auto 0;max-width:100%;min-width:0;text-align:center}
+.view-article .polaroid{min-height:210px}
+@media(max-width:650px){.intro .lead{font-size:16px;line-height:1.75}.intro .sublead{font-size:14px;line-height:1.8}.view-article .polaroid{min-height:155px}.view-article .polaroid p{font-size:10px;line-height:1.4}.cult-welcome{padding:16px}}
+
 </style>
 </head>
 <body>
@@ -175,14 +195,14 @@
   <div class="intro-inner"><div class="intro-sun"><span class="sun-core"></span></div>
     <div class="kicker">Вселенная, созданная для одной</div>
     <h1>Маленькая<br>вселенная Алисы</h1>
-    <p class="lead">В мире миллиарды страниц.<br>Но эту я создал <span>только для тебя.</span></p>
-    <p class="sublead">Я не умею дарить настоящие звёзды, поэтому решил собрать тебе свои. Каждая из них хранит что-то, что я хотел тебе сказать.</p>
-    <button id="enter" class="gold-btn" type="button">Исследовать свою вселенную ✧</button>
-    <p class="small">Здесь можно никуда не торопиться.</p>
+    <p class="lead">В огромном мире, где существуют миллиарды сайтов и бесчисленное множество звёзд, мне захотелось создать одно маленькое место, в котором всё будет посвящено <span>только тебе.</span></p>
+    <p class="sublead">Здесь ты - центр вселенной. Вокруг тебя вращаются мои мысли, чувства и мечты.</p>
+    <p class="sublead intro-gift">И эта вселенная теперь твоя.<br><span>С днём рождения, моя родная. ♡</span></p>
+    <button id="enter" class="gold-btn" type="button">Войти в свою вселенную</button>
   </div>
 </section>
 <section class="universe" id="universe" aria-label="Карта вселенной Алисы">
-  <div class="map-top"><div class="kicker">Она существует только ради тебя</div><h2>Всё это — твоё</h2><p>Выбирай любую звезду. Каждая хранит для тебя что-то своё.</p></div>
+  <div class="map-top"><div class="kicker">Маленькая вселенная Алисы</div><h2>Всё это — твоё</h2><p>Прикоснись к любой звезде или планете.</p></div>
   <div class="sky-map" id="skyMap">
  <div class="map-camera" id="mapCamera">
   <div class="glow-cloud"></div>
@@ -206,40 +226,42 @@
     </svg>
    </span><strong>Наше будущее</strong><small>Маленькая галактика</small></button>
   <button class="node cult" data-scene="cult" type="button"><span class="planet"></span><strong>Святилище Солнца</strong><small>Кое-кто Вас ожидает</small></button>
-  <button class="node care" data-scene="care" type="button"><span class="planet"></span><strong>Орбита нежности</strong><small>Для тебя и только для тебя</small></button>
+  <button class="node care" data-scene="care" type="button"><span class="planet"></span><strong>Планета нежности</strong><small>Четыре маленьких спутника</small></button>
   <button class="node final locked" data-scene="final" type="button" disabled aria-label="От меня, пока закрыто: сначала посмотри остальные пять разделов"><span class="tiny-star" aria-hidden="true"></span><strong>От меня</strong><small>Откроется чуть позже</small></button>
  <div class="map-acolyte" id="mapAcolyte" aria-hidden="true"><svg viewBox="0 0 40 76" aria-hidden="true"><ellipse cx="20" cy="73" rx="19" ry="3" fill="#0a090c" opacity=".48"/><path class="cloak" d="M13 20 Q6 29 4 65 Q20 75 36 65 Q34 30 27 20 Z"/><path class="cloak-mark" d="M19.5 29 L19.5 60"/><path class="hood" d="M9 17 Q9 3 20 3 Q31 3 31 17 L28 27 Q20 30 12 25 Z"/><path d="M14 17 Q20 14 26 17 L24 23 Q20 24 16 23Z" fill="#08090d"/><path class="hand-stone" d="M26 38 l6 -4 l5 6 l-6 5 Z"/></svg></div>
  </div>
 </div>  <div class="return-note" id="returnNote">Эта вселенная принадлежит тебе. И всегда будет ждать твоего возвращения. ♡</div>
-  <p class="map-footer">Выбирай, куда отправиться · Маленькая звезда «От меня» подождёт до конца</p>
+  <p class="map-footer">Каждый уголок этой вселенной ждёт тебя ♡</p>
 </section>
 </main>
 <div class="view" id="view" role="dialog" aria-modal="true" aria-label="История звезды" aria-hidden="true"><button class="view-close" id="close" type="button">← К звёздам</button><article class="view-article" id="viewArticle" tabindex="-1"></article></div>
-<template id="tpl-letter"><div class="overline">Сердце вселенной · Главное письмо</div><h3>У каждой вселенной есть сердце.</h3><p class="poem">И в моей всегда была ты.</p><div class="letter-box"><h4>С днём рождения, моя родная! ❤️</h4><p>Знаешь, есть одна вещь, за которую я особенно тебя ценю. С тобой удивительно спокойно. Не приходится о чём-то переживать, подбирать слова или пытаться быть кем-то другим. Рядом с тобой всё настолько легко и естественно, что иногда даже не верится, насколько мне повезло среди всех отыскать именно тебя.</p><p>Я искренне восхищаюсь тобой. Тем, какая ты трудолюбивая, ответственная, сколько всего ты для всех делаешь и при этом остаёшься такой невероятно милой. Иногда (часто) мне хочется просто обнять тебя, спрятать от всех забот и сделать так, чтобы тебе хотя бы ненадолго не приходилось ни о чём беспокоиться.</p><p>В твой День рождения я хочу пожелать тебе как можно больше счастливых моментов, исполнения твоих желаний и сил на всё, к чему ты стремишься. Но ещё больше я хочу, чтобы у тебя всегда находилось время просто отдыхать, улыбаться и чувствовать себя любимой.</p><p>Я безумно рад и благодарен, что ты есть в моей жизни. И очень хочу, чтобы этот день стал для тебя по-настоящему особенным.</p></div></template>
-<template id="tpl-love"><div class="overline">Семь звёзд · Семь причин</div><h3>За что я люблю тебя</h3><p>Коснись звёзд. За каждой из них — кое-что, что мне особенно дорого в тебе.</p>
+<template id="tpl-letter"><div class="overline">Сердце вселенной · Главное письмо</div><h3>Сердце вселенной</h3><p class="poem">Говорят, у каждой вселенной есть свой центр.<br>У моей есть ты. ♡</p><div class="letter-box"><h4>С днём рождения, моя родная! ❤️</h4><p>Знаешь, есть одна вещь, за которую я особенно тебя ценю. С тобой удивительно спокойно. Не приходится о чём-то переживать, подбирать слова или пытаться быть кем-то другим. Рядом с тобой всё настолько легко и естественно, что иногда даже не верится, насколько мне повезло среди всех отыскать именно тебя.</p><p>Я искренне восхищаюсь тобой. Тем, какая ты трудолюбивая, ответственная, сколько всего ты для всех делаешь и при этом остаёшься такой невероятно милой. Иногда (часто) мне хочется просто обнять тебя, спрятать от всех забот и сделать так, чтобы тебе хотя бы ненадолго не приходилось ни о чём беспокоиться.</p><p>В твой День рождения я хочу пожелать тебе как можно больше счастливых моментов, исполнения твоих желаний и сил на всё, к чему ты стремишься. Но ещё больше я хочу, чтобы у тебя всегда находилось время просто отдыхать, улыбаться и чувствовать себя любимой.</p><p>Я безумно рад и благодарен, что ты есть в моей жизни. И очень хочу, чтобы этот день стал для тебя по-настоящему особенным.</p></div></template>
+<template id="tpl-love"><div class="overline">Семь звёзд · Семь признаний</div><h3>Созвездие любви</h3><p>Если соединить все причины, по которым ты мне дорога, наверное, получится целое созвездие. Вот лишь малая часть его звёзд.</p><p class="muted love-instruction">Прикоснись к звёздам, чтобы прочитать их истории.</p>
  <div class="love-field" role="group" aria-label="Созвездие любви из семи звёзд">
   <svg viewBox="0 0 600 320" preserveAspectRatio="none" aria-hidden="true"><path d="M72 229 L150 90 L232 174 L294 52 L384 160 L470 79 L530 230 L384 160" fill="none" stroke="#b1c9ff" stroke-opacity=".53" stroke-width="1.25" stroke-dasharray="3 5"/></svg>
   <button class="love-point" data-love-star="0" style="--x:12%;--y:72%" type="button" aria-label="Первая звезда: Твоё упорство">✦</button>
   <button class="love-point" data-love-star="1" style="--x:25%;--y:28%" type="button" aria-label="Вторая звезда: Твоё присутствие">✦</button>
   <button class="love-point" data-love-star="2" style="--x:38.67%;--y:54%" type="button" aria-label="Третья звезда: Твоя улыбка">✦</button>
-  <button class="love-point" data-love-star="3" style="--x:49%;--y:16%" type="button" aria-label="Четвёртая звезда: Твоя искренность">✦</button>
+  <button class="love-point" data-love-star="3" style="--x:49%;--y:16%" type="button" aria-label="Четвёртая звезда: То, как ты меня принимаешь">✦</button>
   <button class="love-point" data-love-star="4" style="--x:64%;--y:50%" type="button" aria-label="Пятая звезда: Твоя красота">✦</button>
-  <button class="love-point" data-love-star="5" style="--x:78.33%;--y:24.7%" type="button" aria-label="Шестая звезда: Твои особенности">✦</button>
+  <button class="love-point" data-love-star="5" style="--x:78.33%;--y:24.7%" type="button" aria-label="Шестая звезда: Твоя милота">✦</button>
   <button class="love-point" data-love-star="6" style="--x:88.33%;--y:72%" type="button" aria-label="Седьмая звезда: Просто ты">✦</button>
  </div><div class="love-message" id="loveMessage" aria-live="polite">Выбери звезду, чтобы узнать, что она хранит.</div>
  </template>
-<template id="tpl-future"><div class="overline">Галактика будущих воспоминаний</div><h3>Однажды это будет нашей памятью</h3><div class="future-sky" aria-hidden="true"><span class="future-sky-core"></span><i class="future-orbit a"></i><i class="future-orbit b"></i><i class="future-orbit c"></i><span class="future-spark first"></span><span class="future-spark second"></span><span class="future-spark third"></span></div><p>Не все звёзды этой вселенной уже зажглись. Некоторые только ждут своего часа. И мне очень хочется, чтобы однажды мы смогли назвать их нашими воспоминаниями.</p><p>Я хотел добавить сюда наши фотографии. Но есть одна маленькая проблема... У нас их пока нет. Ахахах.</p><div class="memory-row"><div class="polaroid"><div class="photo-blank">✧</div><p>Наш ужин при свечах</p></div><div class="polaroid"><div class="photo-blank">✈</div><p>Первое путешествие</p></div><div class="polaroid"><div class="photo-blank">♡</div><p>Нам 67 и 69, а на экране «Беременна в 16»</p></div></div></template>
-<template id="tpl-cult"><div class="cult-content"><div class="overline">Локальная солнечная система · Особо почитаемая зона</div><h3>Святилище Солнца</h3><p>О, благословенная Алиса! Орден обнаружил, что Вам принадлежит не просто звезда, а целая вселенная.</p><p>К сожалению, бюджет Ордена позволяет содержать лишь одного служителя. Но уверяю Вас, он исключительно предан.</p>
+<template id="tpl-future"><div class="overline">Маленькая галактика · Наше будущее</div><h3>Наше будущее</h3>
+<div class="future-sky" aria-hidden="true"><span class="future-sky-core"></span><i class="future-orbit a"></i><i class="future-orbit b"></i><i class="future-orbit c"></i><span class="future-spark first"></span><span class="future-spark second"></span><span class="future-spark third"></span></div><p>Знаешь, у нас пока даже нет ни одной совместной фотографии. Непростительное упущение, которое я очень надеюсь в скором времени исправить.</p><p>Но мне уже хочется представить, сколько всего нам ещё предстоит пережить вместе.</p><p>Поэтому я оставил здесь три маленьких кусочка нашего возможного будущего. Пока это только мечты, но я очень хочу, чтобы однажды мы смогли заменить их настоящими фотографиями. ♡</p><div class="memory-row"><div class="polaroid"><div class="photo-blank">✧</div><p>Смотри, здесь когда-нибудь будет наш первый ужин при свечах.</p></div><div class="polaroid"><div class="photo-blank">✈</div><p>А здесь мы впервые отправимся в совместное путешествие.</p></div><div class="polaroid"><div class="photo-blank">♡</div><p>Зацени, тут нам 67 и 69 лет. Мы лежим под пледом и всё ещё смотрим &quot;Беременна в 16&quot;.</p></div></div></template>
+<template id="tpl-cult"><div class="cult-content"><div class="overline">Окраина вселенной · Древнее святилище</div><h3>Святилище Солнца</h3><p class="poem">Где-то на окраине этой вселенной расположилось небольшое святилище. Его единственный обитатель, кажется, очень давно кого-то ждёт.</p>
+ <div class="cult-welcome"><h4>«ГОСПОЖА?!»</h4><p>О, великие светила! Прошу простить моё замешательство!</p><p>Я знал, что однажды Вы посетите наше скромное святилище, но совершенно не ожидал, что это произойдёт при моей жизни!</p><p>Впрочем, у меня их уже три, но сейчас не об этом.</p><p>Многоуважаемая Алиса! Наш Орден веками изучал движение небесных тел и наконец пришёл к поразительному заключению: вся эта вселенная вращается вокруг Вас.</p><p>Полагаю, это окончательно разрешает вопрос о Вашем божественном происхождении. Осталось соблюсти одну маленькую формальность.</p></div>
 <div class="cult-stage-frame"><div class="cult-stage" id="cultStage" role="group" aria-label="Солнечный алтарь и маленький служитель, расставляющий камни"><div class="cult-etched"></div><div class="cult-aura"></div><div class="cult-orb"></div><div id="cultStones" aria-hidden="true"></div><div class="cult-teleport" id="cultTeleport"></div><button class="cult-figure materialize" id="cultFigure" type="button" aria-label="Позвать маленького служителя" title="Позвать служителя"><svg viewBox="0 0 40 76" aria-hidden="true"><ellipse cx="20" cy="73" rx="19" ry="3" fill="#0a090c" opacity=".48"/><path class="cloak" d="M13 20 Q6 29 4 65 Q20 75 36 65 Q34 30 27 20 Z"/><path class="cloak-mark" d="M19.5 29 L19.5 60"/><path class="hood" d="M9 17 Q9 3 20 3 Q31 3 31 17 L28 27 Q20 30 12 25 Z"/><path d="M14 17 Q20 14 26 17 L24 23 Q20 24 16 23Z" fill="#08090d"/><path class="hand-stone" d="M26 38 l6 -4 l5 6 l-6 5 Z"/></svg></button><div class="cult-flash" id="cultFlash"></div></div></div>
 <div class="cult-note"><span id="cultStatus" aria-live="polite">Служитель готовится к церемонии.</span><span class="cult-count" id="cultCount">0 / 28</span></div>
-<div class="cult-dialogue" id="cultDialogue" aria-live="polite"><div data-cult-panel="intro"><p>Наш единственный служитель приготовил в Вашу честь небольшой обряд.</p><button class="cult-action" id="cultStart" type="button">Начать церемонию ✦</button></div><div data-cult-panel="progress" hidden><p>Пожалуйста, сохраняйте торжественное выражение лица. Солнечный символ требует точности.</p></div><div data-cult-panel="question" hidden><h4>Готовы ли Вы принять свой статус божества?</h4><p>Солнце из камней собрано. Орден ожидает Вашего решения.</p><button class="cult-action" id="cultAccept" type="button">Разумеется, принимаю ♡</button></div><div data-cult-panel="final" hidden><h4>Свет признал свою госпожу.</h4><p>Божественный статус Алисы подтверждён. Ежевечернее поклонение фотографиям продолжается в штатном режиме.</p><button class="cult-action" id="cultReplay" type="button">Посмотреть церемонию ещё раз</button></div></div>
+<div class="cult-dialogue" id="cultDialogue" aria-live="polite"><div data-cult-panel="intro"><h4>«Дозволите ли Вы провести древний обряд признания?»</h4><button class="cult-action" id="cultStart" type="button">Дозволяю ☼</button></div><div data-cult-panel="progress" hidden><p>Служитель начинает переносить священные камни, постепенно выкладывая солнце с лучами.</p></div><div data-cult-panel="question" hidden><h4>«СВЯЩЕННЫЙ ЗНАК ВОССТАНОВЛЕН!»</h4><p>Орден единогласно постановил признать Вас богиней Солнца.</p><p>Для сведения: в голосовании участвовал один служитель. Решение принято единогласно.</p><h4>«Согласны ли Вы принять своё божественное предназначение?»</h4><button class="cult-action" id="cultAccept" type="button">Принимаю ♡</button></div><div data-cult-panel="final" hidden><h4>ДА ВОССИЯЕТ СОЛНЦЕ!</h4><p>Отныне Вы официально признаны госпожой этой вселенной, покровительницей света, красоты и всех без исключения влюблённых смертных.</p><p>Да будет известно всем мирам: <strong>богиня Алиса вступила в свои владения!</strong></p><p class="cult-final-ps">P. S. Ежевечернее поклонение Вашим фотографиям продолжится согласно установленному расписанию.</p><button class="cult-action" id="cultReplay" type="button">Посмотреть церемонию ещё раз</button></div></div>
 <p class="cult-footnote">Нажми на самого служителя — он кое-что скажет.</p></div></template>
-<template id="tpl-care"><div class="overline">Орбита нежности</div><h3>Что мне хочется тебе дарить</h3><p>Кроме этого маленького уголка интернета — ещё кое-что. Не вещи и не громкие обещания. Просто то, что я очень хочу, чтобы было в нашей жизни.</p>
+<template id="tpl-care"><div class="overline">Планета нежности · Четыре спутника</div><h3>Планета нежности</h3><p>Есть вещи, которые мне хочется дарить тебе буквально каждый день.</p><p>Я собрал их здесь, на одной маленькой планете. У неё четыре спутника, и каждый хранит частичку того, что я чувствую к тебе.</p>
 <div class="care-world" id="careWorld" aria-label="Планета нежности с четырьмя вращающимися спутниками"><span class="care-orbit-track"></span><span class="care-orbit-track b"></span><span class="care-glow"></span><button class="care-planet" id="carePlanet" type="button" aria-label="Прикоснуться к планете нежности" title="Прикоснуться к планете"><span class="planet-sig">♡</span></button><span class="care-wave" id="careWave"></span><button type="button" class="care-satellite" data-care="0" aria-label="Открыть спутник Тепло"><span class="moon"></span><span>Тепло</span><i class="sat-check">✓</i></button><button type="button" class="care-satellite" data-care="1" aria-label="Открыть спутник Забота"><span class="moon"></span><span>Забота</span><i class="sat-check">✓</i></button><button type="button" class="care-satellite" data-care="2" aria-label="Открыть спутник Радость"><span class="moon"></span><span>Радость</span><i class="sat-check">✓</i></button><button type="button" class="care-satellite" data-care="3" aria-label="Открыть спутник Время"><span class="moon"></span><span>Время</span><i class="sat-check">✓</i></button></div>
-<div class="care-meter" id="careMeter" aria-live="polite">Зажжено спутников: 0 из 4</div><div class="care-revelation" id="careReveal" aria-live="polite"><strong>Прикоснись к одному из спутников</strong><p>Здесь каждый хранит маленькое желание.</p></div><button type="button" class="care-gift" id="careGift">♡ Самая тихая звезда</button></template>
-<template id="tpl-final"><div class="overline">Самая маленькая звезда · От Ильи</div><h3>Это всё для тебя</h3><p>Знаешь, наверное, всё это немного глупо.</p><p>Целая вселенная, звёзды, планеты, какой-то странный человек в капюшоне, искренне убеждённый в твоём божественном происхождении...</p><p>Но мне очень хотелось подарить тебе что-то особенное. Что-то, чего больше ни у кого нет.</p><p>Поэтому я решил создать маленькое место, в котором всё будет посвящено тебе.</p><p>Здесь не нужно ничего делать правильно. Не нужно проходить испытания, искать ответы или куда-то торопиться. Можешь просто заглядывать сюда, когда захочется.</p><p>А я надеюсь, что каждый раз, когда ты будешь смотреть на эти маленькие звёзды, ты будешь вспоминать, как сильно ты мне дорога.</p><p class="ending">С днём рождения, моя любимая.<br>С любовью, твой Илья. ♡</p></template>
+<div class="care-meter" id="careMeter" aria-live="polite">Зажжено спутников: 0 из 4</div><div class="care-revelation" id="careReveal" aria-live="polite"><strong>Прикоснись к одному из спутников</strong><p>Каждый расскажет тебе о том, что мне хочется дарить тебе.</p></div><button type="button" class="care-gift" id="careGift">♡ Когда все спутники зажглись...</button></template>
+<template id="tpl-final"><div class="overline">Самая маленькая звезда · От Ильи</div><h3>От меня ♡</h3><p>Вот мы и добрались до самой маленькой звезды этой вселенной.</p><p>Знаешь, я долго думал, что мог бы тебе подарить. Мне хотелось придумать что-то особенное, что-то, чего больше ни у кого нет. Что-то, что останется с тобой не только в день рождения.</p><p>И вот мне пришла в голову мысль: а я что, зря на учителя в IT-сфере поступал?</p><p>Здесь есть звёзды, планеты, мои чувства, наши мечты и один очень странный человек в капюшоне, который почему-то совершенно убеждён в твоём божественном происхождении. Хотя, возможно, я его в этом и убедил.</p><p>Но самое главное здесь не звёзды и не анимации.</p><p>Самое главное, что я создавал всё это, думая о тебе. О твоей улыбке, о наших разговорах, о том, как мне хорошо рядом с тобой. Мне хотелось, чтобы у тебя появилось место, куда ты сможешь заглянуть в любой момент и ещё раз почувствовать, как сильно ты мне дорога.</p><p>Я очень рад, что однажды мы встретились. И ещё больше рад, что теперь у нас есть столько всего, что можно пережить вместе.</p><p>Возможно, со временем здесь появятся новые звёзды, а пустые фотографии наконец заполнятся нашими настоящими воспоминаниями.</p><p>Но одна вещь останется неизменной.</p><p class="final-promise"><strong>Эта маленькая вселенная существует потому, что в моей жизни есть ты.</strong></p><p class="ending">С днём рождения, моя любимая.</p><p class="ending">С любовью, твой Илья. ♡</p><button type="button" class="gold-btn final-back" id="finalBack">Вернуться в свою вселенную ♡</button></template>
 <div class="flight-bloom" id="flightBloom" aria-hidden="true"></div>
-<div class="preview-stamp">Космический прототип 3 · механики без текстовой правки</div>
+
 <script>
 (() => {
 'use strict';
@@ -266,27 +288,58 @@ updateVisited();
 function enter(){intro.classList.add('hidden');document.body.classList.add('entered');universe.classList.add('show');universe.querySelector('button').focus({preventScroll:true})}
 document.getElementById('enter').addEventListener('click',enter);
 const loveDetails=[
- ['Твоё упорство','Мне нравится, с какой серьёзностью ты относишься к тому, что для тебя важно.'],
- ['Твоё присутствие','Мне удивительно хорошо рядом с тобой. Даже когда ничего особенного не происходит.'],
- ['Твоя улыбка','Ради неё хочется делать совершенно несусветные вещи. Например, построить вселенную.'],
- ['Твоя искренность','Мне нравится, что рядом с тобой можно быть собой.'],
- ['Твоя красота','Иногда я просто смотрю на тебя и думаю: господи, какая же ты красивая.'],
- ['Твои особенности','Тут появится что-то очень личное, что знаю о тебе только я.'],
- ['Просто ты','Я люблю не выдуманный идеальный образ, а тебя. Со всем, что делает тебя тобой.']
+ [
+  "Твоё упорство",
+  "Меня уже давно восхищает и поражает, с какой серьёзностью ты относишься ко многим вещам. Я вижу, как много ты стараешься, и очень тобой горжусь."
+ ],
+ [
+  "Твоё присутствие",
+  "Мне хорошо рядом с тобой. Даже когда мы ничего особенного не делаем. Мне невероятно спокойно от одного осознания, что ты рядом или на звонке."
+ ],
+ [
+  "Твоя улыбка",
+  "Я очень радуюсь, когда вижу, что тебе хорошо. Ради твоей улыбки мне хочется совершать совершенно безумные вещи. Например, создавать Вселенные в интернете."
+ ],
+ [
+  "То, как ты меня принимаешь",
+  "С тобой мне не приходится притворяться кем-то другим. Я могу просто быть собой, и это для меня очень много значит."
+ ],
+ [
+  "Твоя красота",
+  "Здесь должно было быть невероятное поэтическое сравнение, но я снова залип на твои кружочки и забыл дописать"
+ ],
+ [
+  "Твоя милота",
+  "Мне безумно нравится, что ты не боишься быть женственной и милой. Тебе это безумно идёт"
+ ],
+ [
+  "Просто ты",
+  "И всё-таки я люблю не отдельные твои качества. Мне дорога ты сама по себе. И ничто и никогда не сможет погасить мои чувства к тебе♡"
+ ]
 ];
 
 const acolytePhrases=[
- 'Орден счастлив видеть Вас вновь, госпожа.',
- 'Сияние заметно усилилось. Я старательно записал это в летопись.',
- 'Мне по-прежнему трудно смотреть на Ваше великолепие.',
- 'Бюджет Ордена ограничен, но преданность безгранична.',
- 'Служитель на месте. Как и все двадцать восемь камней.'
+ "О, госпожа! Какая честь вновь видеть Вас в этих скромных стенах!",
+ "Святилище поддерживается в безупречном состоянии. Почти.",
+ "Количество преданных служителей: один. Количество сомнений в Вашем величии: ноль."
 ];
 const tenderness=[
- ['Тепло','Чтобы рядом со мной тебе было спокойно и хорошо.'],
- ['Забота','Чтобы ты могла отдыхать и знать, что рядом есть человек, который поддержит.'],
- ['Радость','Чтобы у меня всегда находились силы придумать какую-нибудь глупость ради твоей улыбки.'],
- ['Время','Чтобы у нас появлялись истории, которые однажды мы будем вспоминать вместе.']
+ [
+  "Тепло",
+  "Мне хочется, чтобы рядом со мной тебе всегда было тепло и спокойно. Чтобы ты могла расслабиться, забыть обо всех заботах и просто побыть собой. А я буду счастлив, если смогу подарить тебе хотя бы немного этого спокойствия."
+ ],
+ [
+  "Забота",
+  "Я знаю, сколько всего бывает на твоих плечах. И мне очень хочется иногда забирать хотя бы маленькую часть этой тяжести себе. Заботиться о тебе, помогать, поддерживать и напоминать, что тебе необязательно справляться со всем одной."
+ ],
+ [
+  "Радость",
+  "Мне хочется видеть тебя счастливой. Смешить тебя своими идиотскими шутками, устраивать маленькие сюрпризы и придумывать совершенно безумные вещи ради твоей улыбки."
+ ],
+ [
+  "Время",
+  "Мне хочется проводить с тобой своё время. Не только на особенных свиданиях или в путешествиях, но и в самых обычных моментах. Разговаривать обо всём подряд, смотреть всякую ерунду, смеяться и просто наслаждаться тем, что мы вместе."
+ ]
 ];
 let sceneCleanup=null;
 let blessedSession=false;
@@ -320,22 +373,22 @@ function setupCult(){
  function speak(){if(!alive||playing)return;status.textContent=acolytePhrases[(voiceIndex++)%acolytePhrases.length];figure.classList.remove('bowing');void figure.offsetWidth;figure.classList.add('bowing');setTimeout(()=>{if(alive&&phase==='intro')figure.classList.remove('bowing')},1300)}
  function reset(){if(!alive)return;playing=false;figure.classList.remove('bowing','moving','placing');stage.classList.remove('charged','awakened');flash.classList.remove('play');setFigure(74,386);stones.forEach(s=>s.classList.remove('placed'));count.textContent='0 / 28';status.textContent='Алтарь готов. Служитель немного волнуется.';setPanel('intro')}
  function particles(p){const el=document.createElement('div');el.className='cult-spark';el.style.left=(p.x/660*100)+'%';el.style.top=(p.y/472*100)+'%';stage.append(el);setTimeout(()=>el.remove(),700)}
- async function start(){if(playing||!alive)return;reset();playing=true;setPanel('progress');status.textContent='Служитель приступил к работе.';
+ async function start(){if(playing||!alive)return;reset();playing=true;setPanel('progress');status.textContent='Так... этот сюда...';
   for(let i=0;i<sunPositions.length;i++){
    if(!alive)return;
    const p=sunPositions[i];setFigure(Math.max(50,Math.min(602,p.x+20)),Math.max(65,Math.min(416,p.y+24)));
    figure.classList.add('moving');await delay(reduce?9:205);if(!alive)return;
    figure.classList.remove('moving');figure.classList.add('placing');stones[i].classList.add('placed');count.textContent=`${i+1} / 28`;particles(p);
-   if(i===11)status.textContent='Солнечный круг замкнулся. Теперь нужны лучи.';
-   if(i===19)status.textContent='Восемь лучей пробуждаются вокруг солнца.';
+   if(i===11)status.textContent='Осторожнее. Это священный камень.';
+   if(i===19)status.textContent='Прошу прощения, госпожа. Последний раз я проводил этот обряд несколько столетий назад.';
    await delay(reduce?8:130);if(!alive)return;figure.classList.remove('placing');
   }
   setFigure(77,395);await delay(reduce?15:360);if(!alive)return;
-  stage.classList.add('charged');status.textContent='Солнце собрано. Осталось последнее решение.';
+  stage.classList.add('charged');status.textContent='Ещё немного... Священный знак восстановлен!';
   await delay(reduce?20:1050);if(!alive)return;setPanel('question');playing=false;document.getElementById('cultAccept').scrollIntoView({block:'nearest',behavior:reduce?'instant':'smooth'});
  }
  function accept(){if(playing||!alive)return;playing=true;stage.classList.add('awakened');flash.classList.remove('play');void flash.offsetWidth;flash.classList.add('play');
-  figure.classList.remove('moving','placing','bowing');setFigure(80,399);void figure.offsetWidth;figure.classList.add('bowing');status.textContent='Солнечное сияние озарило всю вселенную.';setPanel('final');document.getElementById('cultReplay').scrollIntoView({block:'nearest',behavior:reduce?'instant':'smooth'});
+  figure.classList.remove('moving','placing','bowing');setFigure(80,399);void figure.offsetWidth;figure.classList.add('bowing');status.textContent='Да воссияет солнце!';setPanel('final');document.getElementById('cultReplay').scrollIntoView({block:'nearest',behavior:reduce?'instant':'smooth'});
   saveBlessed();blessUniverse();setTimeout(()=>{if(alive)playing=false},reduce?40:1800);
  }
  document.getElementById('cultStart').addEventListener('click',start);
@@ -343,7 +396,7 @@ function setupCult(){
  document.getElementById('cultReplay').addEventListener('click',reset);
  figure.addEventListener('click',speak);
  tp.classList.add('on');
- if(wasBlessed()){status.textContent='Орден преклоняется перед возвращением своей госпожи.';setPanel('final');stage.classList.add('charged','awakened');stones.forEach(s=>s.classList.add('placed'));count.textContent='28 / 28 ✓';setFigure(80,399);figure.classList.add('bowing')}
+ if(wasBlessed()){status.textContent='Святилище озарено Вашим присутствием, госпожа.';setPanel('final');stage.classList.add('charged','awakened');stones.forEach(s=>s.classList.add('placed'));count.textContent='28 / 28 ✓';setFigure(80,399);figure.classList.add('bowing')}
  const idleHandle=setInterval(()=>{if(alive&&!playing&&phase==='intro')speak()},12500);
  sceneCleanup=()=>{alive=false;clearInterval(idleHandle);for(const t of pending){clearTimeout(t)}pending.clear()};
 }
@@ -355,12 +408,13 @@ function setupCare(){
  const ripple=()=>{wave.classList.remove('ripple');void wave.offsetWidth;wave.classList.add('ripple')};
  sats.forEach((s,i)=>s.addEventListener('click',()=>{careOpened.add(i);saveCare();update();const [title,body]=tenderness[i];tell(title,body);ripple()}));
  planet.addEventListener('click',()=>{ripple();tell('Здесь живёт тепло','Эта планета становится ярче каждый раз, когда ты к ней прикасаешься.')});
- gift.addEventListener('click',()=>{ripple();tell('Самая тихая звезда','Мне просто очень хочется быть для тебя местом, где спокойно.')});
+ gift.addEventListener('click',()=>{ripple();tell('Когда все четыре спутника зажглись','Знаешь, я не могу обещать, что каждый наш день будет идеальным. Но я очень хочу, чтобы в каждом из них ты чувствовала себя любимой. И чтобы рядом со мной тебе всегда было куда вернуться. ♡')});
  function orbit(t){if(!live)return;const paused=reduce||sats.some(s=>s.matches(':hover')||s===document.activeElement);if(!paused)orbitAngle+=Math.min((t-lastFrame)/1000,.1)*.12;lastFrame=t;const rect=world.getBoundingClientRect();const rx=Math.min(rect.width*.35,196),ry=Math.min(rect.height*.305,118);sats.forEach((s,i)=>{const a=-Math.PI/2+(i*Math.PI/2)+orbitAngle;s.style.left=`calc(50% + ${Math.cos(a)*rx}px)`;s.style.top=`calc(50% + ${Math.sin(a)*ry}px)`});if(!reduce)frame=requestAnimationFrame(orbit)}
  update();orbit(performance.now());sceneCleanup=()=>{live=false;cancelAnimationFrame(frame)};
 }
 
 function setupScene(id){
+ if(id==='final'){document.getElementById('finalBack').addEventListener('click',closeScene);return}
  if(id==='cult'){setupCult();return}
  if(id==='care'){setupCare();return}
  if(id!=='love')return;
@@ -368,6 +422,7 @@ function setupScene(id){
  article.querySelectorAll('[data-love-star]').forEach(star=>star.addEventListener('click',()=>{
   const [title,body]=loveDetails[Number(star.dataset.loveStar)];
   star.classList.add('opened');
+  if(Number(star.dataset.loveStar)===6)article.querySelector('.love-field').classList.add('whole-constellation');
   message.replaceChildren();
   const heading=document.createElement('strong'),p=document.createElement('span');
   heading.textContent=title;p.textContent=body;message.append(heading,p);
